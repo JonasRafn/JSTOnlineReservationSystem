@@ -1,7 +1,8 @@
 #---------
 #Netbeans
-#updated: 5. nov 2015 - Added persistence.xml
+#updated: 30. nov 2015 - Added persistence.xml
 #---------
+src/conf/persistence.xml
 build
 dist/
 nbproject/private/
