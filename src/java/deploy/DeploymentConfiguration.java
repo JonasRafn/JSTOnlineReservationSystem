@@ -21,7 +21,7 @@ import security.PasswordHash;
 @WebListener
 public class DeploymentConfiguration implements ServletContextListener {
 
-  public static String PU_NAME = "PU-Local";
+  public static String PU_NAME = "pu_dev";
 
   @Override
   public void contextInitialized(ServletContextEvent sce) {
