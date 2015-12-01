@@ -1,8 +1,8 @@
 <br>
 <h1>Results</h1>
-<div ng-controller="ResultsCtrl as resultctrl">
-    <div ng-repeat="result in resultctrl.getResults">
-        <table class="table" >
+<div>
+    <div ng-repeat="airline in ctrl.results">
+        <table class="table" ng-repeat="flight in airline.flights" >
             <thead>
                 <tr>
                     <th>Airline</th>
@@ -15,14 +15,14 @@
             </thead>
             <tbody> 
                 <tr>
-                    <td>{{result.airline}}</td>
-                    <td>{{result.origin}} {{result.date| date: 'H:mm'}} <br/> {{result.originCity}} </td>
-                    <td>{{result.travelTime}}</td>
-                    <td>{{result.destination}} {{result.arrivalTime}} <br/> {{result.destinationCity}}</td>
-                    <td>{{result.totalPrice | currency}} <br/> {{result.pricePerson | currency}}</td>
+                    <td>{{airline.airline}}</td>
+                    <td>{{flight.origin}} {{flight.date| date: 'H:mm'}} <br/> {{flight.originCity}} </td>
+                    <td>{{flight.travelTime}}</td>
+                    <td>{{flight.destination}} {{flight.arrivalTime}} <br/> {{flight.destinationCity}}</td>
+                    <td>{{flight.priceTotal| currency}} <br/> {{flight.pricePerson| currency}}</td>
                     <td><a href="#/reserve"><button class="btn btn-primary" id="search">Book</button></a></td>
                 </tr>
             </tbody>
         </table>
-    </div>
+    </div> 
 </div>

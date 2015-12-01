@@ -53,6 +53,9 @@
             </div>    
         </div>
     </form>
+    <hr/>
+    <results ng-show = "ctrl.ShowResults"></results>
+    
     <datalist id="airports">
         <option ng-repeat="airport in ctrl.airports" label="{{airport.IATACODE}}" value="{{airport.city}} ({{airport.IATACODE}}), {{airport.country}}">
     </datalist>
