@@ -9,6 +9,8 @@ import dto.FlightDTO;
 import interfaces.IFlightFacade;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.WebTarget;
@@ -31,25 +33,11 @@ public class FlightFacade implements IFlightFacade {
         testAirlinesUrls.add("http://angularairline-plaul.rhcloud.com/api/flightinfo/");
     }
 
+    //target = client.target(url + from + "/" + date + "/" + numTickets);
     @Override
     public List<AirlineDTO> getFlightFrom(String from, String date, int numTickets) {
-        List<AirlineDTO> airlines = new ArrayList();
-        Client client;
-        WebTarget target;
-        String response = "";
-        for (String url : testAirlinesUrls) {
-            client = ClientBuilder.newClient();
-            target = client.target(url + from + "/" + date + "/" + numTickets);
-            response = target.request(MediaType.APPLICATION_JSON).get(String.class);
-            JsonObject jo = gson.fromJson(response, JsonObject.class);
-            AirlineDTO airline = new AirlineDTO(gson.fromJson(jo.get("airline").toString(), String.class)); //save airline name
-            for (JsonElement element : jo.getAsJsonArray("flights")) { //save flights
-                JsonObject asJsonObject = element.getAsJsonObject();
-                FlightDTO dto = gson.fromJson(asJsonObject, FlightDTO.class);
-                airline.addFlights(dto);
-            }
-            airlines.add(airline); //add airline to airlines
-        }
-        return airlines;
+        ExecutorService executor = Executors.newFixedThreadPool(4);
+        
+        return null;
     }
 }
