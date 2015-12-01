@@ -17,7 +17,7 @@
   </persistence-unit>
   <persistence-unit name="PU_OPENSHIFT" transaction-type="RESOURCE_LOCAL">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
-    <non-jta-data-source>java:/comp/env/jdbc/MySQLDS</non-jta-data-source>
+    <!--<non-jta-data-source>java:/comp/env/jdbc/MySQLDS</non-jta-data-source>-->
     <class>entity.User</class>
     <class>entity.Role</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
