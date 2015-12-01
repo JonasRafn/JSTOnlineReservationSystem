@@ -85,6 +85,12 @@ public class FlightFacade implements IFlightFacade {
         return airlines;
     }
 
+
+    @Override
+    public List<AirlineDTO> getFlightFromTo(String from, String to, String date, int numTickets) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
     public EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
