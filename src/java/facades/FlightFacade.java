@@ -8,7 +8,11 @@ import dto.AirlineDTO;
 import dto.FlightDTO;
 import entity.AirlineApi;
 import interfaces.IFlightFacade;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
@@ -27,39 +31,36 @@ import service.getFlights;
  */
 public class FlightFacade implements IFlightFacade {
 
-    private List<String> testAirlinesUrls;
     private Gson gson;
     private EntityManagerFactory emf;
 
     public FlightFacade(EntityManagerFactory emf) {
         this.emf = emf;
-        testAirlinesUrls = new ArrayList();
         gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").setPrettyPrinting().create();
-        testAirlinesUrls.add("http://angularairline-plaul.rhcloud.com/api/flightinfo/");
-        testAirlinesUrls.add("http://angularairline-plaul.rhcloud.com/api/flightinfo/");
-        testAirlinesUrls.add("http://angularairline-plaul.rhcloud.com/api/flightinfo/");
     }
 
     @Override
-    public List<AirlineDTO> getFlightFrom(String from, String date, int numTickets) throws Exception {
-        EntityManager em = getEntityManager();
+    public List<AirlineDTO> getFlights(String from, String to, String stringDate, int numTickets) throws Exception {
         List<AirlineDTO> airlines = new ArrayList();
-        ExecutorService executor = Executors.newFixedThreadPool(4);
         List<Future<String>> airlineList = new ArrayList();
-        List<AirlineApi> airlineApiList = new ArrayList();
-        
+        List<AirlineApi> airlineApiList = getAirlineApiList();
+
+        //validation
+        DateFormat isoDate = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
         try {
-        TypedQuery<AirlineApi> query = em.createNamedQuery("AirlineApi.findAll", AirlineApi.class);
-        airlineApiList = query.getResultList();
-        if (airlineApiList.isEmpty()) {
-            throw new Exception("error");
-        } 
-        } finally {
-            em.close();
+            Date date = isoDate.parse(stringDate);
+        } catch (ParseException ex) {
         }
 
+        //if not empty, we get flights with a to also
+        if (!to.isEmpty()) {
+            to = "/" + to;
+            System.out.println(to);
+        }
+
+        ExecutorService executor = Executors.newFixedThreadPool(4);
         for (AirlineApi api : airlineApiList) {
-            String url = api.getUrl() + "api/flightinfo/" + from + "/" + date + "/" + numTickets;
+            String url = api.getUrl() + "api/flightinfo/" + from + to + "/" + stringDate + "/" + numTickets;
             System.out.println(url);
             Future<String> future = executor.submit(new getFlights(url));
             airlineList.add(future);
@@ -85,12 +86,21 @@ public class FlightFacade implements IFlightFacade {
         return airlines;
     }
 
-
-    @Override
-    public List<AirlineDTO> getFlightFromTo(String from, String to, String date, int numTickets) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    private List<AirlineApi> getAirlineApiList() throws Exception {
+        EntityManager em = getEntityManager();
+        List<AirlineApi> airlineApiList = new ArrayList();
+        try {
+            TypedQuery<AirlineApi> query = em.createNamedQuery("AirlineApi.findAll", AirlineApi.class);
+            airlineApiList = query.getResultList();
+            if (airlineApiList.isEmpty()) {
+                throw new Exception("error");
+            }
+        } finally {
+            em.close();
+        }
+        return airlineApiList;
     }
-    
+
     public EntityManager getEntityManager() {
         return emf.createEntityManager();
     }

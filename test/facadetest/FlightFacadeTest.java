@@ -30,7 +30,7 @@ public class FlightFacadeTest {
             date = sdfISO.parse("2016-01-04T10:00:00.000Z");
         } catch (ParseException ex) {
         }
-        List<AirlineDTO> airlines = ctrl.getFlightFrom("CPH", "2016-01-04T10:00:00.000Z", 3);
+        List<AirlineDTO> airlines = ctrl.getFlights("CPH", "", "2016-01-04T10:00:00.000Z", 3);
         assertEquals(3, airlines.size());
         assertTrue(airlines.get(0).getFlights().get(0).getFlightId().equals("COL3256"));
     }
@@ -45,7 +45,8 @@ public class FlightFacadeTest {
             date = sdfISO.parse("2016-01-04T10:00:00.000Z");
         } catch (ParseException ex) {
         }
-        List<AirlineDTO> airlines = ctrl.getFlightFromTo("CPH", "SXF", "2016-01-04T10:00:00.000Z", 3);
+        List<AirlineDTO> airlines = ctrl.getFlights("CPH", "SXF", "2016-01-01T00:00:00.000Z", 3);
         assertEquals(3, airlines.size());
+        assertTrue(airlines.get(0).getFlights().get(0).getFlightId().equals("COL2214"));
     }
 }

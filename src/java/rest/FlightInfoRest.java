@@ -37,13 +37,20 @@ public class FlightInfoRest {
     @Path("{from}/{date}/{persons}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getFlightsFrom(@PathParam("from") String from, @PathParam("date") String stringDate, @PathParam("persons") int persons) {
-        DateFormat isoDate = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
         try {
-            Date date = isoDate.parse(stringDate);
-        } catch (ParseException ex) {
+            List<AirlineDTO> flightsFrom = ctrl.getFlights(from, "", stringDate, persons);
+            return Response.ok(gson.toJson(flightsFrom)).build();
+        } catch (Exception e) {
+            return null;
         }
+    }
+
+    @GET
+    @Path("{from}/{to}/{date}/{persons}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getFlightsFromTo(@PathParam("from") String from, @PathParam("to") String to, @PathParam("date") String stringDate, @PathParam("persons") int persons) {
         try {
-            List<AirlineDTO> flightsFrom = ctrl.getFlightFrom(from, stringDate, persons);
+            List<AirlineDTO> flightsFrom = ctrl.getFlights(from, to, stringDate, persons);
             return Response.ok(gson.toJson(flightsFrom)).build();
         } catch (Exception e) {
             return null;
