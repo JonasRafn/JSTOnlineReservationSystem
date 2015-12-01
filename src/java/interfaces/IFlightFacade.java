@@ -1,10 +1,9 @@
 package interfaces;
 
-import dto.FlightDTO;
+import dto.AirlineDTO;
 import java.util.List;
 
 public interface IFlightFacade {
-    public List<FlightDTO> getFlightFrom(String from, String date, int numTickets);
+
+    public List<AirlineDTO> getFlightFrom(String from, String date, int numTickets);
 }
-
-

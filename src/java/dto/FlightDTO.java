@@ -21,8 +21,6 @@ public class FlightDTO {
         this.origin = origin;
         this.destination = destination;
     }
-    
-    
 
     public String getFlightId() {
         return flightId;

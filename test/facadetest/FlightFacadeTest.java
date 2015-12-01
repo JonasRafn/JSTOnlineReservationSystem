@@ -1,6 +1,6 @@
 package facadetest;
 
-import dto.FlightDTO;
+import dto.AirlineDTO;
 import facades.FlightFacade;
 import interfaces.IFlightFacade;
 import java.text.DateFormat;
@@ -8,8 +8,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import static org.junit.Assert.assertTrue;
 import org.junit.Test;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class FlightFacadeTest {
 
@@ -17,7 +18,7 @@ public class FlightFacadeTest {
     }
 
     @Test
-    public void getFlightFrom() {
+    public void getFlightFromSuccess() {
         IFlightFacade ctrl = new FlightFacade();
         DateFormat sdfISO = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
         Date date = null;
@@ -25,11 +26,8 @@ public class FlightFacadeTest {
             date = sdfISO.parse("2016-01-04T10:00:00.000Z");
         } catch (ParseException ex) {
         }
-        List<FlightDTO> list = ctrl.getFlightFrom("CPH", "2016-01-04T10:00:00.000Z", 3);
-        assertTrue(list.get(0).getFlightId().equals("COL3256"));
-        assertTrue(list.get(1).getFlightId().equals("COL3256"));
-        assertTrue(list.get(2).getFlightId().equals("COL2214"));
-        assertTrue(list.get(3).getFlightId().equals("COL2216"));
+        List<AirlineDTO> airlines = ctrl.getFlightFrom("CPH", "2016-01-04T10:00:00.000Z", 3);
+        assertEquals(3, airlines.size());
+        assertTrue(airlines.get(0).getFlights().get(0).getFlightId().equals("COL3256"));
     }
-
 }
