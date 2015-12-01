@@ -1,0 +1,59 @@
+<div ng-controller="SearchCtrl as ctrl">
+    <form class="form col-sm-12" role="form" ng-submit="ctrl.search()">
+        <div class="col-sm-3">
+            <div class="form-group">
+                <label class="control-label">Flying From:</label> 
+                <div class="left-inner-addon">
+                    <i class="glyphicon glyphicon-map-marker"></i>
+                    <input type="text" ng-model="ctrl.searchRequest.origin" list="airports" class="form-control" placeholder="City" required/>
+                </div>
+            </div>    
+        </div>    
+        <div class="col-sm-3">
+            <div class="form-group">
+                <label class="control-label">Flying To:</label> 
+                <div class="left-inner-addon">
+                    <i class="glyphicon glyphicon-map-marker"></i>
+                    <input type="text" ng-model="ctrl.searchRequest.destination" list="airports" class="form-control" placeholder="City"/>
+                </div>
+            </div>    
+        </div>
+        <div class="col-sm-3">
+            <div class="form-group">
+                <label class="control-label">Departing:</label> 
+                <div class="left-inner-addon">
+                    <i class="glyphicon glyphicon-calendar"></i>
+                    <input type="date" ng-model="ctrl.searchRequest.departing" class="form-control" required/>
+                </div>
+            </div>    
+        </div>
+        <div class="col-sm-1">
+            <div class="form-group">
+                <label class="control-label">Passengers:</label> 
+                <div class="left-inner-addon">
+                    <i class="glyphicon glyphicon-user"></i>
+                    <select class="form-control" ng-model="ctrl.searchRequest.numberOfTickets" dir="rtl">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                    </select>
+                </div>
+            </div>    
+        </div>
+        <div class="col-sm-2">
+            <div class="form-group">
+                <div>
+                    <button class="btn btn-primary" id="search">Search</button>
+                </div>
+            </div>    
+        </div>
+    </form>
+    <datalist id="airports">
+        <option ng-repeat="airport in ctrl.airports" label="{{airport.IATACODE}}" value="{{airport.city}} ({{airport.IATACODE}}), {{airport.country}}">
+    </datalist>
+</div>    

@@ -28,7 +28,7 @@ angular.module('myApp.security', [])
             return viewLocation === $location.path();
           };
 
-
+          $scope.title = 'Flight Reservation';
           $scope.username = "";
           $scope.isAuthenticated = false;
           $scope.isAdmin = false;
