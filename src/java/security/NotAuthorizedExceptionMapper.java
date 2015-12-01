@@ -14,24 +14,24 @@ import javax.ws.rs.ext.Provider;
 @Provider
 public class NotAuthorizedExceptionMapper implements ExceptionMapper<NotAuthorizedException> {
 
-  private static Gson gson = new GsonBuilder().setPrettyPrinting().create();
+    private static Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
-  @Context
-  ServletContext context;
+    @Context
+    ServletContext context;
 
-  @Override
-  public Response toResponse(NotAuthorizedException ex) {
+    @Override
+    public Response toResponse(NotAuthorizedException ex) {
 
-    JsonObject error = new JsonObject();
-    JsonObject errorDetail = new JsonObject();
-    int statusCode = ex.getResponse().getStatus();
-    try{
-      statusCode = ((Response.Status)ex.getChallenges().get(0)).getStatusCode();
-     }
-    catch(Exception e){}
-    errorDetail.addProperty("code", statusCode);
-    errorDetail.addProperty("message", ex.getMessage());
-    error.add("error", errorDetail);
-    return Response.status(statusCode).entity(gson.toJson(error)).type(MediaType.APPLICATION_JSON).build();
-  }
+        JsonObject error = new JsonObject();
+        JsonObject errorDetail = new JsonObject();
+        int statusCode = ex.getResponse().getStatus();
+        try {
+            statusCode = ((Response.Status) ex.getChallenges().get(0)).getStatusCode();
+        } catch (Exception e) {
+        }
+        errorDetail.addProperty("code", statusCode);
+        errorDetail.addProperty("message", ex.getMessage());
+        error.add("error", errorDetail);
+        return Response.status(statusCode).entity(gson.toJson(error)).type(MediaType.APPLICATION_JSON).build();
+    }
 }
