@@ -1,5 +1,6 @@
 package facadetest;
 
+import deploy.DeploymentConfiguration;
 import dto.AirlineDTO;
 import facades.FlightFacade;
 import interfaces.IFlightFacade;
@@ -8,6 +9,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -18,8 +21,9 @@ public class FlightFacadeTest {
     }
 
     @Test
-    public void getFlightFromSuccess() {
-        IFlightFacade ctrl = new FlightFacade();
+    public void getFlightFromSuccess() throws Exception {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory(DeploymentConfiguration.PU_NAME);
+        IFlightFacade ctrl = new FlightFacade(emf);
         DateFormat sdfISO = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
         Date date = null;
         try {
