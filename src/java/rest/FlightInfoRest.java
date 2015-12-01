@@ -2,6 +2,7 @@ package rest;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import deploy.DeploymentConfiguration;
 import dto.AirlineDTO;
 import facades.FlightFacade;
 import interfaces.IFlightFacade;
@@ -10,6 +11,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -22,9 +25,11 @@ public class FlightInfoRest {
 
     private IFlightFacade ctrl;
     private Gson gson;
+    private EntityManagerFactory emf;
 
     public FlightInfoRest() {
-        ctrl = new FlightFacade();
+        emf = Persistence.createEntityManagerFactory(DeploymentConfiguration.PU_NAME);
+        ctrl = new FlightFacade(emf);
         gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").setPrettyPrinting().create();
     }
 

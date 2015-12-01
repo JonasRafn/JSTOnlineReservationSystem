@@ -5,5 +5,5 @@ import java.util.List;
 
 public interface IFlightFacade {
 
-    public List<AirlineDTO> getFlightFrom(String from, String date, int numTickets);
+    public List<AirlineDTO> getFlightFrom(String from, String date, int numTickets) throws Exception;
 }
