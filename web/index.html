@@ -24,6 +24,7 @@
     <script src="app/view2/view2.js"></script>
     <script src="app/view3/view3.js"></script>
     <script src="app/view4/view4.js"></script>
+    <script src="app/create_user/create_user.js"></script>
     <script src="app/components/authentication.js"></script>
     <script src="app/components/filters.js"></script>
     <script src="app/components/directives.js"></script>
@@ -82,6 +83,7 @@
       <div class="container">
         <div style="margin-top: 85px;">
           <div class="alert alert-danger" role="alert" ng-show="error">{{error}}</div>
+          <div class="alert alert-success" role="success" ng-show="success">{{success}}</div>
           <div ng-view></div>
         </div>
       </div>
