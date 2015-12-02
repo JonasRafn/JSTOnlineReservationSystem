@@ -44,11 +44,7 @@ public class FlightFacade implements IFlightFacade {
     }
 
     @Override
-    public List<AirlineDTO> getFlights(String from, String to, String stringDate, int numTickets) throws BadRequestException {
-        
-        if (true) {
-            
-        }
+    public List<AirlineDTO> getFlights(String from, String to, String stringDate, int numTickets) throws BadRequestException  {
         
         List<AirlineDTO> airlines = new ArrayList();
         List<Future<String>> airlineList = new ArrayList();
@@ -57,8 +53,7 @@ public class FlightFacade implements IFlightFacade {
         //if not empty, we get flights with a to also
         if (!to.isEmpty()) {
             to = "/" + to;
-            System.out.println("Throwing exception!");
-            throw new BadRequestException("Error");
+//            throw new BadRequestException("Error");
         }
 
         ExecutorService executor = Executors.newFixedThreadPool(4);
@@ -77,8 +72,10 @@ public class FlightFacade implements IFlightFacade {
                 airline = new AirlineDTO(gson.fromJson(jo.get("airline").toString(), String.class)); //save airline name
                 for (JsonElement element : jo.getAsJsonArray("flights")) { //save flights
                     JsonObject asJsonObject = element.getAsJsonObject();
+//                    System.out.println(asJsonObject.toString());
                     FlightDTO dto = gson.fromJson(asJsonObject, FlightDTO.class);
                     airline.addFlights(dto);
+                    dto.getTotalPrice();
                 }
             } catch (InterruptedException | ExecutionException ex) {
                 Logger.getLogger(FlightFacade.class.getName()).log(Level.SEVERE, null, ex);

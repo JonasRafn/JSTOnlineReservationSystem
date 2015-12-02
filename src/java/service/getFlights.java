@@ -22,6 +22,7 @@ public class getFlights implements Callable<String> {
         client = ClientBuilder.newClient();
         target = client.target(url);
         response = target.request(MediaType.APPLICATION_JSON).get(String.class);
+//        System.out.println(response);
         return response;
     }
 }
