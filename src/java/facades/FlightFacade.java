@@ -53,6 +53,7 @@ public class FlightFacade implements IFlightFacade {
 
     @Override
     public List<AirlineDTO> getFlights(String from, String to, String stringDate, int numTickets) throws BadRequestException {
+
         List<AirlineDTO> airlines = new ArrayList();
         List<Future<String>> airlineList = new ArrayList();
         List<AirlineApi> airlineApiList = getAirlineApiList();
@@ -119,6 +120,15 @@ public class FlightFacade implements IFlightFacade {
         return airlineApiList;
     }
 
+    @Override
+    public Date calculateLocalTime(String originTZ, String destinationTZ, Date date) throws ParseException {
+        TimeZone originTimeZone = TimeZone.getTimeZone(originTZ);
+        TimeZone destinationTimeZone = TimeZone.getTimeZone(destinationTZ);
+        int offset = destinationTimeZone.getRawOffset() - originTimeZone.getRawOffset();
+        Date adjustedDate = new Date(date.getTime() + offset);
+        return adjustedDate;
+    }
+    
     private Map<String, Airport> cacheAirports() {
         EntityManager em = getEntityManager();
         Map<String, Airport> airportMap = new HashMap();
@@ -161,6 +171,7 @@ public class FlightFacade implements IFlightFacade {
     public static void main(String[] args) throws ParseException {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory(DeploymentConfiguration.PU_NAME);
         FlightFacade ctrl = new FlightFacade(emf);
-        ctrl.calculateLocalTime();
+//        ctrl.calculateLocalTime();
+
     }
 }
