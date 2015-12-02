@@ -24,6 +24,7 @@
     <script src="app/view2/view2.js"></script>
     <script src="app/view3/view3.js"></script>
     <script src="app/view4/view4.js"></script>
+    <script src="app/create_user/create_user.js"></script>
     <script src="app/components/authentication.js"></script>
     <script src="app/components/filters.js"></script>
     <script src="app/components/directives.js"></script>
@@ -36,7 +37,7 @@
   <body ng-app="myApp">
 
     <div class="container"  >
-      <nav class="navbar navbar-fixed-top " role="navigation" ng-controller="AppLoginCtrl">
+      <nav class="navbar navbar-default navbar-fixed-top " role="navigation" ng-controller="AppLoginCtrl">
         <div class="container">
           <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -65,6 +66,7 @@
                        ng-model="user.password">
               </div>
               <button type="submit" class="btn btn-success">Sign in</button>
+              <p>Need an account? <a href="#/create_user"> Create One</a></p>
             </form>
             <div class="navbar-right" ng-show="isAuthenticated">
               
@@ -79,9 +81,9 @@
       </nav>
      
       <div class="container">
-        <div style="margin-top: 60px;">
-          <hr style="background: lightblue; border:0; height:7px" />
+        <div style="margin-top: 85px;">
           <div class="alert alert-danger" role="alert" ng-show="error">{{error}}</div>
+          <div class="alert alert-success" role="success" ng-show="success">{{success}}</div>
           <div ng-view></div>
         </div>
       </div>
