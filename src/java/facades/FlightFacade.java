@@ -8,6 +8,7 @@ import deploy.DeploymentConfiguration;
 import dto.AirlineDTO;
 import dto.FlightDTO;
 import entity.AirlineApi;
+import entity.Airport;
 import interfaces.IFlightFacade;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -27,6 +28,8 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
 import exception.BadRequestException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import service.getFlights;
@@ -38,20 +41,30 @@ import service.getFlights;
 public class FlightFacade implements IFlightFacade {
 
     private Gson gson;
-    
+
     private EntityManagerFactory emf;
+    private Map<String, Airport> airports;
 
     public FlightFacade(EntityManagerFactory emf) {
         this.emf = emf;
+        airports  = cacheAirports();
         gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").setPrettyPrinting().create();
     }
 
     @Override
-    public List<AirlineDTO> getFlights(String from, String to, String stringDate, int numTickets) throws BadRequestException  {
-        
+    public List<AirlineDTO> getFlights(String from, String to, String stringDate, int numTickets) throws BadRequestException {
         List<AirlineDTO> airlines = new ArrayList();
         List<Future<String>> airlineList = new ArrayList();
         List<AirlineApi> airlineApiList = getAirlineApiList();
+        
+        //validate airports
+        if (!airports.containsKey(to)) {
+           // throw AirportExistsException("Uknown airport: " + to);
+        } else if (!airports.containsKey(from)) {
+            // throw AirportExistsException("Uknown airport: " + from);
+        }
+        //validate date
+        
 
         //if not empty, we get flights with a to also
         if (!to.isEmpty()) {
@@ -71,9 +84,7 @@ public class FlightFacade implements IFlightFacade {
             try {
                 String response = r.get(2, TimeUnit.SECONDS);
                 JsonObject jo = gson.fromJson(response, JsonObject.class);
-                
-                
-                
+
                 airline = new AirlineDTO(gson.fromJson(jo.get("airline").toString(), String.class)); //save airline name
                 for (JsonElement element : jo.getAsJsonArray("flights")) { //save flights
                     JsonObject asJsonObject = element.getAsJsonObject();
@@ -108,17 +119,34 @@ public class FlightFacade implements IFlightFacade {
         return airlineApiList;
     }
 
+    private Map<String, Airport> cacheAirports() {
+        EntityManager em = getEntityManager();
+        Map<String, Airport> airportMap = new HashMap();
+        List<Airport> airportList = new ArrayList();
+        try {
+            TypedQuery<Airport> query = em.createNamedQuery("Airport.findAll", Airport.class);
+            airportList = query.getResultList();
+            if (airportMap.isEmpty()) {
+                //throw some exception;
+            }
+            for (Airport a : airportList) {
+                airportMap.put(a.getIATACode(), a);
+            }
+        } finally {
+            em.close();
+        }
+        return airportMap;
+    }
+
     private void calculateLocalTime() throws ParseException {
         DateFormat sdfISO = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
         Date date2 = sdfISO.parse("2001-07-04T12:08:56.235-0000");
         System.out.println(date2);
-        
-       // 2016-01-01T00:00:00.000Z
 
+        // 2016-01-01T00:00:00.000Z
 //        Date start = sdfISO.parse("2016-01-01T00:00:00.000");
         //      Date stop = sdfISO.parse("2016-01-01T19:00:00.000");
 //        Long test = stop.getTime() - start.getTime();
-
         TimeZone timeZone1 = TimeZone.getTimeZone("Europe/Berlin"); // SXF
         TimeZone timeZone2 = TimeZone.getTimeZone("Europe/Copenhagen"); // CPH
         TimeZone timeZone3 = TimeZone.getTimeZone("Asia/Chongqing"); // FUO
@@ -134,6 +162,5 @@ public class FlightFacade implements IFlightFacade {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory(DeploymentConfiguration.PU_NAME);
         FlightFacade ctrl = new FlightFacade(emf);
         ctrl.calculateLocalTime();
-
     }
 }

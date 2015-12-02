@@ -1,8 +1,9 @@
-package exception;
+package exceptionmapper;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
+import exception.BadRequestException;
 import java.util.Arrays;
 import javax.servlet.ServletContext;
 import javax.ws.rs.core.Context;
