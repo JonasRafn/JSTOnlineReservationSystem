@@ -1,0 +1,28 @@
+<br>
+<h1>Results</h1>
+<div>
+    <div ng-repeat="airline in ctrl.results">
+        <table class="table" ng-repeat="flight in airline.flights" >
+            <thead>
+                <tr>
+                    <th>Airline</th>
+                    <th>Origin</th>
+                    <th>Flight time</th>
+                    <th>Destination</th>
+                    <th>Price</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody> 
+                <tr>
+                    <td>{{airline.airline}}</td>
+                    <td>{{flight.origin}} {{flight.date| date: 'H:mm'}} <br/> {{flight.originCity}} </td>
+                    <td>{{flight.traveltime}}</td>
+                    <td>{{flight.destination}} {{flight.arrivalTime}} <br/> {{flight.destinationCity}}</td>
+                    <td>{{flight.totalPrice| currency}} <br/> {{flight.pricePerson| currency}}</td>
+                    <td><a href="#/reserve"><button class="btn btn-primary" id="search">Book</button></a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div> 
+</div>

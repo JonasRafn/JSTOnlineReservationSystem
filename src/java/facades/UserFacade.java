@@ -72,6 +72,7 @@ public class UserFacade implements IUserFacade {
             List<Role> roles = u.getRoles();
             for (Role role : roles) {
                 Role newRole = em.find(Role.class, role.getRoleName());
+                System.out.println(newRole.getRoleName());
                 newUser.AddRole(newRole);
             }
             try {

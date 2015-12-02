@@ -1,0 +1,70 @@
+<h1>Reserve</h1>
+
+<div id="Reservation" ng-controller="ReserveCtrl as ctrl">
+    <div class="row">
+        <div class="col-md-12 col-sm-6 col-xs-12">
+            <div class="panel panel-default">
+                <div class="panel-heading clearfix">
+                    <i class="icon-calendar"></i>
+                    <h3 class="panel-title">Reservate tickets</h3>
+                </div>
+
+                <div class="panel-body">
+                    <form class="form-horizontal row-border" action="#">
+                        <h4>Flight and Reservee info</h4>
+                        <span class="help-block">Information about the flight, reservee and number of passengers.</span>
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">Flight ID and          Number of Passengers</label>
+                            <div class="col-xs-5">
+                                <input class="form-control" type="text" name="flightID" readonly="" value="MCA2345">
+                            </div>
+                            <div class="col-xs-5">
+                                <select class="form-control" name="numberOfPassengers" ng-model="ctrl.numberOfPassengers">
+                                    <option value="1">1 Passenger</option>
+                                    <option value="2">2 Passengers</option>
+                                    <option value="3">3 Passengers</option>
+                                    <option value="4">4 Passengers</option>
+                                    <option value="5">5 Passengers</option>
+                                    <option value="6">6 Passengers</option>
+                                    <option value="7">7 Passengers</option>
+                                    <option value="8">8 Passengers</option>
+                                    <option value="9">9 Passengers</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">Reservee Name</label>
+                            <div class="col-md-10">
+                                <input type="text" name="reserveeName" class="form-control" placeholder="Full Name">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">Reservee Phone</label>
+                            <div class="col-md-10">
+                                <input class="form-control" type="tel" name="reserveePhone" placeholder="Phone Number">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">Reservee Email</label>
+                            <div class="col-md-10">
+                                <input class="form-control" type="email" name="placeholder" placeholder="Email Address">
+                            </div>
+                        </div>
+                        <h4>Passengers</h4>
+                        <span class="help-block">Input the first and last name of all passengers.</span>
+                        <div class="form-group" ng-repeat="n in []| range:ctrl.numberOfPassengers">
+                            <label class="col-md-2 control-label">Passenger</label>
+                            <div class="col-xs-5">
+                                <input type="text" name="passengerFirstName"  class="form-control" placeholder="First Name">
+                            </div>
+                            <div class="col-xs-5">
+                                <input type="text" name="passengerLastName"  class="form-control" placeholder="Last Name">
+                            </div>
+                        </div>
+                    </form>
+                    <a href="#/search"><button class="btn btn-primary pull-right" ng-click="ctrl.reserve()">Reservation</button></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

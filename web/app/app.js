@@ -6,11 +6,14 @@ angular.module('myApp', [
   'ngAnimate',
   'ui.bootstrap',
   'myApp.security',
+  'myApp.Reserve',
+  'myApp.Results',
+  'myApp.Search',
   'myApp.CreateUser'
 ]).
 config(['$routeProvider', function($routeProvider) {
-  $routeProvider.otherwise({redirectTo: '/create_user'});
-}]).
+  $routeProvider.otherwise({redirectTo: '/search'});
+  }]).
 config(function ($httpProvider) {
    $httpProvider.interceptors.push('authInterceptor');
 });

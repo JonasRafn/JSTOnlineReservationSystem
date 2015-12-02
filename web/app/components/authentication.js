@@ -24,6 +24,13 @@ angular.module('myApp.security', [])
                 $scope.logout();
             });
 
+          $scope.title = 'Flight Reservation';
+          $scope.username = "";
+          $scope.isAuthenticated = false;
+          $scope.isAdmin = false;
+          $scope.isUser = false;
+          $scope.message = '';
+          $scope.error = null;
             $scope.isActive = function (viewLocation) {
                 return viewLocation === $location.path();
             };
