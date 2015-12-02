@@ -11,6 +11,7 @@ public class FlightDTO {
     private int traveltime;
     private String origin;
     private String destination;
+    private Date destinationDate;
 
     public FlightDTO(String flightId, int numberOfSeats, Date date, float totalPrice, int traveltime, String origin, String destination) {
         this.flightId = flightId;
@@ -76,5 +77,13 @@ public class FlightDTO {
 
     public void setDestination(String destination) {
         this.destination = destination;
+    }
+
+    public Date getDestinationDate() {
+        return destinationDate;
+    }
+
+    public void setDestinationDate(Date destinationDate) {
+        this.destinationDate = destinationDate;
     }
 }

@@ -9,6 +9,8 @@ import dto.AirlineDTO;
 import dto.FlightDTO;
 import entity.AirlineApi;
 import entity.Airport;
+import exception.BadRequestException;
+import exception.NoResultException;
 import interfaces.IFlightFacade;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -27,11 +29,10 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
-import exception.BadRequestException;
+import exception.NotFoundException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
+import javax.ws.rs.core.Response;
 import service.getFlights;
 
 /**
@@ -47,27 +48,31 @@ public class FlightFacade implements IFlightFacade {
 
     public FlightFacade(EntityManagerFactory emf) {
         this.emf = emf;
-        airports  = cacheAirports();
+        airports = cacheAirports();
         gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").setPrettyPrinting().create();
     }
 
     @Override
-    public List<AirlineDTO> getFlights(String from, String to, String stringDate, int numTickets) throws BadRequestException {
-
+    public List<AirlineDTO> getFlights(String from, String to, String stringDate, int numTickets) throws NotFoundException, NoResultException, BadRequestException {
         List<AirlineDTO> airlines = new ArrayList();
-        List<Future<String>> airlineList = new ArrayList();
+        List<Future<Response>> airlineList = new ArrayList();
         List<AirlineApi> airlineApiList = getAirlineApiList();
-        
+
         //validate airports
-        if (!airports.containsKey(to)) {
-           // throw AirportExistsException("Uknown airport: " + to);
+        if (!airports.containsKey(to) && !to.isEmpty()) {
+            throw new NotFoundException("Unknown destination airport: " + to);
         } else if (!airports.containsKey(from)) {
-            // throw AirportExistsException("Uknown airport: " + from);
+            throw new NotFoundException("Unknown origin airport: " + from);
         }
         //validate date
-        
+        DateFormat ISO8601Date = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+        try {
+            Date date = ISO8601Date.parse(stringDate);
+        } catch (ParseException ex) {
+            throw new BadRequestException("Invalid date");
+        }
 
-        //if not empty, we get flights with a to also
+        //if not empty, we get flights with a [to] also
         if (!to.isEmpty()) {
             to = "/" + to;
         }
@@ -75,32 +80,50 @@ public class FlightFacade implements IFlightFacade {
         ExecutorService executor = Executors.newFixedThreadPool(4);
         for (AirlineApi api : airlineApiList) {
             String url = api.getUrl() + "api/flightinfo/" + from + to + "/" + stringDate + "/" + numTickets;
-            Future<String> future = executor.submit(new getFlights(url));
+            Future<Response> future = executor.submit(new getFlights(url));
             airlineList.add(future);
         }
         executor.shutdown();
 
-        for (Future<String> r : airlineList) {
+        for (Future<Response> r : airlineList) {
             AirlineDTO airline = new AirlineDTO();
             try {
-                String response = r.get(2, TimeUnit.SECONDS);
-                JsonObject jo = gson.fromJson(response, JsonObject.class);
-
-                airline = new AirlineDTO(gson.fromJson(jo.get("airline").toString(), String.class)); //save airline name
-                for (JsonElement element : jo.getAsJsonArray("flights")) { //save flights
-                    JsonObject asJsonObject = element.getAsJsonObject();
-                    FlightDTO dto = gson.fromJson(asJsonObject, FlightDTO.class);
-                    airline.addFlights(dto);
-                    dto.getTotalPrice();
+                Response response = r.get();
+                int status = response.getStatus();
+                String re = response.readEntity(String.class);
+                switch (status) {
+                    //case 400: 1. No flights from BCN at the given date, 2. Flight is sold out, or not enough avilable tickets
+                    //case 404: 2. HTTP 404 Not Found
+                    //case 500: 3. Internal server error
+                    case 200:
+                        // OK
+                        JsonObject jo = gson.fromJson(re, JsonObject.class);
+                        airline = new AirlineDTO(gson.fromJson(jo.get("airline").toString(), String.class)); //save airline name
+                        for (JsonElement element : jo.getAsJsonArray("flights")) { //save flights
+                            JsonObject asJsonObject = element.getAsJsonObject();
+                            FlightDTO dto = gson.fromJson(asJsonObject, FlightDTO.class);
+//                            calculateLocalTime(stringDate, stringDate, date)
+//                            dto.setDestinationDate(destinationDate);
+                            airline.addFlights(dto);
+                            dto.getTotalPrice();
+                        }
+                        airlines.add(airline);
+                        break;
+                    default:
+                        break;
                 }
             } catch (InterruptedException ex) {
-                Logger.getLogger(FlightFacade.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (TimeoutException ex) {
                 Logger.getLogger(FlightFacade.class.getName()).log(Level.SEVERE, null, ex);
             } catch (ExecutionException ex) {
                 Logger.getLogger(FlightFacade.class.getName()).log(Level.SEVERE, null, ex);
             }
-            airlines.add(airline);
+        }
+        if (airlines.isEmpty()) {
+            /*message stolen from momondo...
+            "Oops! No flights were found...\n"
+            + "We weren't able to find any flights matching your request.\n"
+            + "Please try again, perhaps with alternative dates or airports.");*/
+            throw new NoResultException();
         }
         return airlines;
     }
@@ -120,15 +143,14 @@ public class FlightFacade implements IFlightFacade {
         return airlineApiList;
     }
 
-    @Override
-    public Date calculateLocalTime(String originTZ, String destinationTZ, Date date) throws ParseException {
+    private Date calculateLocalTime(String originTZ, String destinationTZ, Date date) throws ParseException {
         TimeZone originTimeZone = TimeZone.getTimeZone(originTZ);
         TimeZone destinationTimeZone = TimeZone.getTimeZone(destinationTZ);
         int offset = destinationTimeZone.getRawOffset() - originTimeZone.getRawOffset();
         Date adjustedDate = new Date(date.getTime() + offset);
         return adjustedDate;
     }
-    
+
     private Map<String, Airport> cacheAirports() {
         EntityManager em = getEntityManager();
         Map<String, Airport> airportMap = new HashMap();
@@ -148,22 +170,6 @@ public class FlightFacade implements IFlightFacade {
         return airportMap;
     }
 
-    private void calculateLocalTime() throws ParseException {
-        DateFormat sdfISO = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
-        Date date2 = sdfISO.parse("2001-07-04T12:08:56.235-0000");
-        System.out.println(date2);
-
-        // 2016-01-01T00:00:00.000Z
-//        Date start = sdfISO.parse("2016-01-01T00:00:00.000");
-        //      Date stop = sdfISO.parse("2016-01-01T19:00:00.000");
-//        Long test = stop.getTime() - start.getTime();
-        TimeZone timeZone1 = TimeZone.getTimeZone("Europe/Berlin"); // SXF
-        TimeZone timeZone2 = TimeZone.getTimeZone("Europe/Copenhagen"); // CPH
-        TimeZone timeZone3 = TimeZone.getTimeZone("Asia/Chongqing"); // FUO
-        int rawOffset = timeZone3.getRawOffset();
-        System.out.println(rawOffset);
-    }
-
     private EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
@@ -171,7 +177,5 @@ public class FlightFacade implements IFlightFacade {
     public static void main(String[] args) throws ParseException {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory(DeploymentConfiguration.PU_NAME);
         FlightFacade ctrl = new FlightFacade(emf);
-//        ctrl.calculateLocalTime();
-
     }
 }

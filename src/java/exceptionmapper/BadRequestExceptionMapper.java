@@ -14,7 +14,7 @@ import javax.ws.rs.ext.Provider;
 @Provider
 public class BadRequestExceptionMapper implements ExceptionMapper<BadRequestException> {
 
-  static Gson gson = new GsonBuilder().setPrettyPrinting().create();
+    static Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
     @Context
     ServletContext context;
@@ -22,10 +22,10 @@ public class BadRequestExceptionMapper implements ExceptionMapper<BadRequestExce
     @Override
     public Response toResponse(BadRequestException e) {
         JsonObject jo = new JsonObject();
-        if(Boolean.valueOf(context.getInitParameter("debug"))){
+        if (Boolean.valueOf(context.getInitParameter("debug"))) {
             jo.addProperty("StackTrace", Arrays.toString(e.getStackTrace()));
         }
-        jo.addProperty("Message", e.getMessage());
+        jo.addProperty("message", e.getMessage());
         return Response.status(Response.Status.BAD_REQUEST).entity(jo.toString()).build();
     }
 }
