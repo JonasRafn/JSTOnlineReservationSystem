@@ -1,5 +1,5 @@
 <div ng-controller="SearchCtrl as ctrl">
-    <form class="form col-sm-12" role="form" ng-submit="ctrl.search()">
+    <form class="form col-sm-12" role="form" ng-init="ctrl.getAirports()" ng-submit="ctrl.search()">
         <div class="col-sm-3">
             <div class="form-group">
                 <label class="control-label">Flying From:</label> 
@@ -57,6 +57,6 @@
     <results ng-show = "ctrl.ShowResults"></results>
     
     <datalist id="airports">
-        <option ng-repeat="airport in ctrl.airports" label="{{airport.IATACODE}}" value="{{airport.city}} ({{airport.IATACODE}}), {{airport.country}}">
+        <option ng-repeat="airport in ctrl.airports" label="{{airport.IATACode}}" value="{{airport.city}} ({{airport.IATACode}}), {{airport.country}}">
     </datalist>
 </div>    
