@@ -10,19 +10,25 @@ angular.module('myApp.Search', ['ngRoute'])
 
         .controller('SearchCtrl', ['SearchFactory', 'AirportFactory', function (SearchFactory, AirportFactory, $rootScope) {
                 var self = this;
-                self.airports = AirportFactory.getAirports();
+                self.airports = {};
+                self.getAirports = function(){
+                    AirportFactory.getAirports()
+                        .success(function (airports){
+                            self.airports = airports;
+                        });
+                };
                 self.results = {};
                 self.ShowResults = false;
                 self.searchRequest = {};
                 self.search = function () {
-                    if (self.searchRequest.destination === undefined) {
+                    if (self.searchRequest.destination === undefined || self.searchRequest.destination === "") {
                         SearchFactory.getAllFlightsFromOrigin(self.searchRequest)
                             .success(function (results) {
                                 self.results = results;
                                 self.ShowResults = true;
                             })
                             .error(function (data) {
-                                $rootScope.error = data.error + " : " + data.message;
+                                $rootScope.error = data.message;
                             });
                     }
                     else {
@@ -32,7 +38,7 @@ angular.module('myApp.Search', ['ngRoute'])
                                 self.ShowResults = true;
                             })
                             .error(function (data) {
-                                $rootScope.error = data.error + " : " + data.message;
+                                $rootScope.error = data.message;
                             });
                     }
                 };
@@ -40,14 +46,10 @@ angular.module('myApp.Search', ['ngRoute'])
             }])
 
         .factory('AirportFactory', ['$http', function ($http) {
-                var airports = [{IATACODE: "CPH", country: "Denmark", city: "Copenhagen"},
-                    {IATACODE: "STN", country: "England", city: "London"},
-                    {IATACODE: "BCN", country: "Spain", city: "Barcelona"},
-                    {IATACODE: "MIL", country: "Italy", city: "Milano"}
-                ];
-
                 var getAirports = function () {
-                    return airports;
+                   var url = "api/airports";
+                   var airports = $http.get(url);
+                   return $http.get(url);
                 };
                 
                 return {
