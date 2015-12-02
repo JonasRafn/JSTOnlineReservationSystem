@@ -6,18 +6,10 @@ angular.module('myApp', [
   'ngAnimate',
   'ui.bootstrap',
   'myApp.security',
-  'myApp.view1',
-  'myApp.view2',
-  'myApp.view3',
-  'myApp.view4',
-  'myApp.CreateUser',
-  'myApp.filters',
-  'myApp.directives',
-  'myApp.factories',
-  'myApp.services'
+  'myApp.CreateUser'
 ]).
 config(['$routeProvider', function($routeProvider) {
-  $routeProvider.otherwise({redirectTo: '/view1'});
+  $routeProvider.otherwise({redirectTo: '/create_user'});
 }]).
 config(function ($httpProvider) {
    $httpProvider.interceptors.push('authInterceptor');

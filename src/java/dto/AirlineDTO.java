@@ -8,6 +8,9 @@ public class AirlineDTO {
     private String airline;
     private List<FlightDTO> flights;
 
+    public AirlineDTO() {
+    }
+    
     public AirlineDTO(String airline) {
         this.airline = airline;
         flights = new ArrayList();

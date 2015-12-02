@@ -1,0 +1,3 @@
+insert into airline_api (group_name, members, url) values ('angular_airline1', 'Test Airline for Sprint 1', 'http://angularairline-plaul.rhcloud.com/');
+insert into airline_api (group_name, members, url) values ('angular_airline2', 'Test Airline for Sprint 1', 'http://angularairline-plaul.rhcloud.com/');
+insert into airline_api (group_name, members, url) values ('angular_airline3', 'Test Airline for Sprint 1', 'http://angularairline-plaul.rhcloud.com/');

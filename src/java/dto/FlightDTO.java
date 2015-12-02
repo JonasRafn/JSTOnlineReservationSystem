@@ -7,17 +7,17 @@ public class FlightDTO {
     private String flightId;
     private int numberOfSeats;
     private Date date;
-    private float priceTotal;
-    private int travelTime;
+    private float totalPrice;
+    private int traveltime;
     private String origin;
     private String destination;
 
-    public FlightDTO(String flightId, int numberOfSeats, Date date, float priceTotal, int travelTime, String origin, String destination) {
+    public FlightDTO(String flightId, int numberOfSeats, Date date, float totalPrice, int traveltime, String origin, String destination) {
         this.flightId = flightId;
         this.numberOfSeats = numberOfSeats;
         this.date = date;
-        this.priceTotal = priceTotal;
-        this.travelTime = travelTime;
+        this.totalPrice = totalPrice;
+        this.traveltime = traveltime;
         this.origin = origin;
         this.destination = destination;
     }
@@ -46,20 +46,20 @@ public class FlightDTO {
         this.date = date;
     }
 
-    public float getPriceTotal() {
-        return priceTotal;
+    public float getTotalPrice() {
+        return totalPrice;
     }
 
-    public void setPriceTotal(float priceTotal) {
-        this.priceTotal = priceTotal;
+    public void setTotalPrice(float totalPrice) {
+        this.totalPrice = totalPrice;
     }
 
-    public int getTravelTime() {
-        return travelTime;
+    public int getTraveltime() {
+        return traveltime;
     }
 
-    public void setTravelTime(int travelTime) {
-        this.travelTime = travelTime;
+    public void setTraveltime(int traveltime) {
+        this.traveltime = traveltime;
     }
 
     public String getOrigin() {
