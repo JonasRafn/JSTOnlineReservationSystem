@@ -55,16 +55,17 @@ public class FlightFacadeTest {
     public void calculateLocalTimeTest() throws Exception {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory(DeploymentConfiguration.PU_NAME);
         IFlightFacade ff = new FlightFacade(emf);
+        
         DateFormat sdfISO = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
         Date date = sdfISO.parse("2015-12-02T12:00:00.000-0000");
 
+//        TimeZone Copenhagen = TimeZone.getTimeZone("Europe/Copenhagen"); // CPH
+//        TimeZone Chongqing = TimeZone.getTimeZone("Asia/Chongqing"); // FUO
+//        TimeZone New_York = TimeZone.getTimeZone("America/New_York"); // ATL
+//        TimeZone Harbin = TimeZone.getTimeZone("Asia/Harbin"); // PEK
         TimeZone Berlin = TimeZone.getTimeZone("Europe/Berlin"); // SXF
-        TimeZone Copenhagen = TimeZone.getTimeZone("Europe/Copenhagen"); // CPH
-        TimeZone Chongqing = TimeZone.getTimeZone("Asia/Chongqing"); // FUO
-        TimeZone New_York = TimeZone.getTimeZone("America/New_York"); // ATL
-        TimeZone Harbin = TimeZone.getTimeZone("Asia/Harbin"); // PEK
         TimeZone Tokyo = TimeZone.getTimeZone("Asia/Tokyo"); // HND
-
+        
         Date calculatedDate = ff.calculateLocalTime(Berlin.getID(), Tokyo.getID(), date);
 
         assertEquals(calculatedDate.getTime(), 1449086400000L);
