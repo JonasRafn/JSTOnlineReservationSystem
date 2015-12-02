@@ -44,8 +44,8 @@ public class FlightFacade implements IFlightFacade {
     }
 
     @Override
-    public List<AirlineDTO> getFlights(String from, String to, String stringDate, int numTickets) throws BadRequestException  {
-        
+    public List<AirlineDTO> getFlights(String from, String to, String stringDate, int numTickets) throws BadRequestException {
+
         List<AirlineDTO> airlines = new ArrayList();
         List<Future<String>> airlineList = new ArrayList();
         List<AirlineApi> airlineApiList = getAirlineApiList();
@@ -100,22 +100,13 @@ public class FlightFacade implements IFlightFacade {
         return airlineApiList;
     }
 
-    private void calculateLocalTime() throws ParseException {
-        DateFormat sdfISO = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
-        Date date2 = sdfISO.parse("2001-07-04T12:08:56.235-0000");
-        System.out.println(date2);
-        
-       // 2016-01-01T00:00:00.000Z
-
-//        Date start = sdfISO.parse("2016-01-01T00:00:00.000");
-        //      Date stop = sdfISO.parse("2016-01-01T19:00:00.000");
-//        Long test = stop.getTime() - start.getTime();
-
-        TimeZone timeZone1 = TimeZone.getTimeZone("Europe/Berlin"); // SXF
-        TimeZone timeZone2 = TimeZone.getTimeZone("Europe/Copenhagen"); // CPH
-        TimeZone timeZone3 = TimeZone.getTimeZone("Asia/Chongqing"); // FUO
-        int rawOffset = timeZone3.getRawOffset();
-        System.out.println(rawOffset);
+    @Override
+    public Date calculateLocalTime(String originTZ, String destinationTZ, Date date) throws ParseException {
+        TimeZone originTimeZone = TimeZone.getTimeZone(originTZ);
+        TimeZone destinationTimeZone = TimeZone.getTimeZone(destinationTZ);
+        int offset = destinationTimeZone.getRawOffset() - originTimeZone.getRawOffset();
+        Date adjustedDate = new Date(date.getTime() + offset);
+        return adjustedDate;
     }
 
     private EntityManager getEntityManager() {
@@ -125,7 +116,7 @@ public class FlightFacade implements IFlightFacade {
     public static void main(String[] args) throws ParseException {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory(DeploymentConfiguration.PU_NAME);
         FlightFacade ctrl = new FlightFacade(emf);
-        ctrl.calculateLocalTime();
+//        ctrl.calculateLocalTime();
 
     }
 }
