@@ -7,6 +7,7 @@ import dto.AirlineDTO;
 import exception.BadRequestException;
 import exception.NoResultException;
 import exception.NotFoundException;
+import exception.ServerException;
 import facades.FlightFacade;
 import interfaces.IFlightFacade;
 import java.util.List;
@@ -36,7 +37,7 @@ public class FlightInfoRest {
     @Path("{from}/{date}/{persons}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getFlightsFrom(@PathParam("from") String from, @PathParam("date") String stringDate, @PathParam("persons") int persons)
-            throws NotFoundException, NoResultException, BadRequestException {
+            throws NotFoundException, NoResultException, BadRequestException, ServerException {
         try {
             List<AirlineDTO> flightsFrom = ctrl.getFlights(from, "", stringDate, persons);
             return Response.ok(gson.toJson(flightsFrom)).build();
@@ -48,7 +49,7 @@ public class FlightInfoRest {
     @Path("{from}/{to}/{date}/{persons}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getFlightsFromTo(@PathParam("from") String from, @PathParam("to") String to, @PathParam("date") String stringDate, @PathParam("persons") int persons)
-            throws NotFoundException, NoResultException, BadRequestException {
+            throws NotFoundException, NoResultException, BadRequestException, ServerException {
         try {
             List<AirlineDTO> flightsFrom = ctrl.getFlights(from, to, stringDate, persons);
             return Response.ok(gson.toJson(flightsFrom)).build();

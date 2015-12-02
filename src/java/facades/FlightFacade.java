@@ -30,6 +30,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
 import exception.NotFoundException;
+import exception.ServerException;
 import java.util.HashMap;
 import java.util.Map;
 import javax.ws.rs.core.Response;
@@ -53,7 +54,7 @@ public class FlightFacade implements IFlightFacade {
     }
 
     @Override
-    public List<AirlineDTO> getFlights(String from, String to, String stringDate, int numTickets) throws NotFoundException, NoResultException, BadRequestException {
+    public List<AirlineDTO> getFlights(String from, String to, String stringDate, int numTickets) throws NotFoundException, NoResultException, BadRequestException, ServerException {
         List<AirlineDTO> airlines = new ArrayList();
         List<Future<Response>> airlineList = new ArrayList();
         List<AirlineApi> airlineApiList = getAirlineApiList();
@@ -102,8 +103,9 @@ public class FlightFacade implements IFlightFacade {
                         for (JsonElement element : jo.getAsJsonArray("flights")) { //save flights
                             JsonObject asJsonObject = element.getAsJsonObject();
                             FlightDTO dto = gson.fromJson(asJsonObject, FlightDTO.class);
-//                            calculateLocalTime(stringDate, stringDate, date)
-//                            dto.setDestinationDate(destinationDate);
+                            dto.setDestinationCity(airports.get(dto.getDestination()).getCity());
+                            dto.setOriginCity(airports.get(dto.getOrigin()).getCity());
+                            dto.setDestinationDate(calculateLocalTime(airports.get(dto.getOrigin()).getTimeZone(), airports.get(dto.getDestination()).getTimeZone(), dto.getTraveltime(), dto.getDate()));
                             airline.addFlights(dto);
                             dto.getTotalPrice();
                         }
@@ -113,9 +115,9 @@ public class FlightFacade implements IFlightFacade {
                         break;
                 }
             } catch (InterruptedException ex) {
-                Logger.getLogger(FlightFacade.class.getName()).log(Level.SEVERE, null, ex);
+                //do nothing
             } catch (ExecutionException ex) {
-                Logger.getLogger(FlightFacade.class.getName()).log(Level.SEVERE, null, ex);
+                //do nothing
             }
         }
         if (airlines.isEmpty()) {
@@ -128,14 +130,14 @@ public class FlightFacade implements IFlightFacade {
         return airlines;
     }
 
-    private List<AirlineApi> getAirlineApiList() {
+    private List<AirlineApi> getAirlineApiList() throws ServerException {
         EntityManager em = getEntityManager();
         List<AirlineApi> airlineApiList = new ArrayList();
         try {
             TypedQuery<AirlineApi> query = em.createNamedQuery("AirlineApi.findAll", AirlineApi.class);
             airlineApiList = query.getResultList();
             if (airlineApiList.isEmpty()) {
-                //throw new Exception("error");
+                throw new ServerException("Could not load Airlines");
             }
         } finally {
             em.close();
@@ -143,11 +145,11 @@ public class FlightFacade implements IFlightFacade {
         return airlineApiList;
     }
 
-    private Date calculateLocalTime(String originTZ, String destinationTZ, Date date) throws ParseException {
+    private Date calculateLocalTime(String originTZ, String destinationTZ, int travelTime, Date travelDate) {
         TimeZone originTimeZone = TimeZone.getTimeZone(originTZ);
         TimeZone destinationTimeZone = TimeZone.getTimeZone(destinationTZ);
-        int offset = destinationTimeZone.getRawOffset() - originTimeZone.getRawOffset();
-        Date adjustedDate = new Date(date.getTime() + offset);
+        int offset = destinationTimeZone.getRawOffset() - originTimeZone.getRawOffset() + (travelTime * 60000);
+        Date adjustedDate = new Date(travelDate.getTime() + offset);
         return adjustedDate;
     }
 
@@ -172,10 +174,5 @@ public class FlightFacade implements IFlightFacade {
 
     private EntityManager getEntityManager() {
         return emf.createEntityManager();
-    }
-
-    public static void main(String[] args) throws ParseException {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory(DeploymentConfiguration.PU_NAME);
-        FlightFacade ctrl = new FlightFacade(emf);
     }
 }

@@ -10,7 +10,9 @@ public class FlightDTO {
     private float totalPrice;
     private int traveltime;
     private String origin;
+    private String originCity;
     private String destination;
+    private String destinationCity;
     private Date destinationDate;
 
     public FlightDTO(String flightId, int numberOfSeats, Date date, float totalPrice, int traveltime, String origin, String destination) {
@@ -85,5 +87,21 @@ public class FlightDTO {
 
     public void setDestinationDate(Date destinationDate) {
         this.destinationDate = destinationDate;
+    }
+
+    public String getOriginCity() {
+        return originCity;
+    }
+
+    public void setOriginCity(String originCity) {
+        this.originCity = originCity;
+    }
+
+    public String getDestinationCity() {
+        return destinationCity;
+    }
+
+    public void setDestinationCity(String destinationCity) {
+        this.destinationCity = destinationCity;
     }
 }
