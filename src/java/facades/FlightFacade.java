@@ -33,6 +33,8 @@ import exception.NotFoundException;
 import exception.ServerException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 import javax.ws.rs.core.Response;
 import service.getFlights;
 
@@ -43,7 +45,7 @@ import service.getFlights;
 public class FlightFacade implements IFlightFacade {
 
     private Gson gson;
-
+    private final int TIMEOUT_DELAY = 5; //seconds
     private EntityManagerFactory emf;
     private Map<String, Airport> airports;
 
@@ -89,7 +91,7 @@ public class FlightFacade implements IFlightFacade {
         for (Future<Response> r : airlineList) {
             AirlineDTO airline = new AirlineDTO();
             try {
-                Response response = r.get();
+                Response response = r.get(TIMEOUT_DELAY, TimeUnit.SECONDS);
                 int status = response.getStatus();
                 String re = response.readEntity(String.class);
                 switch (status) {
@@ -115,8 +117,13 @@ public class FlightFacade implements IFlightFacade {
                         break;
                 }
             } catch (InterruptedException ex) {
+                System.out.println("##--Thread interrupted--##");
                 //do nothing
             } catch (ExecutionException ex) {
+                System.out.println("##--Execution interrupted--##");
+                //do nothing
+            } catch (TimeoutException ex) {
+                System.out.println("##--Call timeout--##");
                 //do nothing
             }
         }
