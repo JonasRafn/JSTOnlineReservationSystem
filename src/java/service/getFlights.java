@@ -15,14 +15,13 @@ public class getFlights implements Callable<String> {
     }
 
     @Override
-    public String call() throws Exception {
+    public String call() {
         Client client;
         WebTarget target;
         String response = "";
         client = ClientBuilder.newClient();
         target = client.target(url);
         response = target.request(MediaType.APPLICATION_JSON).get(String.class);
-//        System.out.println(response);
         return response;
     }
 }

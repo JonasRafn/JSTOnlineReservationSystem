@@ -27,6 +27,8 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
 import exception.BadRequestException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 import service.getFlights;
 
 /**
@@ -36,6 +38,7 @@ import service.getFlights;
 public class FlightFacade implements IFlightFacade {
 
     private Gson gson;
+    
     private EntityManagerFactory emf;
 
     public FlightFacade(EntityManagerFactory emf) {
@@ -53,7 +56,6 @@ public class FlightFacade implements IFlightFacade {
         //if not empty, we get flights with a to also
         if (!to.isEmpty()) {
             to = "/" + to;
-//            throw new BadRequestException("Error");
         }
 
         ExecutorService executor = Executors.newFixedThreadPool(4);
@@ -67,17 +69,23 @@ public class FlightFacade implements IFlightFacade {
         for (Future<String> r : airlineList) {
             AirlineDTO airline = new AirlineDTO();
             try {
-                String response = r.get();
+                String response = r.get(2, TimeUnit.SECONDS);
                 JsonObject jo = gson.fromJson(response, JsonObject.class);
+                
+                
+                
                 airline = new AirlineDTO(gson.fromJson(jo.get("airline").toString(), String.class)); //save airline name
                 for (JsonElement element : jo.getAsJsonArray("flights")) { //save flights
                     JsonObject asJsonObject = element.getAsJsonObject();
-//                    System.out.println(asJsonObject.toString());
                     FlightDTO dto = gson.fromJson(asJsonObject, FlightDTO.class);
                     airline.addFlights(dto);
                     dto.getTotalPrice();
                 }
-            } catch (InterruptedException | ExecutionException ex) {
+            } catch (InterruptedException ex) {
+                Logger.getLogger(FlightFacade.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (TimeoutException ex) {
+                Logger.getLogger(FlightFacade.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ExecutionException ex) {
                 Logger.getLogger(FlightFacade.class.getName()).log(Level.SEVERE, null, ex);
             }
             airlines.add(airline);
