@@ -42,7 +42,7 @@ import service.GetFlights;
 public class FlightFacade implements IFlightFacade {
 
     private Gson gson;
-    private final int TIMEOUT_DELAY = 5; //seconds
+    private final int TIMEOUT_DELAY = 10; //seconds
     private EntityManagerFactory emf;
     private Map<String, Airport> airports;
 
@@ -89,6 +89,7 @@ public class FlightFacade implements IFlightFacade {
         }
         executor.shutdown();
 
+        int testNo = 1; // testing purposes only
         for (Future<Response> r : airlineList) {
             AirlineDTO airline = new AirlineDTO();
             try {
@@ -100,9 +101,8 @@ public class FlightFacade implements IFlightFacade {
                     //case 404: 2. HTTP 404 Not Found
                     //case 500: 3. Internal server error
                     case 200: // OK
-//                        try {
                         JsonObject jo = gson.fromJson(re, JsonObject.class);
-                        airline = new AirlineDTO(gson.fromJson(jo.get("airline").toString(), String.class)); //save airline name
+                        airline = new AirlineDTO(gson.fromJson(jo.get("airline").toString(), String.class) + "-TestAirlineNo: " + testNo++); //save airline name
                         for (JsonElement element : jo.getAsJsonArray("flights")) { //save flights
                             JsonObject asJsonObject = element.getAsJsonObject();
                             FlightDTO dto = gson.fromJson(asJsonObject, FlightDTO.class);
@@ -112,9 +112,6 @@ public class FlightFacade implements IFlightFacade {
                             airline.addFlights(dto);
                             dto.getTotalPrice();
                         }
-//                        } catch (JsonSyntaxException e) {
-//                            break; //just skip that airline
-//                        }
                         airlines.add(airline);
                         break;
                     default:
