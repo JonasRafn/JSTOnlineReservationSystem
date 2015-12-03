@@ -33,7 +33,7 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import javax.ws.rs.core.Response;
-import service.getFlights;
+import service.GetFlights;
 
 /**
  * http://www.oracle.com/webfolder/technetwork/tutorials/obe/java/JAXRS2/jaxrs-clients.html
@@ -84,7 +84,7 @@ public class FlightFacade implements IFlightFacade {
         ExecutorService executor = Executors.newFixedThreadPool(4);
         for (AirlineApi api : airlineApiList) {
             String url = api.getUrl() + "api/flightinfo/" + from + to + "/" + stringDate + "/" + numTickets;
-            Future<Response> future = executor.submit(new getFlights(url));
+            Future<Response> future = executor.submit(new GetFlights(url));
             airlineList.add(future);
         }
         executor.shutdown();
@@ -99,24 +99,22 @@ public class FlightFacade implements IFlightFacade {
                     //case 400: 1. No flights from BCN at the given date, 2. Flight is sold out, or not enough avilable tickets
                     //case 404: 2. HTTP 404 Not Found
                     //case 500: 3. Internal server error
-                    case 200:
-                        // OK
-                        try {
-                            JsonObject jo = gson.fromJson(re, JsonObject.class);
-                            airline = new AirlineDTO(gson.fromJson(jo.get("airline").toString(), String.class)); //save airline name
-                            for (JsonElement element : jo.getAsJsonArray("flights")) { //save flights
-                                JsonObject asJsonObject = element.getAsJsonObject();
-                                FlightDTO dto = gson.fromJson(asJsonObject, FlightDTO.class);
-                                dto.setDestinationCity(airports.get(dto.getDestination()).getCity());
-                                dto.setOriginCity(airports.get(dto.getOrigin()).getCity());
-                                dto.setDestinationDate(calculateLocalTime(airports.get(dto.getOrigin()).getTimeZone(), airports.get(dto.getDestination()).getTimeZone(), dto.getTraveltime(), dto.getDate()));
-                                airline.addFlights(dto);
-                                dto.getTotalPrice();
-                            }
-                        } catch (JsonSyntaxException e) {
-                            //just skip that airline
-                            break;
+                    case 200: // OK
+//                        try {
+                        JsonObject jo = gson.fromJson(re, JsonObject.class);
+                        airline = new AirlineDTO(gson.fromJson(jo.get("airline").toString(), String.class)); //save airline name
+                        for (JsonElement element : jo.getAsJsonArray("flights")) { //save flights
+                            JsonObject asJsonObject = element.getAsJsonObject();
+                            FlightDTO dto = gson.fromJson(asJsonObject, FlightDTO.class);
+                            dto.setDestinationCity(airports.get(dto.getDestination()).getCity());
+                            dto.setOriginCity(airports.get(dto.getOrigin()).getCity());
+                            dto.setDestinationDate(calculateLocalTime(airports.get(dto.getOrigin()).getTimeZone(), airports.get(dto.getDestination()).getTimeZone(), dto.getTraveltime(), dto.getDate()));
+                            airline.addFlights(dto);
+                            dto.getTotalPrice();
                         }
+//                        } catch (JsonSyntaxException e) {
+//                            break; //just skip that airline
+//                        }
                         airlines.add(airline);
                         break;
                     default:
@@ -131,6 +129,8 @@ public class FlightFacade implements IFlightFacade {
             } catch (TimeoutException ex) {
                 System.out.println("##--Call timeout--##");
                 //do nothing
+            } catch (JsonSyntaxException ex) {
+                //just skip that airline
             }
         }
         if (airlines.isEmpty()) {

@@ -7,11 +7,11 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-public class getFlights implements Callable<Response> {
+public class GetFlights implements Callable<Response> {
 
     private String url;
 
-    public getFlights(String url) {
+    public GetFlights(String url) {
         this.url = url;
     }
 
