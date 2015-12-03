@@ -62,6 +62,10 @@ public class FlightFacade implements IFlightFacade {
         List<AirlineApi> airlineApiList = getAirlineApiList();
 
         //validate airports
+        if (airports.isEmpty()) {
+            throw new ServerException("Something went wrong. Please try again");
+        }
+
         if (!airports.containsKey(to) && !to.isEmpty()) {
             throw new NotFoundException("Unknown destination airport: " + to);
         } else if (!airports.containsKey(from)) {
@@ -144,7 +148,7 @@ public class FlightFacade implements IFlightFacade {
             TypedQuery<AirlineApi> query = em.createNamedQuery("AirlineApi.findAll", AirlineApi.class);
             airlineApiList = query.getResultList();
             if (airlineApiList.isEmpty()) {
-                throw new ServerException("Could not load Airlines");
+                throw new ServerException("Something went wrong. Please try again");
             }
         } finally {
             em.close();
@@ -167,9 +171,6 @@ public class FlightFacade implements IFlightFacade {
         try {
             TypedQuery<Airport> query = em.createNamedQuery("Airport.findAll", Airport.class);
             airportList = query.getResultList();
-            if (airportMap.isEmpty()) {
-                //throw some exception;
-            }
             for (Airport a : airportList) {
                 airportMap.put(a.getIATACode(), a);
             }
