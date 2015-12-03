@@ -8,7 +8,7 @@ angular.module('myApp.Search', ['ngRoute'])
                 });
             }])
 
-        .controller('SearchCtrl', ['SearchFactory', 'AirportFactory', function (SearchFactory, AirportFactory, $rootScope) {
+        .controller('SearchCtrl', ['$rootScope','SearchFactory', 'AirportFactory', function ($rootScope, SearchFactory, AirportFactory) {
                 var self = this;
                 self.airports = {};
                 self.getAirports = function(){
@@ -88,6 +88,14 @@ angular.module('myApp.Search', ['ngRoute'])
                     getAllFlightsFromOrigin: getAllFlightsFromOrigin,
                     getAllFlightsFromOriginToDestination: getAllFlightsFromOriginToDestination
                 };
-
-            }]);
+            }])
+        
+        .filter('formatTimer', function () {
+                return function (hours) {
+                    var seconds =  hours * 60;
+                    var d = new Date(0,0,0,0,0,0,0);
+                    d.setSeconds(seconds);
+                    return d;
+                };  
+        }); 
         

@@ -17,8 +17,8 @@
                 <tr>
                     <td>{{airline.airline}}</td>
                     <td>{{flight.origin}} {{flight.date| date: 'H:mm'}} <br/> {{flight.originCity}} </td>
-                    <td>{{flight.traveltime}}</td>
-                    <td>{{flight.destination}} {{flight.arrivalTime}} <br/> {{flight.destinationCity}}</td>
+                    <td>{{flight.traveltime | formatTimer | date:'H:mm'}}</td>
+                    <td>{{flight.destination}} {{flight.destinationDate| date: 'H:mm'}} <br/> {{flight.destinationCity}}</td>
                     <td>{{flight.totalPrice| currency}} <br/> {{flight.pricePerson| currency}}</td>
                     <td><a href="#/reserve"><button class="btn btn-primary" id="search">Book</button></a></td>
                 </tr>

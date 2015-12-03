@@ -64,7 +64,7 @@ angular.module('myApp.security', [])
                             });
                             $scope.error = null;
                             $scope.success = null;
-                            $location.path("#/view1");
+                            $location.path("#/search");
                         })
                         .error(function (data, status, headers, config) {
                             // Erase the token if the user fails to log in
