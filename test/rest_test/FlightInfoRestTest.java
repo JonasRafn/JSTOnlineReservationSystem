@@ -3,22 +3,17 @@ package rest_test;
 import static com.jayway.restassured.RestAssured.basePath;
 import static com.jayway.restassured.RestAssured.baseURI;
 import static com.jayway.restassured.RestAssured.defaultParser;
-import static com.jayway.restassured.RestAssured.given;
 import static com.jayway.restassured.RestAssured.when;
 import com.jayway.restassured.parsing.Parser;
 import deploy.DeploymentConfiguration;
-import entity.User;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.hasItems;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import rest.ApplicationConfig;
-import static com.jayway.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.hasItems;
 
 public class FlightInfoRestTest {
 
@@ -50,8 +45,11 @@ public class FlightInfoRestTest {
         server.join();
     }
 
+    /**
+     * Test get with successful json-response
+     */
     @Test
-    public void test200_ok_1() {
+    public void test200_ok() {
         when().
                 get("/CPH/SXF/2016-01-01T00:00:00.000Z/3").
                 then().
@@ -78,10 +76,7 @@ public class FlightInfoRestTest {
                 body("[0].flights[1].destination", equalTo("SXF")).
                 body("[0].flights[1].destinationCity", equalTo("Berlin")).
                 body("[0].flights[1].destinationDate", equalTo("2016-01-01T07:00:00.000Z"));
-    }
 
-    @Test
-    public void test200_ok_2() {
         when().
                 get("/CPH/SXF/2016-06-15T00:00:00.000Z/4").
                 then().
@@ -100,6 +95,9 @@ public class FlightInfoRestTest {
                 body("[0].flights[0].destinationDate", equalTo("2016-06-15T07:00:00.000Z"));
     }
 
+    /**
+     * Test get with no available flights
+     */
     @Test
     public void test204_no_content() {
         when().
@@ -112,6 +110,9 @@ public class FlightInfoRestTest {
                 statusCode(204);
     }
 
+    /**
+     * Test get with unknown airport
+     */
     @Test
     public void test404_not_found() {
         when().
@@ -134,6 +135,9 @@ public class FlightInfoRestTest {
                 body("message", equalTo("Unknown destination airport: BIK"));
     }
 
+    /**
+     * Test get with invalid formatted date
+     */
     @Test
     public void test400_bad_request() {
         when().
