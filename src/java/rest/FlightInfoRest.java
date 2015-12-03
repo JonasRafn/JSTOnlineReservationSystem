@@ -28,6 +28,7 @@ public class FlightInfoRest {
     private EntityManagerFactory emf;
     
     public FlightInfoRest() {
+        DeploymentConfiguration.setTestModeOn(); // testing only!
         emf = Persistence.createEntityManagerFactory(DeploymentConfiguration.PU_NAME);
         ctrl = new FlightFacade(emf);
         gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").setPrettyPrinting().create();

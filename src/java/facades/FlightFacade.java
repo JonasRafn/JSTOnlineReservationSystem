@@ -179,7 +179,7 @@ public class FlightFacade implements IFlightFacade {
     }
 
     /**
-     * Calculates local datetime in destination, taking traveltime into account
+     * Calculates local datetime in destination, taking travel time into account
      *
      * @param originTZ origin timezone
      * @param destinationTZ destination timezone
