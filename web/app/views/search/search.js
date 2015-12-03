@@ -26,12 +26,14 @@ angular.module('myApp.Search', ['ngRoute'])
                             var status = response.status;
                             var data = response.data;
                             if(status === 204){
+                                self.ShowResults = false;
                                 $rootScope.error = "Oops! No flights were found...\n We weren't able to find any flights matching your request. Please try again, perhaps with alternative dates or airports.";
                             } else {
                                 self.ShowResults = true;
                                 self.results = data;
                             }
                         }, function (response) {
+                            self.ShowResults = false;
                             $rootScope.error = response.data.message;
                         });
                     }
@@ -40,12 +42,14 @@ angular.module('myApp.Search', ['ngRoute'])
                             var status = response.status;
                             var data = response.data;
                             if(status === 204){
+                                self.ShowResults = false;
                                 $rootScope.error = "Oops! No flights were found...\n We weren't able to find any flights matching your request. Please try again, perhaps with alternative dates or airports.";
                             } else {
                                 self.ShowResults = true;
                                 self.results = data;
                             }
                         }, function (response) {
+                            self.ShowResults = false;
                             $rootScope.error = response.data.message;
                         });
                     }
