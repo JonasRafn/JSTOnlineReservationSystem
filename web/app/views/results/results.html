@@ -15,7 +15,7 @@
             </thead>
             <tbody> 
                 <tr>
-                    <td>{{airline.airline}}</td>
+                    <td>{{airline.airline}} <br/> {{flight.flightID}}</td>
                     <td>{{flight.origin}} {{flight.date| date: 'H:mm'}} <br/> {{flight.originCity}} </td>
                     <td>{{flight.traveltime | formatTimer | date:'H:mm'}}</td>
                     <td>{{flight.destination}} {{flight.destinationDate| date: 'H:mm'}} <br/> {{flight.destinationCity}}</td>
