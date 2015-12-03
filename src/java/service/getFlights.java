@@ -5,8 +5,9 @@ import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
-public class getFlights implements Callable<String> {
+public class getFlights implements Callable<Response> {
 
     private String url;
 
@@ -15,14 +16,14 @@ public class getFlights implements Callable<String> {
     }
 
     @Override
-    public String call() throws Exception {
+    public Response call() {
         Client client;
         WebTarget target;
+
         String response = "";
         client = ClientBuilder.newClient();
         target = client.target(url);
-        response = target.request(MediaType.APPLICATION_JSON).get(String.class);
-//        System.out.println(response);
-        return response;
+        Response r = target.request(MediaType.APPLICATION_JSON).get(Response.class);
+        return r;
     }
 }
