@@ -22,24 +22,32 @@ angular.module('myApp.Search', ['ngRoute'])
                 self.searchRequest = {};
                 self.search = function () {
                     if (self.searchRequest.destination === undefined || self.searchRequest.destination === "") {
-                        SearchFactory.getAllFlightsFromOrigin(self.searchRequest)
-                            .success(function (results) {
-                                self.results = results;
+                        SearchFactory.getAllFlightsFromOrigin(self.searchRequest).then(function (response){
+                            var status = response.status;
+                            var data = response.data;
+                            if(status === 204){
+                                $rootScope.error = "Oops! No flights were found...\n We weren't able to find any flights matching your request. Please try again, perhaps with alternative dates or airports.";
+                            } else {
                                 self.ShowResults = true;
-                            })
-                            .error(function (data) {
-                                $rootScope.error = data.message;
-                            });
+                                self.results = data;
+                            }
+                        }, function (response) {
+                            $rootScope.error = response.data.message;
+                        });
                     }
                     else {
-                        SearchFactory.getAllFlightsFromOriginToDestination(self.searchRequest)
-                            .success(function (results) {
-                                self.results = results;
+                        SearchFactory.getAllFlightsFromOriginToDestination(self.searchRequest).then(function (response){
+                            var status = response.status;
+                            var data = response.data;
+                            if(status === 204){
+                                $rootScope.error = "Oops! No flights were found...\n We weren't able to find any flights matching your request. Please try again, perhaps with alternative dates or airports.";
+                            } else {
                                 self.ShowResults = true;
-                            })
-                            .error(function (data) {
-                                $rootScope.error = data.message;
-                            });
+                                self.results = data;
+                            }
+                        }, function (response) {
+                            $rootScope.error = response.data.message;
+                        });
                     }
                 };
 
