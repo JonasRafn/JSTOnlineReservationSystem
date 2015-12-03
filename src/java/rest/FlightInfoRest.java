@@ -26,7 +26,7 @@ public class FlightInfoRest {
     private IFlightFacade ctrl;
     private Gson gson;
     private EntityManagerFactory emf;
-
+    
     public FlightInfoRest() {
         emf = Persistence.createEntityManagerFactory(DeploymentConfiguration.PU_NAME);
         ctrl = new FlightFacade(emf);

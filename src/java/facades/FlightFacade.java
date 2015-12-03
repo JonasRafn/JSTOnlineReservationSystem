@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import deploy.DeploymentConfiguration;
+import com.google.gson.JsonSyntaxException;
 import dto.AirlineDTO;
 import dto.FlightDTO;
 import entity.AirlineApi;
@@ -23,11 +23,8 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
 import exception.NotFoundException;
 import exception.ServerException;
@@ -104,16 +101,21 @@ public class FlightFacade implements IFlightFacade {
                     //case 500: 3. Internal server error
                     case 200:
                         // OK
-                        JsonObject jo = gson.fromJson(re, JsonObject.class);
-                        airline = new AirlineDTO(gson.fromJson(jo.get("airline").toString(), String.class)); //save airline name
-                        for (JsonElement element : jo.getAsJsonArray("flights")) { //save flights
-                            JsonObject asJsonObject = element.getAsJsonObject();
-                            FlightDTO dto = gson.fromJson(asJsonObject, FlightDTO.class);
-                            dto.setDestinationCity(airports.get(dto.getDestination()).getCity());
-                            dto.setOriginCity(airports.get(dto.getOrigin()).getCity());
-                            dto.setDestinationDate(calculateLocalTime(airports.get(dto.getOrigin()).getTimeZone(), airports.get(dto.getDestination()).getTimeZone(), dto.getTraveltime(), dto.getDate()));
-                            airline.addFlights(dto);
-                            dto.getTotalPrice();
+                        try {
+                            JsonObject jo = gson.fromJson(re, JsonObject.class);
+                            airline = new AirlineDTO(gson.fromJson(jo.get("airline").toString(), String.class)); //save airline name
+                            for (JsonElement element : jo.getAsJsonArray("flights")) { //save flights
+                                JsonObject asJsonObject = element.getAsJsonObject();
+                                FlightDTO dto = gson.fromJson(asJsonObject, FlightDTO.class);
+                                dto.setDestinationCity(airports.get(dto.getDestination()).getCity());
+                                dto.setOriginCity(airports.get(dto.getOrigin()).getCity());
+                                dto.setDestinationDate(calculateLocalTime(airports.get(dto.getOrigin()).getTimeZone(), airports.get(dto.getDestination()).getTimeZone(), dto.getTraveltime(), dto.getDate()));
+                                airline.addFlights(dto);
+                                dto.getTotalPrice();
+                            }
+                        } catch (JsonSyntaxException e) {
+                            //just skip that airline
+                            break;
                         }
                         airlines.add(airline);
                         break;
@@ -132,10 +134,6 @@ public class FlightFacade implements IFlightFacade {
             }
         }
         if (airlines.isEmpty()) {
-            /*message stolen from momondo...
-            "Oops! No flights were found...\n"
-            + "We weren't able to find any flights matching your request.\n"
-            + "Please try again, perhaps with alternative dates or airports.");*/
             throw new NoResultException();
         }
         return airlines;

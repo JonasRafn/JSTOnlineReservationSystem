@@ -33,7 +33,7 @@ public class FlightFacadeTest {
         }
         List<AirlineDTO> airlines = ctrl.getFlights("CPH", "", "2016-01-04T10:00:00.000Z", 3);
         assertEquals(3, airlines.size());
-        assertTrue(airlines.get(0).getFlights().get(0).getFlightId().equals("COL3256"));
+        assertTrue(airlines.get(0).getFlights().get(0).getFlightID().equals("COL3256"));
     }
 
     @Test
@@ -48,7 +48,7 @@ public class FlightFacadeTest {
         }
         List<AirlineDTO> airlines = ctrl.getFlights("CPH", "SXF", "2016-01-01T00:00:00.000Z", 3);
         assertEquals(3, airlines.size());
-        assertTrue(airlines.get(0).getFlights().get(0).getFlightId().equals("COL2214"));
+        assertTrue(airlines.get(0).getFlights().get(0).getFlightID().equals("COL2214"));
     }
 
     @Test
