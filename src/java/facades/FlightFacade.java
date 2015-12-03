@@ -52,6 +52,26 @@ public class FlightFacade implements IFlightFacade {
         gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").setPrettyPrinting().create();
     }
 
+    /**
+     * get all available flights from all airlines
+     *
+     * 1. Check if airport to and from exists in DB, otherwise throw exception
+     * 2. Check if date is valid, otherwise throw exception 3. Execute the
+     * callable "GetFlights.class" which takes each airline-api url as input and
+     * output a Response object. 4. Loop through all futures and use the
+     * Response to return a list of dto-airlines, each containing a list of
+     * dto-flights.
+     *
+     * @param from
+     * @param to
+     * @param stringDate
+     * @param numTickets
+     * @return list containing AirlineDTOs
+     * @throws NotFoundException
+     * @throws NoResultException
+     * @throws BadRequestException
+     * @throws ServerException
+     */
     @Override
     public List<AirlineDTO> getFlights(String from, String to, String stringDate, int numTickets) throws NotFoundException, NoResultException, BadRequestException, ServerException {
         List<AirlineDTO> airlines = new ArrayList();
@@ -62,12 +82,12 @@ public class FlightFacade implements IFlightFacade {
         if (airports.isEmpty()) {
             throw new ServerException("Something went wrong. Please try again");
         }
-
         if (!airports.containsKey(to) && !to.isEmpty()) {
             throw new NotFoundException("Unknown destination airport: " + to);
         } else if (!airports.containsKey(from)) {
             throw new NotFoundException("Unknown origin airport: " + from);
         }
+
         //validate date
         DateFormat ISO8601Date = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
         try {
@@ -81,7 +101,7 @@ public class FlightFacade implements IFlightFacade {
             to = "/" + to;
         }
 
-        ExecutorService executor = Executors.newFixedThreadPool(4);
+        ExecutorService executor = Executors.newFixedThreadPool(12);
         for (AirlineApi api : airlineApiList) {
             String url = api.getUrl() + "api/flightinfo/" + from + to + "/" + stringDate + "/" + numTickets;
             Future<Response> future = executor.submit(new GetFlights(url));
@@ -127,6 +147,7 @@ public class FlightFacade implements IFlightFacade {
                 System.out.println("##--Call timeout--##");
                 //do nothing
             } catch (JsonSyntaxException ex) {
+                System.out.println("##--Wrong Json syntax--##");
                 //just skip that airline
             }
         }
@@ -136,6 +157,12 @@ public class FlightFacade implements IFlightFacade {
         return airlines;
     }
 
+    /**
+     * get all AirlineAPI entities from DB
+     *
+     * @return list containing AirlineApi objects
+     * @throws ServerException if returned list is empty
+     */
     private List<AirlineApi> getAirlineApiList() throws ServerException {
         EntityManager em = getEntityManager();
         List<AirlineApi> airlineApiList = new ArrayList();
@@ -151,6 +178,15 @@ public class FlightFacade implements IFlightFacade {
         return airlineApiList;
     }
 
+    /**
+     * Calculates local datetime in destination, taking traveltime into account
+     *
+     * @param originTZ origin timezone
+     * @param destinationTZ destination timezone
+     * @param travelTime travel time in minutes
+     * @param travelDate travel date from origin
+     * @return local datetime in destination
+     */
     private Date calculateLocalTime(String originTZ, String destinationTZ, int travelTime, Date travelDate) {
         TimeZone originTimeZone = TimeZone.getTimeZone(originTZ);
         TimeZone destinationTimeZone = TimeZone.getTimeZone(destinationTZ);
@@ -159,6 +195,11 @@ public class FlightFacade implements IFlightFacade {
         return adjustedDate;
     }
 
+    /**
+     * get All Airports from DB
+     *
+     * @return return map containing Airport objects with IATA-code as key
+     */
     private Map<String, Airport> cacheAirports() {
         EntityManager em = getEntityManager();
         Map<String, Airport> airportMap = new HashMap();
