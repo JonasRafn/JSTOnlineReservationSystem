@@ -6,19 +6,19 @@
             <thead>
                 <tr>
                     <th>Airline</th>
-                    <th>Origin</th>
+                    <th>Departure</th>
                     <th>Flight time</th>
-                    <th>Destination</th>
+                    <th>Arrival</th>
                     <th>Price</th>
                     <th></th>
                 </tr>
             </thead>
             <tbody> 
                 <tr>
-                    <td>{{airline.airline}}</td>
-                    <td>{{flight.origin}} {{flight.date| date: 'H:mm'}} <br/> {{flight.originCity}} </td>
-                    <td>{{flight.traveltime}}</td>
-                    <td>{{flight.destination}} {{flight.arrivalTime}} <br/> {{flight.destinationCity}}</td>
+                    <td>{{airline.airline}} <br/> {{flight.flightID}}</td>
+                    <td>{{flight.origin}} {{flight.originCity}} <br/> {{flight.date| date: 'dd-MM-yyyy HH:mm'}} </td>
+                    <td>{{flight.traveltime | formatTimer | date:'H:mm'}}</td>
+                    <td>{{flight.destination}} {{flight.destinationCity}} <br/> {{flight.destinationDate| date: 'dd-MM-yyyy HH:mm'}}</td>
                     <td>{{flight.totalPrice| currency}} <br/> {{flight.pricePerson| currency}}</td>
                     <td><a href="#/reserve"><button class="btn btn-primary" id="search">Book</button></a></td>
                 </tr>
