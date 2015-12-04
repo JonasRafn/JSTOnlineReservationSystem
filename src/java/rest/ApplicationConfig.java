@@ -19,9 +19,13 @@ public class ApplicationConfig extends Application {
      * out calling this method in getClasses().
      */
     private void addRestResourceClasses(Set<Class<?>> resources) {
-        resources.add(exception.BadRequestExceptionMapper.class);
+        resources.add(exceptionmapper.BadRequestExceptionMapper.class);
+        resources.add(exceptionmapper.NoResultExceptionMapper.class);
+        resources.add(exceptionmapper.NotFoundExceptionMapper.class);
+        resources.add(exceptionmapper.ServerExceptionMapper.class);
         resources.add(exceptionmapper.UserAlreadyExistExceptionMapper.class);
         resources.add(rest.Admin.class);
+        resources.add(rest.AirportRest.class);
         resources.add(rest.CreateUserRest.class);
         resources.add(rest.FlightInfoRest.class);
         resources.add(rest.User.class);

@@ -4,16 +4,22 @@ import java.util.Date;
 
 public class FlightDTO {
 
-    private String flightId;
+    private String flightID;
     private int numberOfSeats;
     private Date date;
     private float totalPrice;
     private int traveltime;
     private String origin;
+    private String originCity;
     private String destination;
+    private String destinationCity;
+    private Date destinationDate;
 
-    public FlightDTO(String flightId, int numberOfSeats, Date date, float totalPrice, int traveltime, String origin, String destination) {
-        this.flightId = flightId;
+    public FlightDTO() {
+    }
+
+    public FlightDTO(String flightID, int numberOfSeats, Date date, float totalPrice, int traveltime, String origin, String destination) {
+        this.flightID = flightID;
         this.numberOfSeats = numberOfSeats;
         this.date = date;
         this.totalPrice = totalPrice;
@@ -22,12 +28,12 @@ public class FlightDTO {
         this.destination = destination;
     }
 
-    public String getFlightId() {
-        return flightId;
+    public String getFlightID() {
+        return flightID;
     }
 
-    public void setFlightId(String flightId) {
-        this.flightId = flightId;
+    public void setFlightID(String flightID) {
+        this.flightID = flightID;
     }
 
     public int getNumberOfSeats() {
@@ -76,5 +82,29 @@ public class FlightDTO {
 
     public void setDestination(String destination) {
         this.destination = destination;
+    }
+
+    public Date getDestinationDate() {
+        return destinationDate;
+    }
+
+    public void setDestinationDate(Date destinationDate) {
+        this.destinationDate = destinationDate;
+    }
+
+    public String getOriginCity() {
+        return originCity;
+    }
+
+    public void setOriginCity(String originCity) {
+        this.originCity = originCity;
+    }
+
+    public String getDestinationCity() {
+        return destinationCity;
+    }
+
+    public void setDestinationCity(String destinationCity) {
+        this.destinationCity = destinationCity;
     }
 }

@@ -5,12 +5,11 @@ import com.google.gson.GsonBuilder;
 import deploy.DeploymentConfiguration;
 import dto.AirlineDTO;
 import exception.BadRequestException;
+import exception.NoResultException;
+import exception.NotFoundException;
+import exception.ServerException;
 import facades.FlightFacade;
 import interfaces.IFlightFacade;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -27,8 +26,9 @@ public class FlightInfoRest {
     private IFlightFacade ctrl;
     private Gson gson;
     private EntityManagerFactory emf;
-
+    
     public FlightInfoRest() {
+        DeploymentConfiguration.setTestModeOn(); // testing only!
         emf = Persistence.createEntityManagerFactory(DeploymentConfiguration.PU_NAME);
         ctrl = new FlightFacade(emf);
         gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").setPrettyPrinting().create();
@@ -37,7 +37,8 @@ public class FlightInfoRest {
     @GET
     @Path("{from}/{date}/{persons}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getFlightsFrom(@PathParam("from") String from, @PathParam("date") String stringDate, @PathParam("persons") int persons) throws BadRequestException  {
+    public Response getFlightsFrom(@PathParam("from") String from, @PathParam("date") String stringDate, @PathParam("persons") int persons)
+            throws NotFoundException, NoResultException, BadRequestException, ServerException {
         try {
             List<AirlineDTO> flightsFrom = ctrl.getFlights(from, "", stringDate, persons);
             return Response.ok(gson.toJson(flightsFrom)).build();
@@ -48,7 +49,8 @@ public class FlightInfoRest {
     @GET
     @Path("{from}/{to}/{date}/{persons}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getFlightsFromTo(@PathParam("from") String from, @PathParam("to") String to, @PathParam("date") String stringDate, @PathParam("persons") int persons) throws BadRequestException  {
+    public Response getFlightsFromTo(@PathParam("from") String from, @PathParam("to") String to, @PathParam("date") String stringDate, @PathParam("persons") int persons)
+            throws NotFoundException, NoResultException, BadRequestException, ServerException {
         try {
             List<AirlineDTO> flightsFrom = ctrl.getFlights(from, to, stringDate, persons);
             return Response.ok(gson.toJson(flightsFrom)).build();
