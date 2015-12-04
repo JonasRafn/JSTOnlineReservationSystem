@@ -98,16 +98,26 @@ angular.module('myApp.Search', ['ngRoute'])
         .factory('SearchFactory', ['$http', function ($http, $rootScope) {
                 var getAllFlightsFromOrigin = function (searchRequest) {
                     var origin = parseIATACode(searchRequest.origin);
-                    var url = "api/flightinfo/" + origin + "/" + searchRequest.departing.toISOString() + "/" + searchRequest.numberOfTickets;
+                    var departing = dateTransform(searchRequest.departing);
+                    console.log(departing.toISOString());
+                    var url = "api/flightinfo/" + origin + "/" + departing.toISOString() + "/" + searchRequest.numberOfTickets;
                     return $http.get(url);
                 };
 
                 var getAllFlightsFromOriginToDestination = function (searchRequest) {
                     var origin = parseIATACode(searchRequest.origin);
                     var destination = parseIATACode(searchRequest.destination);
-                    var url = "api/flightinfo/" + origin + "/" + destination + "/" + searchRequest.departing.toISOString() + "/" + searchRequest.numberOfTickets;
+                    var departing = dateTransform(searchRequest.departing);
+                    var url = "api/flightinfo/" + origin + "/" + destination + "/" + departing.toISOString() + "/" + searchRequest.numberOfTickets;
                     return $http.get(url);
-                };    
+                };
+                
+                var dateTransform = function(date){
+                    var year = date.getFullYear();
+                    var month = date.getMonth();
+                    var day = date.getDate();
+                    return new Date(year,month,day,1);
+                };
                 
                 // Method uses to parse the IATACode fx. CPH 
                 var parseIATACode = function (Airport) {
