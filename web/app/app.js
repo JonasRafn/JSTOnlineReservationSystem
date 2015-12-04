@@ -9,7 +9,8 @@ angular.module('myApp', [
   'myApp.Reserve',
   'myApp.Results',
   'myApp.Search',
-  'myApp.CreateUser'
+  'myApp.CreateUser',
+  'myApp.Documentation'
 ]).
 config(['$routeProvider', function($routeProvider) {
   $routeProvider.otherwise({redirectTo: '/search'});
