@@ -56,7 +56,7 @@ public class FlightInfoRestTest {
                 statusCode(200).
                 body("[0].size()", equalTo(2)).
                 body("[0].airline", equalTo("AngularJS Airline-TestAirlineNo: 1")).
-                body("[0].flights[0].flightID", equalTo("COL2216")).
+                body("[0].flights[0].flightID", equalTo("COL2216x100x2016-01-01T15:00:00.000Z")).
                 body("[0].flights[0].numberOfSeats", equalTo(3)).
                 body("[0].flights[0].date", equalTo("2016-01-01T15:00:00.000Z")).
                 body("[0].flights[0].totalPrice", equalTo(210f)).
@@ -66,7 +66,7 @@ public class FlightInfoRestTest {
                 body("[0].flights[0].destination", equalTo("SXF")).
                 body("[0].flights[0].destinationCity", equalTo("Berlin")).
                 body("[0].flights[0].destinationDate", equalTo("2016-01-01T16:00:00.000Z")).
-                body("[0].flights[1].flightID", equalTo("COL2214")).
+                body("[0].flights[1].flightID", equalTo("COL2214x100x2016-01-01T06:00:00.000Z")).
                 body("[0].flights[1].numberOfSeats", equalTo(3)).
                 body("[0].flights[1].date", equalTo("2016-01-01T06:00:00.000Z")).
                 body("[0].flights[1].totalPrice", equalTo(225f)).
@@ -83,7 +83,7 @@ public class FlightInfoRestTest {
                 statusCode(200).
                 body("size()", equalTo(1)).
                 body("[0].airline", equalTo("AngularJS Airline-TestAirlineNo: 1")).
-                body("[0].flights[0].flightID", equalTo("COL2214")).
+                body("[0].flights[0].flightID", equalTo("COL2214x100x2016-06-15T06:00:00.000Z")).
                 body("[0].flights[0].numberOfSeats", equalTo(4)).
                 body("[0].flights[0].date", equalTo("2016-06-15T06:00:00.000Z")).
                 body("[0].flights[0].totalPrice", equalTo(300f)).

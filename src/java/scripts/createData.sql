@@ -1,6 +1,13 @@
+------------- CreateData.sql ------------------
+
+------------- Insert airline api url's -----------------------
+
 insert into airline_api (group_name, members, url) values ('angular_airline1', 'Test Airline for Sprint 1', 'http://angularairline-plaul.rhcloud.com/');
 insert into airline_api (group_name, members, url) values ('angular_airline2', 'Test Airline for Sprint 1', 'http://angularairline-plaul.rhcloud.com/');
 insert into airline_api (group_name, members, url) values ('angular_airline3', 'Test Airline for Sprint 1', 'http://angularairline-plaul.rhcloud.com/');
+
+
+------------ Insert Airports ------------------
 
 insert into airport (IATA_CODE, city, airport_name, country, time_zone) values ('CPH', 'Copenhagen', 'Copenhagen Airport', 'Denmark','Europe/Copenhagen');
 insert into airport (IATA_CODE, city, airport_name, country, time_zone) values ('STN', 'London', 'London Stansted Airport', 'England', 'Europe/London');
@@ -27,3 +34,18 @@ insert into airport (IATA_CODE, city, airport_name, country, time_zone) values (
 insert into airport (IATA_CODE, city, airport_name, country, time_zone) values ('BBU', 'Bucharest', 'Băneasa International Airport','Romania', 'Europe/Bucharest');
 insert into airport (IATA_CODE, city, airport_name, country, time_zone) values ('HEM', 'Helsinki', 'Helsinki Malmi Airport','Findland', 'Europe/Helsinki');
 insert into airport (IATA_CODE, city, airport_name, country, time_zone) values ('SIN', 'Singapore', 'Singapore Changi International Airport','Singapore', 'Asia/Singapore');
+
+
+------------ Insert Roles and Users ----------------
+
+insert into userrole (ROLENAME) values ('User');
+insert into userrole (ROLENAME) values ('Admin');
+
+insert into systemuser (USERNAME, PASSWORD) values ('admin', '1000:ac2f87c3602ee1588535e0e196e508bfd563dc544a6dadcd:0824eebf1a4de2cf3f435cdcea90ee408c97bf8c66bbb2f2');
+insert into systemuser (USERNAME, PASSWORD) values ('user', '1000:2f05b308ffea5460622f1d8eb5b8036d5f231caddbfb52e0:e6d0fcd188b6c3e26f989e020f34a1fd14c14690ff2ac17f');
+insert into systemuser (USERNAME, PASSWORD) values ('user_admin', '1000:39e4a415622f639246c52492920ccd76750b633029413d93:01a34ed109d037c662b11fa86ea2de486d4af8343b677755');
+
+insert into systemuser_userrole (userName, roleName) values ('admin', 'Admin');
+insert into systemuser_userrole (userName, roleName) values ('user_admin', 'Admin');
+insert into systemuser_userrole (userName, roleName) values ('user_admin', 'User');
+insert into systemuser_userrole (userName, roleName) values ('user', 'User');
