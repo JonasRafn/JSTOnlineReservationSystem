@@ -20,8 +20,9 @@ import static org.junit.Assert.assertTrue;
 
 /**
  * Tests the implementation of IFlightFacade: FlightFacade
- * 
- * Todo: Test for malformed jSon - we need to implement json-schema validation first.
+ *
+ * Todo: Test for malformed jSon - we need to implement json-schema validation
+ * first.
  */
 public class FlightFacadeTest {
 
@@ -38,8 +39,8 @@ public class FlightFacadeTest {
     public void getFlightFromSuccess() throws Exception {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory(DeploymentConfiguration.PU_NAME);
         IFlightFacade ctrl = new FlightFacade(emf);
-        String stringDate = "2016-01-04T10:00:00.000Z";
-        String stringDestDate = "2016-01-04T10:30:00.000Z";
+        String stringDate = "2016-01-04T15:00:00.000Z";
+        String stringDestDate = "2016-01-04T16:00:00.000Z";
         DateFormat sdfISO = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
         Date date = null;
         Date destDate = null;
@@ -51,15 +52,15 @@ public class FlightFacadeTest {
         List<AirlineDTO> airlines = ctrl.getFlights("CPH", "", stringDate, 3);
         assertEquals(1, airlines.size());
         assertTrue(airlines.get(0).getAirline().equals("AngularJS Airline-TestAirlineNo: 1"));
-        assertTrue(airlines.get(0).getFlights().get(0).getFlightID().equals("COL3256"));
+        assertTrue(airlines.get(0).getFlights().get(0).getFlightID().equals("COL2216x100x2016-01-04T15:00:00.000Z"));
         assertTrue(airlines.get(0).getFlights().get(0).getNumberOfSeats() == 3);
         assertTrue(airlines.get(0).getFlights().get(0).getDate().equals(date));
-        assertTrue(airlines.get(0).getFlights().get(0).getTotalPrice() == 195);
-        assertTrue(airlines.get(0).getFlights().get(0).getTraveltime() == 90);
+        assertTrue(airlines.get(0).getFlights().get(0).getTotalPrice() == 210);
+        assertTrue(airlines.get(0).getFlights().get(0).getTraveltime() == 60);
         assertTrue(airlines.get(0).getFlights().get(0).getOrigin().equals("CPH"));
         assertTrue(airlines.get(0).getFlights().get(0).getOriginCity().equals("Copenhagen"));
-        assertTrue(airlines.get(0).getFlights().get(0).getDestination().equals("STN"));
-        assertTrue(airlines.get(0).getFlights().get(0).getDestinationCity().equals("London"));
+        assertTrue(airlines.get(0).getFlights().get(0).getDestination().equals("SXF"));
+        assertTrue(airlines.get(0).getFlights().get(0).getDestinationCity().equals("Berlin"));
         assertTrue(airlines.get(0).getFlights().get(0).getDestinationDate().equals(destDate));
     }
 
@@ -72,24 +73,23 @@ public class FlightFacadeTest {
     public void getFlightFromToSuccess() throws Exception {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory(DeploymentConfiguration.PU_NAME);
         IFlightFacade ctrl = new FlightFacade(emf);
-        String stringDate = "2016-04-01T06:00:00.000Z";
-        String stringDestDate = "2016-04-01T07:00:00.000Z";
+        String stringDate = "2016-04-01T15:00:00.000Z";
+        String stringDestDate = "2016-04-01T16:00:00.000Z";
         DateFormat sdfISO = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
         Date date = null;
         Date destDate = null;
         try {
             date = sdfISO.parse(stringDate);
-            System.out.println(date.toString());
             destDate = sdfISO.parse(stringDestDate);
         } catch (ParseException ex) {
         }
         List<AirlineDTO> airlines = ctrl.getFlights("CPH", "SXF", stringDate, 3);
         assertEquals(1, airlines.size());
-        assertTrue(airlines.get(0).getFlights().get(1).getFlightID().equals("COL2214"));
+        assertTrue(airlines.get(0).getFlights().get(1).getFlightID().equals("COL2216x100x2016-04-01T15:00:00.000Z"));
         assertTrue(airlines.get(0).getFlights().get(1).getNumberOfSeats() == 3);
         assertEquals(date, airlines.get(0).getFlights().get(1).getDate());
         assertTrue(airlines.get(0).getFlights().get(1).getDate().equals(date));
-        assertTrue(airlines.get(0).getFlights().get(1).getTotalPrice() == 225);
+        assertTrue(airlines.get(0).getFlights().get(1).getTotalPrice() == 210);
         assertTrue(airlines.get(0).getFlights().get(1).getTraveltime() == 60);
         assertTrue(airlines.get(0).getFlights().get(1).getOrigin().equals("CPH"));
         assertTrue(airlines.get(0).getFlights().get(1).getOriginCity().equals("Copenhagen"));
@@ -255,7 +255,7 @@ public class FlightFacadeTest {
 
     /**
      * Test NoResultException from "getFlights()" when no flights are available
-     * with [from] and [to] parameters. No flights available. 
+     * with [from] and [to] parameters. No flights available.
      *
      * @throws Exception
      */

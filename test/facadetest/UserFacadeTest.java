@@ -20,7 +20,7 @@ public class UserFacadeTest {
 
     @BeforeClass
     public static void setUpClass() {
-//        DeploymentConfiguration.setTestModeOn();
+        DeploymentConfiguration.setTestModeOn();
     }
 
     @AfterClass
@@ -41,7 +41,6 @@ public class UserFacadeTest {
         User user = new User("ole", "test");
         facade.createUser(user);
         assertEquals("ole", facade.getUserByUserId(user.getUserName()).getUserName());
-//        assertEquals(4, facade.getAllUsers().size());
         facade.deleteUserById("ole");
     }
 }
