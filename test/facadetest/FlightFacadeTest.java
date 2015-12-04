@@ -79,7 +79,6 @@ public class FlightFacadeTest {
         Date destDate = null;
         try {
             date = sdfISO.parse(stringDate);
-            System.out.println(date.toString());
             destDate = sdfISO.parse(stringDestDate);
         } catch (ParseException ex) {
         }
