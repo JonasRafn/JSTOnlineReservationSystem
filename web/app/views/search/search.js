@@ -121,8 +121,8 @@ angular.module('myApp.Search', ['ngRoute'])
                 
                 // Method uses to parse the IATACode fx. CPH 
                 var parseIATACode = function (Airport) {
-                    var partsArray = Airport.split(' ');
-                    return partsArray[1].substring(1, 4);
+                    var partsArray = Airport.split('(');
+                    return partsArray[1].substring(0, 3);
                 };
                 
                 return {
