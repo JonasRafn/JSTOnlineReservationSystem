@@ -1,13 +1,6 @@
-------------- CreateData.sql ------------------
-
-------------- Insert airline api url's -----------------------
-
 insert into airline_api (group_name, members, url) values ('angular_airline1', 'Test Airline for Sprint 1', 'http://angularairline-plaul.rhcloud.com/');
 insert into airline_api (group_name, members, url) values ('angular_airline2', 'Test Airline for Sprint 1', 'http://angularairline-plaul.rhcloud.com/');
 insert into airline_api (group_name, members, url) values ('angular_airline3', 'Test Airline for Sprint 1', 'http://angularairline-plaul.rhcloud.com/');
-
-
------------- Insert Airports ------------------
 
 insert into airport (IATA_CODE, city, airport_name, country, time_zone) values ('CPH', 'Copenhagen', 'Copenhagen Airport', 'Denmark','Europe/Copenhagen');
 insert into airport (IATA_CODE, city, airport_name, country, time_zone) values ('STN', 'London', 'London Stansted Airport', 'England', 'Europe/London');
@@ -34,9 +27,6 @@ insert into airport (IATA_CODE, city, airport_name, country, time_zone) values (
 insert into airport (IATA_CODE, city, airport_name, country, time_zone) values ('BBU', 'Bucharest', 'Băneasa International Airport','Romania', 'Europe/Bucharest');
 insert into airport (IATA_CODE, city, airport_name, country, time_zone) values ('HEM', 'Helsinki', 'Helsinki Malmi Airport','Findland', 'Europe/Helsinki');
 insert into airport (IATA_CODE, city, airport_name, country, time_zone) values ('SIN', 'Singapore', 'Singapore Changi International Airport','Singapore', 'Asia/Singapore');
-
-
------------- Insert Roles and Users ----------------
 
 insert into userrole (ROLENAME) values ('User');
 insert into userrole (ROLENAME) values ('Admin');

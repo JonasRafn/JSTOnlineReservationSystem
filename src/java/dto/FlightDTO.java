@@ -1,6 +1,5 @@
 package dto;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -11,6 +10,7 @@ public class FlightDTO {
     private int numberOfSeats;
     private Date date;
     private float totalPrice;
+    private float pricePerson;
     private int traveltime;
     private String origin;
     private String originCity;
@@ -18,9 +18,9 @@ public class FlightDTO {
     private String destinationCity;
     private Date destinationDate;
 
-//    public FlightDTO() {
-//    }
-
+    public FlightDTO() {
+    }
+    
     public FlightDTO(String flightID, int numberOfSeats, Date date, float totalPrice, int traveltime, String origin, String destination) {
         this.flightID = flightID;
         this.numberOfSeats = numberOfSeats;
@@ -38,10 +38,14 @@ public class FlightDTO {
     public void setFlightID(String flightID) {
         this.flightID = flightID;
     }
-    
+
     public void formatFlightIDCode(String str) {
         List<String> flightIDList = Arrays.asList(flightID.split("x"));
         this.flightID = flightIDList.get(0);
+    }
+    
+    public void calculatePricePerPerson() {
+        this.pricePerson = totalPrice / numberOfSeats;
     }
 
     public int getNumberOfSeats() {
