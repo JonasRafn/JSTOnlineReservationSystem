@@ -27,6 +27,7 @@ public class CreateUserRestTest {
         defaultParser = Parser.JSON;
         basePath = "/api";
     }
+    
 
     @BeforeClass
     public static void setUpClass() throws Exception {

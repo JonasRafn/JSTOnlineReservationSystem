@@ -29,8 +29,8 @@ public class AirportFacadeTest {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory(DeploymentConfiguration.PU_NAME);
         IAirportFacade ctrl = new AirportFacade(emf);
         List<Airport> airports = ctrl.getAirports();
-        assertEquals(5, airports.size());
-        assertEquals("CPH", airports.get(2).getIATACode());
+        assertEquals(25, airports.size());
+        assertEquals("CPH", airports.get(5).getIATACode());
     }
     
 }

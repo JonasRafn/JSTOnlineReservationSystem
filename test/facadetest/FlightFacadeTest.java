@@ -20,8 +20,9 @@ import static org.junit.Assert.assertTrue;
 
 /**
  * Tests the implementation of IFlightFacade: FlightFacade
- * 
- * Todo: Test for malformed jSon - we need to implement json-schema validation first.
+ *
+ * Todo: Test for malformed jSon - we need to implement json-schema validation
+ * first.
  */
 public class FlightFacadeTest {
 
@@ -254,7 +255,7 @@ public class FlightFacadeTest {
 
     /**
      * Test NoResultException from "getFlights()" when no flights are available
-     * with [from] and [to] parameters. No flights available. 
+     * with [from] and [to] parameters. No flights available.
      *
      * @throws Exception
      */

@@ -72,14 +72,11 @@ public class UserFacade implements IUserFacade {
             List<Role> roles = u.getRoles();
             for (Role role : roles) {
                 Role newRole = em.find(Role.class, role.getRoleName());
-                System.out.println(newRole.getRoleName());
                 newUser.AddRole(newRole);
             }
             try {
                 newUser.setPassword(PasswordHash.createHash(u.getPassword()));
-            } catch (NoSuchAlgorithmException ex) {
-                Logger.getLogger(UserFacade.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (InvalidKeySpecException ex) {
+            } catch (NoSuchAlgorithmException | InvalidKeySpecException ex) {
                 Logger.getLogger(UserFacade.class.getName()).log(Level.SEVERE, null, ex);
             }
             em.getTransaction().begin();
