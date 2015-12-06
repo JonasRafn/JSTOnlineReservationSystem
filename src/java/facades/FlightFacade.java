@@ -126,6 +126,7 @@ public class FlightFacade implements IFlightFacade {
                         for (JsonElement element : jo.getAsJsonArray("flights")) { //save flights
                             JsonObject asJsonObject = element.getAsJsonObject();
                             FlightDTO dto = gson.fromJson(asJsonObject, FlightDTO.class);
+                            dto.formatFlightIDCode(dto.getFlightID());
                             dto.setDestinationCity(airports.get(dto.getDestination()).getCity());
                             dto.setOriginCity(airports.get(dto.getOrigin()).getCity());
                             dto.setDestinationDate(calculateLocalTime(airports.get(dto.getOrigin()).getTimeZone(), airports.get(dto.getDestination()).getTimeZone(), dto.getTraveltime(), dto.getDate()));

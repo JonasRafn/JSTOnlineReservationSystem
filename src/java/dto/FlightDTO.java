@@ -1,6 +1,9 @@
 package dto;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 public class FlightDTO {
 
@@ -15,8 +18,8 @@ public class FlightDTO {
     private String destinationCity;
     private Date destinationDate;
 
-    public FlightDTO() {
-    }
+//    public FlightDTO() {
+//    }
 
     public FlightDTO(String flightID, int numberOfSeats, Date date, float totalPrice, int traveltime, String origin, String destination) {
         this.flightID = flightID;
@@ -34,6 +37,11 @@ public class FlightDTO {
 
     public void setFlightID(String flightID) {
         this.flightID = flightID;
+    }
+    
+    public void formatFlightIDCode(String str) {
+        List<String> flightIDList = Arrays.asList(flightID.split("x"));
+        this.flightID = flightIDList.get(0);
     }
 
     public int getNumberOfSeats() {
