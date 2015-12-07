@@ -58,3 +58,5 @@ ol.list > li:before {
     margin-top: 24px;
     
 }
+
+table {border: 1px solid gainsboro;}
