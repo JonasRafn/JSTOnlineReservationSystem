@@ -40,9 +40,18 @@ public class CreateUserRest {
     @Produces(MediaType.APPLICATION_JSON)
     public Response createUser(String user) throws UserAlreadyExistException {
         entity.User u = gson.fromJson(user, entity.User.class);
-        Role role = new Role("User");
-        u.AddRole(role);
-        uf.createUser(u);
-        return Response.status(Response.Status.CREATED).entity(u).build();
+        if (u.getUserName() == null | u.getUserName().equals("")) {
+            String error = "{\"message\":\"You must input a username!\"}";
+            return Response.status(Response.Status.BAD_REQUEST).entity(error).build();
+        } else if (u.getPassword() == null | u.getPassword().equals("")) {
+            String error = "{\"message\":\"You must input a password!\"}";
+            return Response.status(Response.Status.BAD_REQUEST).entity(error).build();
+        } else {
+
+            Role role = new Role("User");
+            u.AddRole(role);
+            uf.createUser(u);
+            return Response.status(Response.Status.CREATED).entity(u).build();
+        }
     }
 }
