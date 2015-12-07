@@ -19,7 +19,6 @@ public class GetFlights implements Callable<Response> {
     public Response call() {
         Client client;
         WebTarget target;
-
         String response = "";
         client = ClientBuilder.newClient();
         target = client.target(url);
