@@ -27,7 +27,6 @@ public class CreateUserRestTest {
         defaultParser = Parser.JSON;
         basePath = "/api";
     }
-    
 
     @BeforeClass
     public static void setUpClass() throws Exception {
@@ -92,5 +91,17 @@ public class CreateUserRestTest {
                 post("/create").
                 then().
                 statusCode(409);
+    }
+
+    @Test
+    public void createEmptyUser() {
+        User user1 = new User("", "");
+        //Create a new empty user 
+        given().contentType("application/json").
+                body(user1).
+                when().
+                post("/create").
+                then().
+                statusCode(400);
     }
 }
