@@ -24,25 +24,17 @@ angular.module('myApp.security', [])
                 $scope.logout();
             });
 
-          $scope.title = 'Flight Reservation';
-          $scope.username = "";
-          $scope.isAuthenticated = false;
-          $scope.isAdmin = false;
-          $scope.isUser = false;
-          $scope.message = '';
-          $scope.error = null;
-            $scope.isActive = function (viewLocation) {
-                return viewLocation === $location.path();
-            };
-
-
-            $scope.username = "";
+            $scope.title = 'Flight Reservation';
+            $rootScope.username = "";
             $scope.isAuthenticated = false;
             $scope.isAdmin = false;
             $scope.isUser = false;
             $scope.message = '';
             $scope.error = null;
             $scope.success = null;
+            $scope.isActive = function (viewLocation) {
+                return viewLocation === $location.path();
+            };
 
             $scope.login = function () {
                 $http
@@ -52,7 +44,8 @@ angular.module('myApp.security', [])
                             $scope.isAuthenticated = true;
                             var encodedProfile = data.token.split('.')[1];
                             var profile = JSON.parse(url_base64_decode(encodedProfile));
-                            $scope.username = profile.username;
+                            $rootScope.username = profile.username; //!!!
+                            console.log($rootScope.username);
                             var roles = profile.roles.split(",");
                             roles.forEach(function (role) {
                                 if (role === "Admin") {
@@ -72,7 +65,7 @@ angular.module('myApp.security', [])
                             $scope.isAuthenticated = false;
                             $scope.isAdmin = false;
                             $scope.isUser = false;
-                            $scope.username = "";
+                            $rootScope.username = "";
                             $scope.error = data.error;
                             //$scope.logout();  //Clears an eventual error message from timeout on the inner view
                         });
@@ -93,7 +86,7 @@ angular.module('myApp.security', [])
                     $scope.isAuthenticated = true;
                     var encodedProfile = token.split('.')[1];
                     var profile = JSON.parse(url_base64_decode(encodedProfile));
-                    $scope.username = profile.username;
+                    $rootScope.username = profile.username;
                     $scope.isAdmin = profile.role === "Admin";
                     $scope.isUser = !$scope.isAdmin;
                     $scope.error = null;
@@ -137,8 +130,7 @@ angular.module('myApp.security', [])
 
                     if (err.error.code === 401) {
                         $rootScope.error += " You are are not Authenticated - did you log on to the system";
-                    }
-                    else {
+                    } else {
                         $rootScope.error += err.error.message;
                     }
                     if (err.error.code === 403) {

@@ -1,0 +1,39 @@
+<div ng-controller="ReservationsCtrl as ctrl">
+    <h1>{{username}}'s reservations</h1>
+    <br>
+    <div>
+        <table class="table" ng-repeat="reservation in ctrl.getReservations(username)" >
+            <caption style="font-size: 20px">{{reservation.Origin}} <span class="glyphicon glyphicon-arrow-right"></span> {{reservation.Destination}}</caption>
+            <thead>
+                <tr>
+                    <th>Airline</th>
+                    <th>Departure</th>
+                    <th>Flight time</th>
+                    <th>Arrival</th>
+                    <th>Price</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody> 
+                <tr class="active">
+                    <td>{{reservation.airline}} <br/> {{reservation.flightID}}</td>
+                    <td>{{reservation.Origin}} <br/> {{reservation.Date| date: 'dd-MM-yyyy HH:mm'}} </td>
+                    <td>{{reservation.FlightTime| formatTimer | date:'H:mm'}}</td>
+                    <td>{{reservation.Destination}} <br/> {{reservation.destinationDate| date: 'dd-MM-yyyy HH:mm'}}</td>
+                    <td><p style="font-size:12px">{{reservation.pricePerson| currency}} per person</p>  <p style="font-size:20px">{{reservation.totalPrice| currency}}</p></td>
+                    <td><button ng-click="hiddenDiv = !hiddenDiv" type="button" class="btn btn-info">Passengers   <span class="badge">{{reservation.numberOfSeats}}</span></button></td>
+                </tr>
+            </tbody>
+            <tbody>
+                <tr>
+                    <th ng-show="hiddenDiv">Passengers</th>
+                </tr>
+                <tr ng-repeat="passenger in reservation.Passengers" >
+                    <td ng-show="hiddenDiv" style="padding: 5px"><p>{{passenger.firstName}} {{passenger.lastName}}</p></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+

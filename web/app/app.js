@@ -10,7 +10,8 @@ angular.module('myApp', [
   'myApp.Results',
   'myApp.Search',
   'myApp.CreateUser',
-  'myApp.Documentation'
+  'myApp.Documentation',
+  'myApp.Reservations'
 ]).
 config(['$routeProvider', function($routeProvider) {
   $routeProvider.otherwise({redirectTo: '/search'});
