@@ -11,7 +11,8 @@ import javax.persistence.Table;
 @Entity
 @Table(name="airline_api")
 @NamedQueries({
-    @NamedQuery(name = "AirlineApi.findAll", query = "SELECT a FROM AirlineApi a")})
+    @NamedQuery(name = "AirlineApi.findAll", query = "SELECT a FROM AirlineApi a"),
+    @NamedQuery(name = "AirlineApi.findAirline", query = "SELECT a FROM AirlineApi a WHERE a.groupName = :groupName")})
 public class AirlineApi implements Serializable {
     
     @Column(name="group_name")
