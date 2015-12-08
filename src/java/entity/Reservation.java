@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Temporal;
 
 @Entity
 public class Reservation implements Serializable {
@@ -28,6 +29,7 @@ public class Reservation implements Serializable {
     private int numberOfSeats;
     
     @Column(name="date")
+    @Temporal(javax.persistence.TemporalType.DATE)
     private Date date;
     
     @Column(name="total_price")
@@ -52,12 +54,13 @@ public class Reservation implements Serializable {
     private String destinationCity;
     
     @Column(name="destination_date")
+    @Temporal(javax.persistence.TemporalType.DATE)
     private Date destinationDate;
     
     @JoinColumn(name="passengers")
     private List<Passenger> passengers;
     
-    @Column(name="user")
+    @JoinColumn(name="user")
     private User user;
     
     
