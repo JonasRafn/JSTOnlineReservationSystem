@@ -22,6 +22,7 @@ public class ApplicationConfig extends Application {
         resources.add(exceptionmapper.BadRequestExceptionMapper.class);
         resources.add(exceptionmapper.NoResultExceptionMapper.class);
         resources.add(exceptionmapper.NotFoundExceptionMapper.class);
+        resources.add(exceptionmapper.ReservationExceptionMapper.class);
         resources.add(exceptionmapper.ServerExceptionMapper.class);
         resources.add(exceptionmapper.UserAlreadyExistExceptionMapper.class);
         resources.add(rest.Admin.class);

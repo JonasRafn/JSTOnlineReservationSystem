@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import deploy.DeploymentConfiguration;
 import entity.Reservation;
+import exception.ReservationException;
 import exception.ServerException;
 import facades.ReservationFacade;
 import interfaces.IReservationFacade;
@@ -42,9 +43,9 @@ public class ReservationRest {
     @POST
     @Path("{groupName}/{user}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response reservateTickets(@PathParam("groupName") String groupName, @PathParam("user") String user, String reservation) throws IOException, ServerException {
+    public Response reservateTickets(@PathParam("groupName") String groupName, @PathParam("user") String user, String reservation) throws IOException, ServerException, ReservationException {
         ctrl.reservateTickets(reservation, groupName, user);
-
-        return Response.status(Status.OK).entity("Hej").build();
+        String success = "{\"message\":\"Tickets succesfully reserved\"}";
+        return Response.status(Status.OK).entity(success).build();
     }
 }

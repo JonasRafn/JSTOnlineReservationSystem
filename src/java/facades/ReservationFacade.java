@@ -7,6 +7,7 @@ import entity.AirlineApi;
 import interfaces.IReservationFacade;
 import entity.Reservation;
 import entity.User;
+import exception.ReservationException;
 import exception.ServerException;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -47,7 +48,7 @@ public class ReservationFacade implements IReservationFacade {
      * @throws ServerException
      */
     @Override
-    public Reservation reservateTickets(String reservation, String groupName, String user) throws IOException, ServerException {
+    public Reservation reservateTickets(String reservation, String groupName, String user) throws IOException, ServerException, ReservationException {
         AirlineApi airlineApi = getAirlineApi(groupName);
 
         String url = airlineApi.getUrl() + "api/flightreservation";
@@ -72,15 +73,19 @@ public class ReservationFacade implements IReservationFacade {
         while (responseReader.hasNext()) {
             response += responseReader.nextLine() + System.getProperty("line.separator");
         }
+        if (con.getResponseCode() == 401 | con.getResponseCode() == 500) {
+            throw new ReservationException(con.getResponseMessage());
 
-        Reservation res = gson.fromJson(response, Reservation.class);
-        res.setAirline(airlineApi.getGroupName());
-        User user1 = new User(user, "");
-        res.setUser(user1);
+        } else {
+            Reservation res = gson.fromJson(response, Reservation.class);
+            res.setAirline(airlineApi.getGroupName());
+            User user1 = new User(user, "");
+            res.setUser(user1);
 
-        saveReservation(res);
+            saveReservation(res);
 
-        return res;
+            return res;
+        }
     }
 
     /**
