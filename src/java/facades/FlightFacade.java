@@ -9,6 +9,7 @@ import dto.AirlineDTO;
 import dto.FlightDTO;
 import entity.AirlineApi;
 import entity.Airport;
+import entity.SearchRequest;
 import exception.BadRequestException;
 import exception.NoResultException;
 import interfaces.IFlightFacade;
@@ -62,10 +63,7 @@ public class FlightFacade implements IFlightFacade {
      * Response to return a list of dto-airlines, each containing a list of
      * dto-flights.
      *
-     * @param from
-     * @param to
-     * @param stringDate
-     * @param numTickets
+     * @param request
      * @return list containing AirlineDTOs
      * @throws NotFoundException
      * @throws NoResultException
@@ -73,11 +71,22 @@ public class FlightFacade implements IFlightFacade {
      * @throws ServerException
      */
     @Override
-    public List<AirlineDTO> getFlights(String from, String to, String stringDate, int numTickets) throws NotFoundException, NoResultException, BadRequestException, ServerException {
+    public List<AirlineDTO> getFlights(SearchRequest request) throws NotFoundException, NoResultException, BadRequestException, ServerException {
         List<AirlineDTO> airlines = new ArrayList();
         List<Future<Response>> airlineList = new ArrayList();
         List<AirlineApi> airlineApiList = getAirlineApiList();
-
+        
+        String from = request.getOrigin();
+        String to;
+        if(request.getDestination() != null){
+            to = request.getDestination();
+        } else {
+            to = "";
+        }
+        String stringDate = request.getDate();
+        int numTickets = request.getNumberOfTickets();
+        saveSearchRequest(request);
+        
         //validate airports
         if (airports.isEmpty()) {
             throw new ServerException("Something went wrong. Please try again");
@@ -216,6 +225,17 @@ public class FlightFacade implements IFlightFacade {
             em.close();
         }
         return airportMap;
+    }
+
+    private void saveSearchRequest(SearchRequest request) {
+        EntityManager em = getEntityManager();
+        try {
+            em.getTransaction().begin();
+            em.persist(request);
+            em.getTransaction().commit();
+        } finally {
+            em.close();
+        }
     }
 
     private EntityManager getEntityManager() {
