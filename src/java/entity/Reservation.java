@@ -63,11 +63,11 @@ public class Reservation implements Serializable {
     @Column(name = "reserveeName")
     private String ReserveeName;
 
-    @JoinColumn(name = "passengers")
+    @JoinColumn(name = "passenger_id")
     @OneToMany(cascade = CascadeType.ALL)
     private List<Passenger> Passengers;
 
-    @JoinColumn(name = "user")
+    @JoinColumn(name = "user_id")
     @OneToOne
     private User user;
 
