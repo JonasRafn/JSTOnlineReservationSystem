@@ -17,7 +17,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 
 @NamedQueries({
-    @NamedQuery(name = "Reservation.findAllbyUser", query = "SELECT r FROM Reservation r WHERE r.user = :userId"),
+    @NamedQuery(name = "Reservation.findAllbyUser", query = "SELECT r FROM Reservation r WHERE r.user = :user"),
     @NamedQuery(name = "Reservation.findAll", query = "SELECT r FROM Reservation r")})
 @Entity
 public class Reservation implements Serializable {

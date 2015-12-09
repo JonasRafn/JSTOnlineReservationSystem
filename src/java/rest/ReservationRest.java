@@ -22,6 +22,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
+import static utility.JsonConverter.toJson;
 
 @Path("reservation")
 public class ReservationRest {
@@ -37,9 +38,17 @@ public class ReservationRest {
     @GET
     @Path("{username}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getReservations(@PathParam("username") String username) throws NoResultException {
+    public Response getUsersReservations(@PathParam("username") String username) throws NoResultException {
         List<Reservation> list = ctrl.getReservations(username);
-        return Response.ok(gson.toJson(list)).build();
+        return Response.ok(toJson(list)).build();
+    }
+    
+    @GET
+    @Path("all")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getAllReservations() throws NoResultException {
+        List<Reservation> list = ctrl.getReservations("");
+        return Response.ok(toJson(list)).build();
     }
 
     @POST

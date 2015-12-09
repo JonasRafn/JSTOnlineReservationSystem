@@ -47,7 +47,9 @@ public class ReservationFacade implements IReservationFacade {
             if (username.isEmpty()) {
                 query = em.createNamedQuery("Reservation.findAll", Reservation.class);
             } else {
-                query = em.createNamedQuery("Reservation.findAllbyUser", Reservation.class).setParameter("userId", username);
+                User user = new User();
+                user.setUserName(username);
+                query = em.createNamedQuery("Reservation.findAllbyUser", Reservation.class).setParameter("user", user);
             }
             reservations = query.getResultList();
             if (reservations.isEmpty()) {

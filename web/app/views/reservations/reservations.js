@@ -9,11 +9,18 @@ angular.module('myApp.Reservations', [])
                 });
             }])
 
-        .controller('ReservationsCtrl', ['ReservationsFactory', '$scope', function (ReservationsFactory, $scope, $rootScope) {
+        .controller('ReservationsCtrl', ['ReservationsFactory', '$scope', '$rootScope', function (ReservationsFactory, $scope, $rootScope) {
                 var self = this;
 
+                self.reservations = [];
+
                 self.getReservations = function (username) {
-                    return ReservationsFactory.getReservations(username);
+                    ReservationsFactory.getReservations(username)
+                            .then(function (success) {
+                                self.reservations = success.data;
+                            }, function (error) {
+                                $rootScope.error = error.data.message;
+                            });
                 };
 
                 $scope.hiddenDiv = false;
@@ -57,9 +64,8 @@ angular.module('myApp.Reservations', [])
         ];
 
         var getReservations = function (username) {
-//            var url = "api/reservation/" + user.userName;
-            return reservations;
-//            return $http.get(url);
+            var url = "api/reservation/" + username;
+            return $http.get(url);
         };
 
         return {
