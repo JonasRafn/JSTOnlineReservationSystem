@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import deploy.DeploymentConfiguration;
 import entity.Reservation;
+import exception.NoResultException;
 import exception.ReservationException;
 import exception.ServerException;
 import facades.ReservationFacade;
@@ -35,7 +36,7 @@ public class ReservationRest {
     @GET
     @Path("{username}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getReservations(@PathParam("username") String username) {
+    public Response getReservations(@PathParam("username") String username) throws NoResultException {
         List<Reservation> list = ctrl.getReservations(username);
         return Response.ok(gson.toJson(list)).build();
     }

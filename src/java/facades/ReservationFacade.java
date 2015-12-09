@@ -7,6 +7,7 @@ import entity.AirlineApi;
 import interfaces.IReservationFacade;
 import entity.Reservation;
 import entity.User;
+import exception.NoResultException;
 import exception.ReservationException;
 import exception.ServerException;
 import java.io.IOException;
@@ -15,6 +16,7 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import javax.persistence.EntityManager;
@@ -33,8 +35,24 @@ public class ReservationFacade implements IReservationFacade {
     }
 
     @Override
-    public List<Reservation> getReservations(String username) {
-        return null;
+    public List<Reservation> getReservations(String username) throws NoResultException {
+        EntityManager em = getEntityManager();
+        List<Reservation> reservations = new ArrayList();
+        try {
+            TypedQuery<Reservation> query;
+            if (username.isEmpty()) {
+                query = em.createNamedQuery("Reservation.findAll", Reservation.class);
+            } else {
+                query = em.createNamedQuery("Reservation.findAllbyUser", Reservation.class).setParameter("userId", username);
+            }
+            reservations = query.getResultList();
+            if (reservations.isEmpty()) {
+                throw new NoResultException();
+            }
+        } finally {
+            em.close();
+        }
+        return reservations;
     }
 
     /**
@@ -46,7 +64,6 @@ public class ReservationFacade implements IReservationFacade {
      * @return Reservation
      * @throws IOException
      * @throws ServerException
-     * @throws exception.ReservationException
      */
     @Override
     public Reservation reservateTickets(String reservation, String groupName, String user) throws IOException, ServerException, ReservationException {
@@ -79,6 +96,7 @@ public class ReservationFacade implements IReservationFacade {
 
         } else {
             Reservation res = gson.fromJson(response, Reservation.class);
+            System.out.println(res.getDate());
             res.setAirline(airlineApi.getGroupName());
             User user1 = new User(user, "");
             res.setUser(user1);
@@ -122,5 +140,9 @@ public class ReservationFacade implements IReservationFacade {
         em.getTransaction().begin();
         em.persist(res);
         em.getTransaction().commit();
+    }
+
+    private EntityManager getEntityManager() {
+        return emf.createEntityManager();
     }
 }

@@ -1,87 +1,44 @@
-package entity;
+package dto;
 
+import entity.*;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.Temporal;
 
-@NamedQueries({
-    @NamedQuery(name = "Reservation.findAllbyUser", query = "SELECT r FROM Reservation r WHERE r.user = :userId"),
-    @NamedQuery(name = "Reservation.findAll", query = "SELECT r FROM Reservation r")})
-@Entity
-public class Reservation implements Serializable {
+public class ReservationDTO implements Serializable {
 
-    @Column(name = "reservation_id")
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @Column(name = "airline")
     private String airline;
 
-    @Column(name = "flight_ID")
     private String flightID;
 
-    @Column(name = "number_of_seats")
     private int numberOfSeats;
 
-    @Column(name = "date")
-    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date date;
 
-    @Column(name = "total_price")
     private float totalPrice;
 
-    @Column(name = "price_person")
     private float pricePerson;
 
-    @Column(name = "traveltime")
     private int flightTime;
 
-    @Column(name = "origin")
     private String origin;
 
-    @Column(name = "origin_city")
     private String originCity;
 
-    @Column(name = "destination")
     private String destination;
 
-    @Column(name = "destination_city")
     private String destinationCity;
 
-    @Column(name = "destination_date")
-    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date destinationDate;
 
-    @Column(name = "reserveeName")
     private String reserveeName;
 
-    @JoinColumn(name = "passenger_id")
-    @OneToMany(mappedBy = "reservation", cascade = CascadeType.ALL)
     private List<Passenger> passengers;
 
-    @JoinColumn(name = "user_id")
-    @OneToOne
     private User user;
 
-    public Reservation() {
+    public ReservationDTO() {
 
-    }
-
-    public Long getId() {
-        return id;
     }
 
     public String getAirline() {

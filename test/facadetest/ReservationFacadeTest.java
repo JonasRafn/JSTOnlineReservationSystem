@@ -46,6 +46,7 @@ public class ReservationFacadeTest {
         String reservation = "{\n"
                 + " \"flightID\": \"COL3257x100x2016-01-14T21:30:00.000Z\",\n"
                 + " \"numberOfSeats\": 2,\n"
+                + " \"date\": \"2016-02-25T11:30:00.000Z\",\n"
                 + " \"ReserveeName\": \"Peter Hansen\",\n"
                 + " \"ReservePhone\": \"12345678\",\n"
                 + " \"ReserveeEmail\": \"peter@peter.dk\",\n"
