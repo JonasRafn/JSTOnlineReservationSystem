@@ -67,10 +67,10 @@ public class Reservation implements Serializable {
 
     @Column(name = "reserveeName")
     private String reserveeName;
-    
+
     @Column(name = "reservee_phone")
     private String reserveePhone;
-    
+
     @Column(name = "reservee_email")
     private String reserveeEmail;
 

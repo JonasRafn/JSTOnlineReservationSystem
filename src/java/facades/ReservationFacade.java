@@ -52,7 +52,7 @@ public class ReservationFacade implements IReservationFacade {
             reservations = query.getResultList();
             if (reservations.isEmpty()) {
                 throw new NoResultException();
-            }
+            } 
         } finally {
             em.close();
         }
@@ -69,7 +69,6 @@ public class ReservationFacade implements IReservationFacade {
      */
     @Override
     public void reserveTickets(Reservation res) throws IOException, ServerException, ReservationException {
-        Reservation reservation = res;
         AirlineApi airlineApi = getAirlineApi(res.getAirline()); // get api-url from airline
         Client client = ClientBuilder.newClient();
         WebTarget target = client.target(airlineApi.getUrl() + "/api/flightreservation");
@@ -117,6 +116,11 @@ public class ReservationFacade implements IReservationFacade {
         EntityManager em = emf.createEntityManager();
         User user = em.find(User.class, res.getUser().getUserName());
         res.setUser(user);
+        
+        for(Passenger p : res.getPassengers()){
+            p.setReservation(res);
+        }
+        
         em.getTransaction().begin();
         em.persist(res);
         em.getTransaction().commit();
