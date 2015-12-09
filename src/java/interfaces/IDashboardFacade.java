@@ -11,6 +11,7 @@ import dto.HistoryDTO;
  *
  * @author sebastiannielsen
  */
-public interface IHistoryFacade {
+public interface IDashboardFacade {
     public HistoryDTO getSearchHistory();
+
 }

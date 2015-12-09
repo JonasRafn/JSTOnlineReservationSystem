@@ -35,6 +35,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import javax.ws.rs.core.Response;
 import service.GetFlights;
+import utility.Airports;
 
 /**
  * http://www.oracle.com/webfolder/technetwork/tutorials/obe/java/JAXRS2/jaxrs-clients.html
@@ -49,7 +50,7 @@ public class FlightFacade implements IFlightFacade {
 
     public FlightFacade(EntityManagerFactory emf) {
         this.emf = emf;
-        airports = cacheAirports();
+        airports = Airports.getAirports();
         gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").setPrettyPrinting().create();
     }
 
@@ -204,27 +205,6 @@ public class FlightFacade implements IFlightFacade {
         int offset = destinationTimeZone.getRawOffset() - originTimeZone.getRawOffset() + (travelTime * 60000);
         Date adjustedDate = new Date(travelDate.getTime() + offset);
         return adjustedDate;
-    }
-
-    /**
-     * get All Airports from DB
-     *
-     * @return return map containing Airport objects with IATA-code as key
-     */
-    private Map<String, Airport> cacheAirports() {
-        EntityManager em = getEntityManager();
-        Map<String, Airport> airportMap = new HashMap();
-        List<Airport> airportList = new ArrayList();
-        try {
-            TypedQuery<Airport> query = em.createNamedQuery("Airport.findAll", Airport.class);
-            airportList = query.getResultList();
-            for (Airport a : airportList) {
-                airportMap.put(a.getIATACode(), a);
-            }
-        } finally {
-            em.close();
-        }
-        return airportMap;
     }
 
     private void saveSearchRequest(SearchRequest request) {

@@ -27,6 +27,10 @@ public class AirlineApi implements Serializable {
     public AirlineApi() {
     }
 
+    public AirlineApi(String url) {
+        this.url = url;
+    }
+    
     public AirlineApi(String groupName, String members, String url) {
         this.groupName = groupName;
         this.members = members;

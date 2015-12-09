@@ -7,8 +7,8 @@ package facadetest;
 
 import deploy.DeploymentConfiguration;
 import dto.HistoryDTO;
-import facades.HistoryFacade;
-import interfaces.IHistoryFacade;
+import facades.DashboardFacade;
+import interfaces.IDashboardFacade;
 import java.util.Map;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -27,7 +27,7 @@ public class HistoryFacadeTest {
     @Test
     public void testhistory() {
         EntityManagerFactory emf = EntityManagerFactoryProvider.getEntityManagerFactory();
-        IHistoryFacade ctrl = new HistoryFacade(emf);
+        IDashboardFacade ctrl = new DashboardFacade(emf);
         HistoryDTO history = ctrl.getSearchHistory();
 
         

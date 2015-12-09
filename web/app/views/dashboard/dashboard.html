@@ -24,7 +24,7 @@
         <div class="panel-heading panel-reservation-header">
             <div class="row text-right">
                 <div class="col-xs-3">
-                    <div><i class="icon-shopping-cart icon-4x"></i></div>
+                    <div><i class="icon-credit-card icon-4x"></i></div>
                 </div>
                 <div class="col-xs-9 text-right">
                     <div class="huge">{{ctrl.history.numberOfReservations}}</div>
@@ -105,21 +105,26 @@
         <div class="panel-heading panel-popular-header">
             <div class="row">
                 <div class="col-xs-12">
-                    <div><i class="icon-star icon-1x"></i> CMS Functions</div>
+                    <div><i class="icon-star icon-1x"></i> Most Popular Months</div>
                 </div>
             </div>
         </div>   
         <div class="panel-body panel-popular-body text-center">
-            <form ng-submit>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" placeholder="Add Airline URL">
-                </div>
-                <div class="col-sm-2">
-                    <button class="btn btn-primary">Submit</button>
-                </div>    
-            </form>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Month</th>
+                        <th>Amount of Search Request</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="month in ctrl.history.mostPopularMonths">
+                        <td class="text-left">{{month.month}}</td>
+                        <td>{{month.amountOfSearches}}</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
-    
 </div>    
 

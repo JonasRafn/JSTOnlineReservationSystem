@@ -8,12 +8,14 @@ package facades;
 import dto.HistoryDTO;
 import entity.Airport;
 import entity.Destination;
-import interfaces.IHistoryFacade;
+import entity.PopMonth;
+import interfaces.IDashboardFacade;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import utility.Airports;
 
@@ -21,14 +23,14 @@ import utility.Airports;
  *
  * @author sebastiannielsen
  */
-public class HistoryFacade implements IHistoryFacade {
+public class DashboardFacade implements IDashboardFacade {
 
     private EntityManagerFactory emf;
 
-    public HistoryFacade(EntityManagerFactory emf) {
+    public DashboardFacade(EntityManagerFactory emf) {
         this.emf = emf;
     }
-
+    
     @Override
     public HistoryDTO getSearchHistory() {
         HistoryDTO history = new HistoryDTO();
@@ -36,6 +38,7 @@ public class HistoryFacade implements IHistoryFacade {
         history.setNumberOfAirlines(getTotalNumberOfAirlines());
         history.setNumberOfReservations(getTotalNumberOfReservations());
         history.setMostPopularDestinations(getMostPopularDestinations());
+        history.setMostPopularMonths(getMostPopularMonth());
         history.setAverageNumberOfTickets(getAverageNumberOfTickets());
         return history;
     }
@@ -111,8 +114,65 @@ public class HistoryFacade implements IHistoryFacade {
         return mostPopularDestinations;
     }
     
+    private List<PopMonth> getMostPopularMonth(){
+        EntityManager em = getEntityManager();
+        List<PopMonth> mostPopularMonths = new ArrayList();
+        try {
+            Query query = em.createNativeQuery("SELECT s.date, COUNT(s.date) FROM SearchRequest s GROUP BY YEAR(s.date), MONTH(s.date) ORDER BY COUNT(s.date) DESC");
+            query.setMaxResults(5);
+            List<Object[]> results = query.getResultList();
+            for (Object[] result : results) {
+                PopMonth month;
+                String[] parts = result[0].toString().split("-");
+                switch (parts[1]) {
+                    case "01": month = new PopMonth("January", (long)result[1]);
+                               mostPopularMonths.add(month);
+                               break;
+                    case "02": month = new PopMonth("February", (long)result[1]);
+                               mostPopularMonths.add(month);
+                               break;
+                    case "03": month = new PopMonth("Marts", (long)result[1]);
+                               mostPopularMonths.add(month);
+                               break;
+                    case "04": month = new PopMonth("April", (long)result[1]);
+                               mostPopularMonths.add(month);
+                               break;
+                    case "05": month = new PopMonth("May", (long)result[1]);
+                               mostPopularMonths.add(month);
+                               break;
+                    case "06": month = new PopMonth("June", (long)result[1]);
+                               mostPopularMonths.add(month);
+                               break;
+                    case "07": month = new PopMonth("July", (long)result[1]);
+                               mostPopularMonths.add(month);
+                               break;
+                    case "08": month = new PopMonth("August", (long)result[1]);
+                               mostPopularMonths.add(month);
+                               break; 
+                    case "09": month = new PopMonth("September", (long)result[1]);
+                               mostPopularMonths.add(month);
+                               break;
+                    case "10": month = new PopMonth("October", (long)result[1]);
+                               mostPopularMonths.add(month);
+                               break;
+                    case "11": month = new PopMonth("November", (long)result[1]);
+                               mostPopularMonths.add(month);
+                               break;
+                    case "12": month = new PopMonth("December", (long)result[1]);
+                               mostPopularMonths.add(month);
+                               break;    
+                    default : break;    
+                }
+            }
+            
+        } finally {
+            em.close();
+        }
+        return mostPopularMonths;
+    }
+    
     private EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
-    
+
 }

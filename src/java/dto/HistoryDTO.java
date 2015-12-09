@@ -6,8 +6,8 @@
 package dto;
 
 import entity.Destination;
+import entity.PopMonth;
 import java.util.List;
-import java.util.Map;
 
 /**
  *
@@ -16,6 +16,7 @@ import java.util.Map;
 public class HistoryDTO {
     private long numberOfSearches;
     private List<Destination> mostPopularDestinations;
+    private List<PopMonth> mostPopularMonths;
     private double averageNumberOfTickets;
     private long numberOfAirlines;
     private long numberOfReservations;
@@ -63,8 +64,13 @@ public class HistoryDTO {
         this.numberOfAirlines = numberOfAirlines;
     }
 
-    
-    
+    public List<PopMonth> getMostPopularMonths() {
+        return mostPopularMonths;
+    }
+
+    public void setMostPopularMonths(List<PopMonth> mostPopularMonths) {
+        this.mostPopularMonths = mostPopularMonths;
+    }
     
     
 }
