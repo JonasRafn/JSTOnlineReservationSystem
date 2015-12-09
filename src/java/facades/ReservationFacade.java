@@ -52,7 +52,7 @@ public class ReservationFacade implements IReservationFacade {
             reservations = query.getResultList();
             if (reservations.isEmpty()) {
                 throw new NoResultException();
-            } 
+            }
         } finally {
             em.close();
         }
@@ -70,19 +70,19 @@ public class ReservationFacade implements IReservationFacade {
     @Override
     public void reserveTickets(Reservation res) throws IOException, ServerException, ReservationException {
         AirlineApi airlineApi = getAirlineApi(res.getAirline()); // get api-url from airline
-        
+
         Client client = ClientBuilder.newClient();
         WebTarget target = client.target(airlineApi.getUrl() + "/api/flightreservation");
-        
+
         ReservationRequestDTO dto = createRequestDTO(res);
         Response response = target.request(MediaType.APPLICATION_JSON).post(Entity.entity(gson.toJson(dto, ReservationRequestDTO.class), MediaType.APPLICATION_JSON), Response.class);
-        
+
         if (response.getStatus() != 200) { // not ok, so pass error message to frontend
             String re = response.readEntity(String.class);
             JsonObject jo = gson.fromJson(re, JsonObject.class);
             throw new ReservationException(jo.get("message").toString());
         } else {
-             saveReservation(res);
+            saveReservation(res);
         }
     }
 
@@ -99,7 +99,7 @@ public class ReservationFacade implements IReservationFacade {
             TypedQuery<AirlineApi> query = em.createNamedQuery("AirlineApi.findbyAirlineName", AirlineApi.class).setParameter("airlineName", airlineName);
             List<AirlineApi> list = query.getResultList();
             if (list.isEmpty()) {
-                throw new ServerException("Something went wrong. Please try again");
+                throw new ServerException("Could not book the requested tickets at: " + airlineName + "! Please try again later.");
             } else {
                 airlineApi = list.get(0);
             }
@@ -118,11 +118,11 @@ public class ReservationFacade implements IReservationFacade {
         EntityManager em = emf.createEntityManager();
         User user = em.find(User.class, res.getUser().getUserName());
         res.setUser(user);
-        
-        for(Passenger p : res.getPassengers()){
+
+        for (Passenger p : res.getPassengers()) {
             p.setReservation(res);
         }
-        
+
         em.getTransaction().begin();
         em.persist(res);
         em.getTransaction().commit();

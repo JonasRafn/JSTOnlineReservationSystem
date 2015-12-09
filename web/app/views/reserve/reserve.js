@@ -29,6 +29,7 @@ angular.module('myApp.Reserve', ['ngRoute'])
 
                 self.bookFlight = function () {
                     console.log(JSON.stringify(self.reservation));
+                    ReserveFactory.bookTickets(self.reservation);
                 };
 
                 self.getNumberOfPassengers = function () {
@@ -40,8 +41,19 @@ angular.module('myApp.Reserve', ['ngRoute'])
 //                    ReserveService.setNumberOfPassengers(nOP);
 //                };
             }])
-        .factory('ReserveFactory', ['$http', function ($http) {
-                return {};
+        .factory('ReserveFactory', ['$http', '$rootScope', function ($http, $rootScope) {
+                var bookTickets = function (reservation) {
+                    $http.post("api/reservation", reservation)
+                            .then(function (response) {
+                                $rootScope.success = response.message;
+                            }, function (response) {
+                                $rootScope.error = response.data.message;
+                            });
+                };
+
+                return {
+                    bookTickets: bookTickets
+                };
             }])
         .filter('range', function () {
             return function (input, total) {
