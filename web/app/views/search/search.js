@@ -8,7 +8,7 @@ angular.module('myApp.Search', ['ngRoute'])
                 });
             }])
 
-        .controller('SearchCtrl', ['$rootScope', 'SearchFactory', 'AirportFactory', function ($rootScope, SearchFactory, AirportFactory) {
+        .controller('SearchCtrl', ['$rootScope', 'SearchFactory', 'AirportFactory', 'ReserveService', function ($rootScope, SearchFactory, AirportFactory, ReserveService) {
                 var self = this;
 
                 self.airports = {};
@@ -81,6 +81,11 @@ angular.module('myApp.Search', ['ngRoute'])
                                     });
                         }
                     };
+                };
+                
+                //Method sets flightID in ReserveService
+                self.book = function (id) {
+                    ReserveService.setFlightID(id);
                 };
 
             }])

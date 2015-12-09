@@ -16,7 +16,7 @@
                         <div class="form-group">
                             <label class="col-md-2 control-label">Flight ID and          Number of Passengers</label>
                             <div class="col-xs-5">
-                                <input class="form-control" type="text" name="flightID" readonly="" value="MCA2345">
+                                <input class="form-control" type="text" name="flightID" readonly="" value="{{ctrl.flightID}}">
                             </div>
                             <div class="col-xs-5">
                                 <select class="form-control" name="numberOfPassengers" ng-model="ctrl.numberOfPassengers">
@@ -62,7 +62,8 @@
                             </div>
                         </div>
                     </form>
-                    <a href="#/search"><button class="btn btn-primary pull-right" ng-click="ctrl.reserve()">Reservation</button></a>
+                    <!--<a href="#/search"><button class="btn btn-primary pull-right" ng-click="ctrl.reserve()">Reservation</button></a>-->
+                    <button class="btn btn-primary pull-right" ng-click="ctrl.setFlightID()">Reservation</button>
                 </div>
             </div>
         </div>

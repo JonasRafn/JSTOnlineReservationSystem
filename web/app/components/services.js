@@ -4,7 +4,14 @@
 
 // Demonstrate how to register services
 angular.module('myApp.services', [])
-  .service('InfoService', [function () {
-    var info = "Hello World from a Service";
-    this.getInfo = function(){return info;};
-  }]);
+        .service('ReserveService', [function () {
+                var flightID = "";
+
+                this.getFlightID = function () {
+                    return flightID;
+                };
+
+                this.setFlightID = function (id) {
+                    flightID = id;
+                };
+            }]);

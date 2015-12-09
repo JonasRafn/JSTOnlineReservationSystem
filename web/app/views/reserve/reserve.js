@@ -8,9 +8,15 @@ angular.module('myApp.Reserve', ['ngRoute'])
                 });
             }])
 
-        .controller('ReserveCtrl', ['ReserveFactory', function (ReserveFactory) {
+        .controller('ReserveCtrl', ['ReserveFactory', 'ReserveService', function (ReserveFactory, ReserveService) {
                 var self = this;
                 self.numberOfPassengers = 1;
+                self.flightID = ReserveService.getFlightID();
+
+                self.setFlightID = function () {
+                    ReserveService.setFlightID("MCA2345");
+                    self.flightID = ReserveService.getFlightID();
+                };
             }])
 
         .factory('ReserveFactory', ['$http', function ($http) {

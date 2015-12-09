@@ -46,6 +46,7 @@ public class ReservationFacade implements IReservationFacade {
      * @return Reservation
      * @throws IOException
      * @throws ServerException
+     * @throws exception.ReservationException
      */
     @Override
     public Reservation reservateTickets(String reservation, String groupName, String user) throws IOException, ServerException, ReservationException {
