@@ -39,3 +39,15 @@ insert into systemuser_userrole (userName, roleName) values ('admin', 'Admin');
 insert into systemuser_userrole (userName, roleName) values ('user_admin', 'Admin');
 insert into systemuser_userrole (userName, roleName) values ('user_admin', 'User');
 insert into systemuser_userrole (userName, roleName) values ('user', 'User');
+
+insert into reservation (reservation_id, date, destination, traveltime, origin, reserveeName, airline, destination_city, destination_date, flight_ID, number_of_seats, origin_city, price_person, total_price, user_id) values ('1', '2016-02-25T11:30:00.000', 'BCN', 60, 'CPH', 'Hans Hansen', 'Test Airline 1', 'Barcelona', '2016-02-25T12:30:00.000', 'SK975', 3, 'Copenhagen', 500.0, 1500.0, 'user');
+
+insert into reservation (reservation_id, date, destination, traveltime, origin, reserveeName, airline, destination_city, destination_date, flight_ID, number_of_seats, origin_city, price_person, total_price, user_id) values ('2', '2016-03-30T09:00:00.000', 'CPH', 60, 'BCN', 'Hans Hansen', 'Test Airline 2', 'Copenhagen', '2016-03-30T10:00:00.000', 'SK975', 3, 'Barcelona', 299.0, 1500.0, 'user');
+
+insert into passenger (passenger_id, first_name, last_name, reservation_id) values (1, 'Hans', 'Hansen', 1);
+insert into passenger (passenger_id, first_name, last_name, reservation_id) values (2, 'Hansine', 'Hansen', 1);
+insert into passenger (passenger_id, first_name, last_name, reservation_id) values (3, 'Hanslille', 'Hansen', 1);
+
+insert into passenger (passenger_id, first_name, last_name, reservation_id) values (4, 'Hans', 'Hansen', 2);
+insert into passenger (passenger_id, first_name, last_name, reservation_id) values (5, 'Hansine', 'Hansen', 2);
+insert into passenger (passenger_id, first_name, last_name, reservation_id) values (6, 'Hanslille', 'Hansen', 2);

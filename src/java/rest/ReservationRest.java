@@ -2,15 +2,13 @@ package rest;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import deploy.DeploymentConfiguration;
 import entity.Reservation;
+import exception.NoResultException;
 import exception.ServerException;
 import facades.ReservationFacade;
 import interfaces.IReservationFacade;
 import java.io.IOException;
 import java.util.List;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -34,9 +32,20 @@ public class ReservationRest {
     @GET
     @Path("{username}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getReservations(@PathParam("username") String username) {
-        List<Reservation> list = ctrl.getReservations(username);
-        return Response.ok(gson.toJson(list)).build();
+    public Response getReservations(@PathParam("username") String username) throws NoResultException {
+        List<Reservation> reservations = ctrl.getReservations(username);
+        return Response.ok(gson.toJson(reservations)).build();
+    }
+    
+    @GET
+    @Path("all")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getAllReservations() throws NoResultException {
+        System.out.println("All");
+        List<Reservation> reservations = ctrl.getReservations("");
+        System.out.println("Reservations size: " + reservations.size());
+        System.out.println("Reservations size: " + reservations.get(0).getDate());
+        return Response.ok(gson.toJson(reservations)).build();
     }
 
     @POST

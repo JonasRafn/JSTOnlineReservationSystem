@@ -7,6 +7,7 @@ import entity.AirlineApi;
 import interfaces.IReservationFacade;
 import entity.Reservation;
 import entity.User;
+import exception.NoResultException;
 import exception.ServerException;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -14,6 +15,7 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import javax.persistence.EntityManager;
@@ -32,8 +34,27 @@ public class ReservationFacade implements IReservationFacade {
     }
 
     @Override
-    public List<Reservation> getReservations(String username) {
-        return null;
+    public List<Reservation> getReservations(String username) throws NoResultException {
+        EntityManager em = getEntityManager();
+        List<Reservation> reservations = new ArrayList();
+        try {
+            TypedQuery<Reservation> query;
+            if (username.isEmpty()) {
+                query = em.createNamedQuery("Reservation.findAll", Reservation.class);
+            } else {
+                query = em.createNamedQuery("Reservation.findAllbyUser", Reservation.class).setParameter("userId", username);
+            }
+            reservations = query.getResultList();
+            if (reservations.isEmpty()) {
+                throw new NoResultException();
+            }
+        } finally {
+            em.close();
+        }
+        for (Reservation r : reservations) {
+            System.out.println(r.getAirline());
+        }
+        return reservations;
     }
 
     /**
@@ -110,11 +131,15 @@ public class ReservationFacade implements IReservationFacade {
      * @param res
      */
     private void saveReservation(Reservation res) {
-        EntityManager em = emf.createEntityManager();
+        EntityManager em = getEntityManager();
         User user = em.find(User.class, res.getUser().getUserName());
         res.setUser(user);
         em.getTransaction().begin();
         em.persist(res);
         em.getTransaction().commit();
+    }
+
+    private EntityManager getEntityManager() {
+        return emf.createEntityManager();
     }
 }
