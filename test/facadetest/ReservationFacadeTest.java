@@ -2,6 +2,7 @@ package facadetest;
 
 import deploy.DeploymentConfiguration;
 import entity.Reservation;
+import exception.ReservationException;
 import exception.ServerException;
 import facades.ReservationFacade;
 import interfaces.IReservationFacade;
@@ -40,11 +41,12 @@ public class ReservationFacadeTest {
     }
 
     @Test
-    public void resevateTicketsSucces() throws IOException, ServerException {
+    public void resevateTicketsSucces() throws IOException, ServerException, ReservationException {
         rf = new ReservationFacade();
         String reservation = "{\n"
                 + " \"flightID\": \"COL3257x100x2016-01-14T21:30:00.000Z\",\n"
                 + " \"numberOfSeats\": 2,\n"
+                + " \"date\": \"2016-02-25T11:30:00.000Z\",\n"
                 + " \"ReserveeName\": \"Peter Hansen\",\n"
                 + " \"ReservePhone\": \"12345678\",\n"
                 + " \"ReserveeEmail\": \"peter@peter.dk\",\n"
