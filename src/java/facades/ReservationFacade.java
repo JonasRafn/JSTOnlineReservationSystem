@@ -2,8 +2,12 @@ package facades;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
 import deploy.DeploymentConfiguration;
+import dto.PassengerDTO;
+import dto.ReservationRequestDTO;
 import entity.AirlineApi;
+import entity.Passenger;
 import interfaces.IReservationFacade;
 import entity.Reservation;
 import entity.User;
@@ -11,18 +15,18 @@ import exception.NoResultException;
 import exception.ReservationException;
 import exception.ServerException;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.PrintWriter;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 public class ReservationFacade implements IReservationFacade {
 
@@ -58,52 +62,26 @@ public class ReservationFacade implements IReservationFacade {
     /**
      * Post a reservationRequest to a airline based on the groupName
      *
-     * @param reservation
-     * @param groupName
-     * @param user
-     * @return Reservation
+     * @param res
      * @throws IOException
      * @throws ServerException
+     * @throws exception.ReservationException
      */
     @Override
-    public Reservation reservateTickets(String reservation, String groupName, String user) throws IOException, ServerException, ReservationException {
-        AirlineApi airlineApi = getAirlineApi(groupName);
-
-        String url = airlineApi.getUrl() + "api/flightreservation";
-
-        HttpURLConnection con = (HttpURLConnection) new URL(url).openConnection();
-        con.setRequestProperty("Content-Type", "application/json;");
-        con.setRequestProperty("Accept", "application/json");
-        con.setRequestProperty("Method", "POST");
-        con.setDoOutput(true);
-
-        PrintWriter pw = new PrintWriter(con.getOutputStream());
-        try (OutputStream os = con.getOutputStream()) {
-            os.write(reservation.getBytes("UTF-8"));
-        }
-
-        int HttpResult = con.getResponseCode();
-        InputStreamReader is = HttpResult < 400 ? new InputStreamReader(con.getInputStream(), "utf-8")
-                : new InputStreamReader(con.getErrorStream(), "utf-8");
-
-        Scanner responseReader = new Scanner(is);
-        String response = "";
-        while (responseReader.hasNext()) {
-            response += responseReader.nextLine() + System.getProperty("line.separator");
-        }
-        if (con.getResponseCode() == 401 | con.getResponseCode() == 500) {
-            throw new ReservationException(con.getResponseMessage());
-
+    public void reserveTickets(Reservation res) throws IOException, ServerException, ReservationException {
+        Reservation reservation = res;
+        AirlineApi airlineApi = getAirlineApi(res.getAirline()); // get api-url from airline
+        Client client = ClientBuilder.newClient();
+        WebTarget target = client.target(airlineApi.getUrl() + "/api/flightreservation");
+        ReservationRequestDTO dto = createRequestDTO(res);
+        System.out.println(gson.toJson(dto));
+        Response response = target.request(MediaType.APPLICATION_JSON).post(Entity.entity(gson.toJson(dto, ReservationRequestDTO.class), MediaType.APPLICATION_JSON), Response.class);
+        if (response.getStatus() != 200) { // not ok, so pass error message to frontend
+            String re = response.readEntity(String.class);
+            JsonObject jo = gson.fromJson(re, JsonObject.class);
+            throw new ReservationException(jo.get("message").toString());
         } else {
-            Reservation res = gson.fromJson(response, Reservation.class);
-            System.out.println(res.getDate());
-            res.setAirline(airlineApi.getGroupName());
-            User user1 = new User(user, "");
-            res.setUser(user1);
-
-            saveReservation(res);
-
-            return res;
+             saveReservation(res);
         }
     }
 
@@ -113,14 +91,16 @@ public class ReservationFacade implements IReservationFacade {
      * @return AirlineApi with a given groupName
      * @throws ServerException if returned list is empty
      */
-    private AirlineApi getAirlineApi(String groupName) throws ServerException {
+    private AirlineApi getAirlineApi(String airlineName) throws ServerException {
         EntityManager em = emf.createEntityManager();
         AirlineApi airlineApi = new AirlineApi();
         try {
-            TypedQuery<AirlineApi> query = em.createNamedQuery("AirlineApi.findAirline", AirlineApi.class).setParameter("groupName", groupName);
-            airlineApi = query.getSingleResult();
-            if (airlineApi == null) {
+            TypedQuery<AirlineApi> query = em.createNamedQuery("AirlineApi.findbyAirlineName", AirlineApi.class).setParameter("airlineName", airlineName);
+            List<AirlineApi> list = query.getResultList();
+            if (list.isEmpty()) {
                 throw new ServerException("Something went wrong. Please try again");
+            } else {
+                airlineApi = list.get(0);
             }
         } finally {
             em.close();
@@ -140,6 +120,15 @@ public class ReservationFacade implements IReservationFacade {
         em.getTransaction().begin();
         em.persist(res);
         em.getTransaction().commit();
+    }
+
+    private ReservationRequestDTO createRequestDTO(Reservation res) {
+        ReservationRequestDTO dto = new ReservationRequestDTO(res.getFlightID(), res.getNumberOfSeats(), res.getReserveeName(), res.getReserveePhone(), res.getReserveeEmail());
+        for (Passenger p : res.getPassengers()) {
+            PassengerDTO pDto = new PassengerDTO(p.getFirstName(), p.getLastName());
+            dto.addPassengers(pDto);
+        }
+        return dto;
     }
 
     private EntityManager getEntityManager() {

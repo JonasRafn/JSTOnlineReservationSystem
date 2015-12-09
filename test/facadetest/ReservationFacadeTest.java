@@ -60,7 +60,7 @@ public class ReservationFacadeTest {
                 + " ]\n"
                 + "}";
 
-        Reservation res = rf.reservateTickets(reservation, "angular_airline1", "user");
+        Reservation res = rf.reserveTickets(reservation, "angular_airline1", "user");
 
         assertEquals(res.getFlightID(), "COL3257x100x2016-01-14T21:30:00.000Z");
         assertEquals("Peter Hansen", res.getReserveeName());

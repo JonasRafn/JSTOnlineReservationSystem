@@ -9,29 +9,34 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="airline_api")
+@Table(name = "airline_api")
 @NamedQueries({
     @NamedQuery(name = "AirlineApi.findAll", query = "SELECT a FROM AirlineApi a"),
-    @NamedQuery(name = "AirlineApi.findAirline", query = "SELECT a FROM AirlineApi a WHERE a.groupName = :groupName")})
+    @NamedQuery(name = "AirlineApi.findAirline", query = "SELECT a FROM AirlineApi a WHERE a.groupName = :groupName"),
+    @NamedQuery(name = "AirlineApi.findbyAirlineName", query = "SELECT a FROM AirlineApi a WHERE a.airlineName = :airlineName")})
 public class AirlineApi implements Serializable {
-    
-    @Column(name="group_name")
+
+    @Column(name = "group_name")
     @Id
     private String groupName;
-    
-    @Column(name="members")
+
+    @Column(name = "members")
     private String members;
-    
-    @Column(name="url")
+
+    @Column(name = "url")
     private String url;
+
+    @Column(name = "airline_name")
+    private String airlineName;
 
     public AirlineApi() {
     }
 
-    public AirlineApi(String groupName, String members, String url) {
+    public AirlineApi(String groupName, String members, String url, String airlineName) {
         this.groupName = groupName;
         this.members = members;
         this.url = url;
+        this.airlineName = airlineName;
     }
 
     public String getGroupName() {
@@ -56,5 +61,13 @@ public class AirlineApi implements Serializable {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public String getAirlineName() {
+        return airlineName;
+    }
+
+    public void setAirlineName(String airlineName) {
+        this.airlineName = airlineName;
     }
 }

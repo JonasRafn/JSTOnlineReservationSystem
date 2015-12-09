@@ -67,6 +67,12 @@ public class Reservation implements Serializable {
 
     @Column(name = "reserveeName")
     private String reserveeName;
+    
+    @Column(name = "reservee_phone")
+    private String reserveePhone;
+    
+    @Column(name = "reservee_email")
+    private String reserveeEmail;
 
     @JoinColumn(name = "passenger_id")
     @OneToMany(mappedBy = "reservation", cascade = CascadeType.ALL)
@@ -204,4 +210,27 @@ public class Reservation implements Serializable {
         this.reserveeName = reserveeName;
     }
 
+    public int getFlightTime() {
+        return flightTime;
+    }
+
+    public void setFlightTime(int flightTime) {
+        this.flightTime = flightTime;
+    }
+
+    public String getReserveePhone() {
+        return reserveePhone;
+    }
+
+    public void setReserveePhone(String reserveePhone) {
+        this.reserveePhone = reserveePhone;
+    }
+
+    public String getReserveeEmail() {
+        return reserveeEmail;
+    }
+
+    public void setReserveeEmail(String reserveeEmail) {
+        this.reserveeEmail = reserveeEmail;
+    }
 }
