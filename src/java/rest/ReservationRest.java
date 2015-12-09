@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.util.List;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -42,10 +43,10 @@ public class ReservationRest {
     }
 
     @POST
-    @Path("{groupName}/{user}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response reservateTickets(@PathParam("groupName") String groupName, @PathParam("user") String user, String reservation) throws IOException, ServerException, ReservationException {
-        ctrl.reservateTickets(reservation, groupName, user);
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response reserveTickets(String reservation) throws IOException, ServerException, ReservationException {
+        ctrl.reserveTickets(gson.fromJson(reservation, Reservation.class));
         String success = "{\"message\":\"Tickets succesfully reserved\"}";
         return Response.status(Status.OK).entity(success).build();
     }

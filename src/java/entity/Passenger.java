@@ -57,4 +57,8 @@ public class Passenger implements Serializable {
     public Long getId() {
         return id;
     }
+    
+    public void setReservation(Reservation reservation) {
+        this.reservation = reservation;
+    }
 }

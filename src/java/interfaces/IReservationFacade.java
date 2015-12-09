@@ -11,6 +11,6 @@ public interface IReservationFacade {
 
     public List<Reservation> getReservations(String username) throws NoResultException;
 
-    public Reservation reservateTickets(String reservation, String groupName, String user) throws IOException, ServerException, ReservationException;
+    public void reserveTickets(Reservation reservation) throws IOException, ServerException, ReservationException;
 
 }
