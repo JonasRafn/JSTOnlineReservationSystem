@@ -70,11 +70,13 @@ public class ReservationFacade implements IReservationFacade {
     @Override
     public void reserveTickets(Reservation res) throws IOException, ServerException, ReservationException {
         AirlineApi airlineApi = getAirlineApi(res.getAirline()); // get api-url from airline
+        
         Client client = ClientBuilder.newClient();
         WebTarget target = client.target(airlineApi.getUrl() + "/api/flightreservation");
+        
         ReservationRequestDTO dto = createRequestDTO(res);
-        System.out.println(gson.toJson(dto));
         Response response = target.request(MediaType.APPLICATION_JSON).post(Entity.entity(gson.toJson(dto, ReservationRequestDTO.class), MediaType.APPLICATION_JSON), Response.class);
+        
         if (response.getStatus() != 200) { // not ok, so pass error message to frontend
             String re = response.readEntity(String.class);
             JsonObject jo = gson.fromJson(re, JsonObject.class);
