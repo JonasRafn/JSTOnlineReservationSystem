@@ -45,7 +45,7 @@ angular.module('myApp.Reserve', ['ngRoute'])
                 var bookTickets = function (reservation) {
                     $http.post("api/reservation", reservation)
                             .then(function (response) {
-                                $rootScope.success = response.message;
+                                $rootScope.success = response.data.message;
                             }, function (response) {
                                 $rootScope.error = response.data.message;
                             });
