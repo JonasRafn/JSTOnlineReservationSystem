@@ -28,7 +28,7 @@ public class FlightInfoRest {
     private IFlightFacade ctrl;
     private Gson gson;
     private EntityManagerFactory emf;
-    
+
     public FlightInfoRest() {
         emf = EntityManagerFactoryProvider.getEntityManagerFactory();
         ctrl = new FlightFacade(emf);
