@@ -20,6 +20,7 @@ public class ApplicationConfig extends Application {
      */
     private void addRestResourceClasses(Set<Class<?>> resources) {
         resources.add(exceptionmapper.AirlineAlreadyExistExceptionMapper.class);
+        resources.add(exceptionmapper.AllExceptionMapper.class);
         resources.add(exceptionmapper.BadRequestExceptionMapper.class);
         resources.add(exceptionmapper.NoResultExceptionMapper.class);
         resources.add(exceptionmapper.NotFoundExceptionMapper.class);

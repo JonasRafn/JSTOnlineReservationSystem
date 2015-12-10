@@ -72,14 +72,18 @@ public class FlightFacade implements IFlightFacade {
      * @throws ServerException
      */
     @Override
-    public List<AirlineDTO> getFlights(SearchRequest request) throws NotFoundException, NoResultException, BadRequestException, ServerException {
+    public List<AirlineDTO> getFlights(SearchRequest request) throws NotFoundException, NoResultException, BadRequestException, ServerException, Exception {
+        if (1 == 1) {
+            throw new NullPointerException();
+        }
+
         List<AirlineDTO> airlines = new ArrayList();
         List<Future<Response>> airlineList = new ArrayList();
         List<AirlineApi> airlineApiList = getAirlineApiList();
-        
+
         String from = request.getOrigin();
         String to;
-        if(request.getDestination() != null){
+        if (request.getDestination() != null) {
             to = request.getDestination();
         } else {
             to = "";
@@ -87,7 +91,7 @@ public class FlightFacade implements IFlightFacade {
         String stringDate = request.getDate();
         int numTickets = request.getNumberOfTickets();
         saveSearchRequest(request);
-        
+
         //validate airports
         if (airports.isEmpty()) {
             throw new ServerException("Something went wrong. Please try again");
