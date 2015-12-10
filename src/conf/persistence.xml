@@ -8,6 +8,7 @@
     <class>entity.Airport</class>
     <class>entity.Passenger</class>
     <class>entity.Reservation</class>
+    <class>entity.SearchRequest</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/reservation_dev?zeroDateTimeBehavior=convertToNull"/>
@@ -27,6 +28,7 @@
     <class>entity.User</class>
     <class>entity.Passenger</class>
     <class>entity.Reservation</class>
+    <class>entity.SearchRequest</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/reservation_test?zeroDateTimeBehavior=convertToNull"/>
@@ -45,6 +47,9 @@
     <class>entity.Airport</class>
     <class>entity.Role</class>
     <class>entity.User</class>
+    <class>entity.Passenger</class>
+    <class>entity.Reservation</class>
+    <class>entity.SearchRequest</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>

@@ -60,3 +60,89 @@ ol.list > li:before {
 }
 
 table {border: 1px solid gainsboro;}
+
+/*.panel->.panel-heading {
+  color: #ffffff;
+  background-color: #444444;
+  border-color: #444444;
+}*/
+
+
+.panel-search-header {
+    color: #ffffff;
+    background-color: #fd5157;
+    border-color: #fd5157;
+    margin-right: 1px;
+}
+
+.panel-search-body {
+    color: #ffffff;
+    background-color:  #ff3333;
+    border-color:  #ff3333;
+    margin-right: 1px;
+}
+
+.panel-airline-header {
+    color: #ffffff;
+    background-color: #71c55a;
+    border-color: #71c55a;
+    margin-left: 1px;
+}
+
+.panel-airline-body {
+    color: #ffffff;
+    background-color: #339933;
+    border-color: #339933;
+    margin-left: 1px;
+}
+
+.panel-reservation-header {
+    color: #ffffff;
+    background-color: #5dc1e8;
+    border-color: #5dc1e8;
+    margin-right: 1px;
+}
+
+.panel-reservation-body {
+    color: #ffffff;
+    background-color: #0099cc;
+    border-color: #0099cc;
+    margin-right: 1px;
+}
+
+
+.panel-ticket-header {
+    color: #ffffff;
+    background-color: #fcbc55;
+    border-color: #fcbc55;
+    margin-right: 1px;
+}
+
+.panel-ticket-body {
+    color: #ffffff;
+    background-color: #ff9900;
+    border-color: #ff9900;
+    margin-right: 1px;
+}
+
+.panel-popular-header {
+    color: #ffffff;
+    background-color: gainsboro;
+    border-color: gainsboro;
+    margin-right: 1px;
+    margin-top: 1px;
+}
+
+.panel-popular-body {
+    color: #000000;
+    border: 1px solid gainsboro;
+    margin-right: 1px;
+}
+
+
+.huge {
+    font-size: 45px;
+}
+
+#piechart {
+}

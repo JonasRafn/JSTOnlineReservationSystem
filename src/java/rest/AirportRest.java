@@ -14,6 +14,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import utility.EntityManagerFactoryProvider;
 
 @Path("airports")
 public class AirportRest {
@@ -23,7 +24,7 @@ public class AirportRest {
     private EntityManagerFactory emf;
 
     public AirportRest() {
-        emf = Persistence.createEntityManagerFactory(DeploymentConfiguration.PU_NAME);
+        emf = EntityManagerFactoryProvider.getEntityManagerFactory();
         ctrl = new AirportFacade(emf);
         gson = new GsonBuilder().setPrettyPrinting().create();
     }

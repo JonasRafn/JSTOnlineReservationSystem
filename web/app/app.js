@@ -12,13 +12,13 @@ angular.module('myApp', [
   'myApp.Search',
   'myApp.CreateUser',
   'myApp.Documentation',
-  'myApp.Reservations'
+  'myApp.Reservations',
+  'myApp.Dashboard'
 ]).
-config(['$routeProvider', function($routeProvider) {
-  $routeProvider.otherwise({redirectTo: '/search'});
-  }]).
-config(function ($httpProvider) {
-   $httpProvider.interceptors.push('authInterceptor');
-});
-
+        config(['$routeProvider', function ($routeProvider) {
+                $routeProvider.otherwise({redirectTo: '/search'});
+            }])
+        .config(function ($httpProvider) {
+            $httpProvider.interceptors.push('authInterceptor');
+        });
 

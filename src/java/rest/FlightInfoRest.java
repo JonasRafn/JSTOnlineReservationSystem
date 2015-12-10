@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import deploy.DeploymentConfiguration;
 import dto.AirlineDTO;
+import entity.SearchRequest;
 import exception.BadRequestException;
 import exception.NoResultException;
 import exception.NotFoundException;
@@ -19,6 +20,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import utility.EntityManagerFactoryProvider;
 
 @Path("flightinfo")
 public class FlightInfoRest {
@@ -28,7 +30,7 @@ public class FlightInfoRest {
     private EntityManagerFactory emf;
     
     public FlightInfoRest() {
-        emf = Persistence.createEntityManagerFactory(DeploymentConfiguration.PU_NAME);
+        emf = EntityManagerFactoryProvider.getEntityManagerFactory();
         ctrl = new FlightFacade(emf);
         gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").setPrettyPrinting().create();
     }
@@ -39,7 +41,8 @@ public class FlightInfoRest {
     public Response getFlightsFrom(@PathParam("from") String from, @PathParam("date") String stringDate, @PathParam("persons") int persons)
             throws NotFoundException, NoResultException, BadRequestException, ServerException {
         try {
-            List<AirlineDTO> flightsFrom = ctrl.getFlights(from, "", stringDate, persons);
+            SearchRequest request = new SearchRequest(from, stringDate, persons);
+            List<AirlineDTO> flightsFrom = ctrl.getFlights(request);
             return Response.ok(gson.toJson(flightsFrom)).build();
         } finally {
         }
@@ -51,7 +54,8 @@ public class FlightInfoRest {
     public Response getFlightsFromTo(@PathParam("from") String from, @PathParam("to") String to, @PathParam("date") String stringDate, @PathParam("persons") int persons)
             throws NotFoundException, NoResultException, BadRequestException, ServerException {
         try {
-            List<AirlineDTO> flightsFrom = ctrl.getFlights(from, to, stringDate, persons);
+            SearchRequest request = new SearchRequest(from, to, stringDate, persons);
+            List<AirlineDTO> flightsFrom = ctrl.getFlights(request);
             return Response.ok(gson.toJson(flightsFrom)).build();
         } finally {
         }

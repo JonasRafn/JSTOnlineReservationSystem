@@ -2,6 +2,7 @@ package facadetest;
 
 import deploy.DeploymentConfiguration;
 import dto.AirlineDTO;
+import entity.SearchRequest;
 import exception.BadRequestException;
 import exception.NoResultException;
 import exception.NotFoundException;
@@ -40,6 +41,7 @@ public class FlightFacadeTest {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory(DeploymentConfiguration.PU_NAME);
         IFlightFacade ctrl = new FlightFacade(emf);
         String stringDate = "2016-04-01T06:00:00.000Z";
+        SearchRequest request = new SearchRequest("CPH", "", stringDate, 3);
         String stringDestDate = "2016-04-01T07:00:00.000Z";
         DateFormat sdfISO = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
         Date date = null;
@@ -49,7 +51,7 @@ public class FlightFacadeTest {
             destDate = sdfISO.parse(stringDestDate);
         } catch (ParseException ex) {
         }
-        List<AirlineDTO> airlines = ctrl.getFlights("CPH", "", stringDate, 3);
+        List<AirlineDTO> airlines = ctrl.getFlights(request);
         assertEquals(1, airlines.size());
         assertTrue(airlines.get(0).getAirline().equals("AngularJS Airline-TestAirlineNo: 1"));
         assertEquals("COL2214", airlines.get(0).getFlights().get(0).getFlightID());
@@ -74,6 +76,7 @@ public class FlightFacadeTest {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory(DeploymentConfiguration.PU_NAME);
         IFlightFacade ctrl = new FlightFacade(emf);
         String stringDate = "2016-04-01T15:00:00.000Z";
+        SearchRequest request = new SearchRequest("CPH", "SXF", stringDate, 3);
         String stringDestDate = "2016-04-01T16:00:00.000Z";
         DateFormat sdfISO = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
         Date date = null;
@@ -83,7 +86,7 @@ public class FlightFacadeTest {
             destDate = sdfISO.parse(stringDestDate);
         } catch (ParseException ex) {
         }
-        List<AirlineDTO> airlines = ctrl.getFlights("CPH", "SXF", stringDate, 3);
+        List<AirlineDTO> airlines = ctrl.getFlights(request);
         assertEquals(1, airlines.size());
         assertEquals("COL2216", airlines.get(0).getFlights().get(1).getFlightID());
         assertTrue(airlines.get(0).getFlights().get(1).getNumberOfSeats() == 3);
@@ -108,7 +111,8 @@ public class FlightFacadeTest {
     public void getFlightFromUnknownAirport1() throws Exception {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory(DeploymentConfiguration.PU_NAME);
         IFlightFacade ctrl = new FlightFacade(emf);
-        List<AirlineDTO> airlines1 = ctrl.getFlights("BIK", "", "2016-08-01T00:00:00.000Z", 3);
+        SearchRequest request = new SearchRequest("BIK", "", "2016-08-01T00:00:00.000Z", 3);
+        List<AirlineDTO> airlines1 = ctrl.getFlights(request);
     }
 
     /**
@@ -121,7 +125,8 @@ public class FlightFacadeTest {
     public void getFlightFromToUnknownAirport0() throws Exception {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory(DeploymentConfiguration.PU_NAME);
         IFlightFacade ctrl = new FlightFacade(emf);
-        List<AirlineDTO> airlines0 = ctrl.getFlights("CPH", "BIK", "2016-08-01T00:00:00.000Z", 3);
+        SearchRequest request = new SearchRequest("CPH", "BIK", "2016-08-01T00:00:00.000Z", 3);
+        List<AirlineDTO> airlines0 = ctrl.getFlights(request);
     }
 
     /**
@@ -134,7 +139,8 @@ public class FlightFacadeTest {
     public void getFlightFromToUnknownAirport1() throws Exception {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory(DeploymentConfiguration.PU_NAME);
         IFlightFacade ctrl = new FlightFacade(emf);
-        List<AirlineDTO> airlines1 = ctrl.getFlights("BIK", "CPH", "2016-08-01T00:00:00.000Z", 3);
+        SearchRequest request = new SearchRequest("BIK", "CPH", "2016-08-01T00:00:00.000Z", 3);
+        List<AirlineDTO> airlines1 = ctrl.getFlights(request);
     }
 
     /**
@@ -147,7 +153,8 @@ public class FlightFacadeTest {
     public void getFlightFromToUnknownAirport2() throws Exception {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory(DeploymentConfiguration.PU_NAME);
         IFlightFacade ctrl = new FlightFacade(emf);
-        List<AirlineDTO> airlines2 = ctrl.getFlights("", "", "2016-08-01T00:00:00.000Z", 3);
+        SearchRequest request = new SearchRequest("", "", "2016-08-01T00:00:00.000Z", 3);
+        List<AirlineDTO> airlines2 = ctrl.getFlights(request);
     }
 
     /**
@@ -160,7 +167,8 @@ public class FlightFacadeTest {
     public void getFlightFromToUnknownAirport3() throws Exception {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory(DeploymentConfiguration.PU_NAME);
         IFlightFacade ctrl = new FlightFacade(emf);
-        List<AirlineDTO> airlines3 = ctrl.getFlights("BIK", "", "2016-08-01T00:00:00.000Z", 3);
+        SearchRequest request = new SearchRequest("BIK", "", "2016-08-01T00:00:00.000Z", 3);
+        List<AirlineDTO> airlines3 = ctrl.getFlights(request);
     }
 
     /**
@@ -173,7 +181,8 @@ public class FlightFacadeTest {
     public void getFlightFromToUnknownAirport4() throws Exception {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory(DeploymentConfiguration.PU_NAME);
         IFlightFacade ctrl = new FlightFacade(emf);
-        List<AirlineDTO> airlines4 = ctrl.getFlights("", "BIK", "2016-08-01T00:00:00.000Z", 3);
+        SearchRequest request = new SearchRequest("", "BIK", "2016-08-01T00:00:00.000Z", 3);
+        List<AirlineDTO> airlines4 = ctrl.getFlights(request);
     }
 
     /**
@@ -185,7 +194,8 @@ public class FlightFacadeTest {
     public void getFlightFromBadDate0() throws Exception {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory(DeploymentConfiguration.PU_NAME);
         IFlightFacade ctrl = new FlightFacade(emf);
-        List<AirlineDTO> airlines0 = ctrl.getFlights("CPH", "", "", 3);
+        SearchRequest request = new SearchRequest("CPH", "", "", 3);
+        List<AirlineDTO> airlines0 = ctrl.getFlights(request);
     }
 
     /**
@@ -198,7 +208,8 @@ public class FlightFacadeTest {
     public void getFlightFromBadDate1() throws Exception {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory(DeploymentConfiguration.PU_NAME);
         IFlightFacade ctrl = new FlightFacade(emf);
-        List<AirlineDTO> airlines1 = ctrl.getFlights("CPH", "", "invalid date", 3);
+        SearchRequest request = new SearchRequest("CPH", "", "invalid date", 3);
+        List<AirlineDTO> airlines1 = ctrl.getFlights(request);
     }
 
     /**
@@ -211,7 +222,8 @@ public class FlightFacadeTest {
     public void getFlightFromBadDate2() throws Exception {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory(DeploymentConfiguration.PU_NAME);
         IFlightFacade ctrl = new FlightFacade(emf);
-        List<AirlineDTO> airlines2 = ctrl.getFlights("SXF", "", "2016-04-01T06:00:00.000", 3);
+        SearchRequest request = new SearchRequest("SXF", "", "2016-04-01T06:00:00.000", 3);
+        List<AirlineDTO> airlines2 = ctrl.getFlights(request);
     }
 
     /**
@@ -224,7 +236,8 @@ public class FlightFacadeTest {
     public void getFlightFromBadDate3() throws Exception {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory(DeploymentConfiguration.PU_NAME);
         IFlightFacade ctrl = new FlightFacade(emf);
-        List<AirlineDTO> airlines3 = ctrl.getFlights("CDG", "", "01-01-2016", 3);
+        SearchRequest request = new SearchRequest("CDG", "", "01-01-2016", 3);
+        List<AirlineDTO> airlines3 = ctrl.getFlights(request);
     }
 
     /**
@@ -237,7 +250,8 @@ public class FlightFacadeTest {
     public void getFlightFromToBadDate() throws Exception {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory(DeploymentConfiguration.PU_NAME);
         IFlightFacade ctrl = new FlightFacade(emf);
-        List<AirlineDTO> airlines4 = ctrl.getFlights("CDG", "CPH", "01-01-2016", 3);
+        SearchRequest request = new SearchRequest("CDG", "CPH", "01-01-2016", 3);
+        List<AirlineDTO> airlines4 = ctrl.getFlights(request);
     }
 
     /**
@@ -250,7 +264,8 @@ public class FlightFacadeTest {
     public void getFlightFromNoFlights() throws Exception {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory(DeploymentConfiguration.PU_NAME);
         IFlightFacade ctrl = new FlightFacade(emf);
-        List<AirlineDTO> airlines0 = ctrl.getFlights("CPH", "", "2016-10-01T00:00:00.000Z", 100);
+        SearchRequest request = new SearchRequest("CPH", "", "2016-19-01T00:00:00.000Z", 100);
+        List<AirlineDTO> airlines0 = ctrl.getFlights(request);
     }
 
     /**
@@ -263,6 +278,7 @@ public class FlightFacadeTest {
     public void getFlightFromToNoFlights() throws Exception {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory(DeploymentConfiguration.PU_NAME);
         IFlightFacade ctrl = new FlightFacade(emf);
-        List<AirlineDTO> airlines0 = ctrl.getFlights("CPH", "BCN", "2016-12-15T00:00:00.000Z", 10);
+        SearchRequest request = new SearchRequest("CPH", "BCN", "2016-12-15T00:00:00.000Z", 10);
+        List<AirlineDTO> airlines0 = ctrl.getFlights(request);
     }
 }

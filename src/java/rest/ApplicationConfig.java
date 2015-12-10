@@ -19,6 +19,7 @@ public class ApplicationConfig extends Application {
      * out calling this method in getClasses().
      */
     private void addRestResourceClasses(Set<Class<?>> resources) {
+        resources.add(exceptionmapper.AirlineAlreadyExistExceptionMapper.class);
         resources.add(exceptionmapper.BadRequestExceptionMapper.class);
         resources.add(exceptionmapper.NoResultExceptionMapper.class);
         resources.add(exceptionmapper.NotFoundExceptionMapper.class);
@@ -28,6 +29,7 @@ public class ApplicationConfig extends Application {
         resources.add(rest.Admin.class);
         resources.add(rest.AirportRest.class);
         resources.add(rest.CreateUserRest.class);
+        resources.add(rest.DashboardRest.class);
         resources.add(rest.FlightInfoRest.class);
         resources.add(rest.ReservationRest.class);
         resources.add(rest.User.class);
