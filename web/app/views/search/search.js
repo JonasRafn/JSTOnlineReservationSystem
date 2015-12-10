@@ -13,6 +13,8 @@ angular.module('myApp.Search', ['ngRoute'])
 
                 self.airports = {};
 
+                self.isUser = false;
+
                 //Method to fetch airports and used to populate the datalist in search.html
                 self.getAirports = function () {
                     AirportFactory.getAirports()
@@ -31,6 +33,10 @@ angular.module('myApp.Search', ['ngRoute'])
 
                 // Method to handle the two different search request and fetch results
                 self.search = function () {
+
+                    if ($rootScope.isUser) {
+                        self.isUser = true;
+                    }
 
                     if (self.searchRequest.numberOfTickets === undefined) {
                         $rootScope.error = "You must provide a number of tickets";
@@ -87,10 +93,11 @@ angular.module('myApp.Search', ['ngRoute'])
                 };
 
                 //Method sets flightID in ReserveService
-                self.book = function (airline, id, date, totalPrice, pricePerson, flightTime, origin, originCity,
+                self.book = function (airline, id, nOP, date, totalPrice, pricePerson, flightTime, origin, originCity,
                         destination, destinationCity, destinationDate) {
                     ReserveService.setAirline(airline);
                     ReserveService.setFlightID(id);
+                    ReserveService.setNumberOfPassengers(nOP);
                     ReserveService.setDate(date);
                     ReserveService.setTotalPrice(totalPrice);
                     ReserveService.setPricePerson(pricePerson);

@@ -53,6 +53,7 @@ angular.module('myApp.security', [])
                                 }
                                 if (role === "User") {
                                     $scope.isUser = true;
+                                    $rootScope.isUser = true;
                                 }
                             });
                             $scope.error = null;
@@ -67,6 +68,7 @@ angular.module('myApp.security', [])
                             $scope.isUser = false;
                             $rootScope.username = "";
                             $scope.error = data.error;
+                            $rootScope.isUser = false;
                             //$scope.logout();  //Clears an eventual error message from timeout on the inner view
                         });
             };
@@ -75,6 +77,7 @@ angular.module('myApp.security', [])
                 $scope.isAuthenticated = false;
                 $scope.isAdmin = false;
                 $scope.isUser = false;
+                $rootScope.isUser = false;
                 delete $window.sessionStorage.token;
                 $location.path("#/view1");
             };

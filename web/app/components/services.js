@@ -7,7 +7,7 @@ angular.module('myApp.services', [])
         .service('ReserveService', [function () {
                 var airline = "";
                 var flightID = "";
-                var numberOfPassengers = 1;
+                var numberOfPassengers;
                 var date = "";
                 var totalPrice = 0;
                 var pricePerson = 0;
@@ -40,6 +40,7 @@ angular.module('myApp.services', [])
 
                 this.setNumberOfPassengers = function (nOP) {
                     numberOfPassengers = nOP;
+                    console.log("Service " + numberOfPassengers);
                 };
 
                 this.getDate = function () {

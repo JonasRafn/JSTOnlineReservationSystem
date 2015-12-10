@@ -10,10 +10,11 @@ angular.module('myApp.Reserve', ['ngRoute'])
 
         .controller('ReserveCtrl', ['ReserveFactory', 'ReserveService', '$rootScope', function (ReserveFactory, ReserveService, $rootScope) {
                 var self = this;
+                var count = 0;
                 self.reservation = {};
                 self.reservation.airline = ReserveService.getAirline();
                 self.reservation.flightID = ReserveService.getFlightID();
-                self.reservation.numberOfSeats = ReserveService.getNumberOfPassengers();
+//                self.reservation.numberOfSeats = ReserveService.getNumberOfPassengers();
                 self.reservation.date = ReserveService.getDate();
                 self.reservation.totalPrice = ReserveService.getTotalPrice();
                 self.reservation.pricePerson = ReserveService.getPricePerson();
@@ -33,13 +34,19 @@ angular.module('myApp.Reserve', ['ngRoute'])
                 };
 
                 self.getNumberOfPassengers = function () {
-                    return new Array(self.reservation.numberOfSeats);
+                    count++;
+                    console.log("getNumberOfPassengers " + ReserveService.getNumberOfPassengers() + " Count " + count);
+                    var nOP = ReserveService.getNumberOfPassengers();
+                    console.log("nOP " + nOP);
+                    return new Array(nOP);
+
                 };
 
-//                self.setNumberOfPassengers = function (nOP) {
-//                    console.log(nOP);
-//                    ReserveService.setNumberOfPassengers(nOP);
-//                };
+                self.setNumberOfPassengers = function (nOP) {
+                    ReserveService.setNumberOfPassengers(nOP);
+                    console.log("Reserve " + ReserveService.getNumberOfPassengers());
+                };
+
             }])
         .factory('ReserveFactory', ['$http', '$rootScope', function ($http, $rootScope) {
                 var bookTickets = function (reservation) {
