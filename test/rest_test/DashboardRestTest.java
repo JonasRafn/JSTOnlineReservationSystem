@@ -5,10 +5,10 @@ import static com.jayway.restassured.RestAssured.baseURI;
 import static com.jayway.restassured.RestAssured.defaultParser;
 import static com.jayway.restassured.RestAssured.when;
 import com.jayway.restassured.parsing.Parser;
+import deploy.DeploymentConfiguration;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
-import static org.hamcrest.Matchers.equalTo;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -19,6 +19,7 @@ public class DashboardRestTest {
     static Server server;
 
     public DashboardRestTest() {
+        DeploymentConfiguration.setTestModeOn();
         baseURI = "http://localhost:9090";
         defaultParser = Parser.JSON;
         basePath = "/api/dashboard";
@@ -49,9 +50,8 @@ public class DashboardRestTest {
     @Test
     public void test200_ok() {
         when().
-                get("/dashboard").
+                get("").
                 then().
-                statusCode(200).
-                body("numberOfSearches", equalTo(18));
+                statusCode(200);
     }
 }

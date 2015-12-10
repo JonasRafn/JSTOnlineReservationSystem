@@ -12,6 +12,6 @@ import dto.HistoryDTO;
  * @author sebastiannielsen
  */
 public interface IDashboardFacade {
-    public HistoryDTO getSearchHistory();
+    public HistoryDTO getSearchHistory() throws Exception;
 
 }

@@ -5,3 +5,8 @@ insert into airport (IATA_CODE, city, airport_name, country, time_zone) values (
 insert into airport (IATA_CODE, city, airport_name, country, time_zone) values ('SXF', 'Berlin', 'Flughafen Berlin-Schönefeld', 'Germany', 'Europe/Berlin');
 insert into airport (IATA_CODE, city, airport_name, country, time_zone) values ('CDG', 'Paris', 'Aéroport Paris-Charles de Gaulle', 'France' ,'Europe/Paris');
 insert into airport (IATA_CODE, city, airport_name, country, time_zone) values ('BCN', 'Barcelona', 'Barcelona Airport','Spain', 'Europe/Madrid');
+
+insert into SEARCHREQUEST (ID, DATE, DESTINATION, NUMBEROFTICKETS, ORIGIN) values (NULL, '2016-01-16T00:00:00.000Z', 'FCO', 2, 'CPH');
+insert into SEARCHREQUEST (ID, DATE, DESTINATION, NUMBEROFTICKETS, ORIGIN) values (NULL, '2016-01-16T00:00:00.000Z', 'FCO', 2, 'CPH');
+insert into SEARCHREQUEST (ID, DATE, DESTINATION, NUMBEROFTICKETS, ORIGIN) values (NULL, '2016-01-16T00:00:00.000Z', 'FCO', 2, 'CPH');
+insert into SEARCHREQUEST (ID, DATE, DESTINATION, NUMBEROFTICKETS, ORIGIN) values (NULL, '2016-01-16T00:00:00.000Z', 'FCO', 2, 'CPH');

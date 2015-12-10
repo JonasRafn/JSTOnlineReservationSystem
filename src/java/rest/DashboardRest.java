@@ -7,6 +7,7 @@ import entity.AirlineApi;
 import exception.AirlineAlreadyExistException;
 import facades.DashboardFacade;
 import interfaces.IDashboardFacade;
+import javax.annotation.security.RolesAllowed;
 import javax.persistence.EntityManagerFactory;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -37,7 +38,7 @@ public class DashboardRest {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getHistory() {
+    public Response getHistory() throws Exception {
         HistoryDTO history = ctrl.getSearchHistory();
         return Response.ok(gson.toJson(history)).build();
         
