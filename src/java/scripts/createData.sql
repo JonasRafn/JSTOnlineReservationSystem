@@ -1,4 +1,4 @@
-insert into airline_api (group_name, members, url, airline_name) values ('angular_airline1', 'Test Airline for Sprint 1', 'http://angularairline-plaul.rhcloud.com/', 'AngularJS Airline');
+insert into airline_api (group_name, members, url, airline_name) values ('angular_airline1', 'Test Airline for Sprint 1', 'http://angularairline-plaul.rhcloud.com/', 'AngularJS Airline-TestAirlineNo: 1');
 insert into airline_api (group_name, members, url, airline_name) values ('angular_airline2', 'Test Airline for Sprint 1', 'http://angularairline-plaul.rhcloud.com/', 'AngularJS Airline');
 insert into airline_api (group_name, members, url, airline_name) values ('angular_airline3', 'Test Airline for Sprint 1', 'http://angularairline-plaul.rhcloud.com/', 'AngularJS Airline');
 

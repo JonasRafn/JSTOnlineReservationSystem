@@ -1,0 +1,27 @@
+{
+    "airline": "AngularJS Airline-TestAirlineNo: 1",
+    "flightID": "COL3256",
+    "numberOfSeats": "3",
+    "date": "2016-01-11T10:00:00.000Z",
+    "totalPrice": 195,
+    "pricePerson": 65,
+    "flightTime": 90,
+    "origin": "CPH",
+    "originCity": "Copenhagen",
+    "destination": "STN",
+    "destinationCity": "London",
+    "destinationDate": "2016-01-11T10:30:00.000Z",
+    "user": {
+        "userName": "user"
+    },
+    "passengers": [
+        {
+            "firstName": "Jonas",
+            "lastName": "Rafn"
+        }
+    ],
+    "numberOfPassengers": "3",
+    "reserveeName": "Jonas Rafn",
+    "reserveePhone": "53555358",
+    "reserveeEmail": "jonaschrafn@gmail.com"
+}

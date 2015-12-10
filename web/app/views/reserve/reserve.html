@@ -10,16 +10,16 @@
                 </div>
 
                 <div class="panel-body">
-                    <form class="form-horizontal row-border" action="#">
+                    <form class="form-horizontal row-border"  ng-submit="ctrl.bookFlight()">
                         <h4>Flight and Reservee info</h4>
                         <span class="help-block">Information about the flight, reservee and number of passengers.</span>
                         <div class="form-group">
                             <label class="col-md-2 control-label">Flight ID and          Number of Passengers</label>
                             <div class="col-xs-5">
-                                <input class="form-control" type="text" name="flightID" readonly="" value="MCA2345">
+                                <input class="form-control" type="text" name="flightID" readonly="" value="{{ctrl.reservation.flightID}}">
                             </div>
                             <div class="col-xs-5">
-                                <select class="form-control" name="numberOfPassengers" ng-model="ctrl.numberOfPassengers">
+                                <select class="form-control" name="numberOfPassengers" ng-model="ctrl.reservation.numberOfSeats" ng-change="ctrl.setNumberOfPassengers(ctrl.reservation.numberOfSeats)" required>
                                     <option value="1">1 Passenger</option>
                                     <option value="2">2 Passengers</option>
                                     <option value="3">3 Passengers</option>
@@ -35,34 +35,34 @@
                         <div class="form-group">
                             <label class="col-md-2 control-label">Reservee Name</label>
                             <div class="col-md-10">
-                                <input type="text" name="reserveeName" class="form-control" placeholder="Full Name">
+                                <input type="text" name="reserveeName" class="form-control" placeholder="Full Name" ng-model="ctrl.reservation.reserveeName" required>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-2 control-label">Reservee Phone</label>
                             <div class="col-md-10">
-                                <input class="form-control" type="tel" name="reserveePhone" placeholder="Phone Number">
+                                <input class="form-control" type="tel" name="reserveePhone" placeholder="Phone Number" ng-model="ctrl.reservation.reserveePhone" required>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-2 control-label">Reservee Email</label>
                             <div class="col-md-10">
-                                <input class="form-control" type="email" name="placeholder" placeholder="Email Address">
+                                <input class="form-control" type="email" name="reserveeEmail" placeholder="Email Address" ng-model="ctrl.reservation.reserveeEmail" required>
                             </div>
                         </div>
                         <h4>Passengers</h4>
                         <span class="help-block">Input the first and last name of all passengers.</span>
-                        <div class="form-group" ng-repeat="n in []| range:ctrl.numberOfPassengers">
-                            <label class="col-md-2 control-label">Passenger</label>
+                        <div class="form-group" ng-repeat="i in ctrl.getNumberOfPassengers() track by $index" >
+                            <label class="col-md-2 control-label">Passenger {{$index + 1}}</label>
                             <div class="col-xs-5">
-                                <input type="text" name="passengerFirstName"  class="form-control" placeholder="First Name">
+                                <input type="text" name="passengerFirstName"  class="form-control" placeholder="First Name" ng-model="ctrl.reservation.passengers[$index].firstName" required>
                             </div>
                             <div class="col-xs-5">
-                                <input type="text" name="passengerLastName"  class="form-control" placeholder="Last Name">
+                                <input type="text" name="passengerLastName"  class="form-control" placeholder="Last Name" ng-model="ctrl.reservation.passengers[$index].lastName" required>
                             </div>
                         </div>
+                        <button class="btn btn-primary pull-right" >Reservation</button>
                     </form>
-                    <a href="#/search"><button class="btn btn-primary pull-right" ng-click="ctrl.reserve()">Reservation</button></a>
                 </div>
             </div>
         </div>

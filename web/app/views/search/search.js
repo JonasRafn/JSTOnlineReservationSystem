@@ -8,7 +8,7 @@ angular.module('myApp.Search', ['ngRoute'])
                 });
             }])
 
-        .controller('SearchCtrl', ['$rootScope', 'SearchFactory', 'AirportFactory', function ($rootScope, SearchFactory, AirportFactory) {
+        .controller('SearchCtrl', ['$rootScope', 'SearchFactory', 'AirportFactory', 'ReserveService', function ($rootScope, SearchFactory, AirportFactory, ReserveService) {
                 var self = this;
 
                 self.airports = {};
@@ -35,6 +35,8 @@ angular.module('myApp.Search', ['ngRoute'])
                     if (self.searchRequest.numberOfTickets === undefined) {
                         $rootScope.error = "You must provide a number of tickets";
                     } else {
+                        //Sets the number of passengers in ReserveService for later use
+                        ReserveService.setNumberOfPassengers(self.searchRequest.numberOfTickets);
                         // This part handles the search request for all departures from origin
                         if (self.searchRequest.destination === undefined || self.searchRequest.destination === "") {
                             SearchFactory.getAllFlightsFromOrigin(self.searchRequest)
@@ -80,7 +82,24 @@ angular.module('myApp.Search', ['ngRoute'])
                                         $rootScope.error = response.data.message;
                                     });
                         }
-                    };
+                    }
+                    ;
+                };
+
+                //Method sets flightID in ReserveService
+                self.book = function (airline, id, date, totalPrice, pricePerson, flightTime, origin, originCity,
+                        destination, destinationCity, destinationDate) {
+                    ReserveService.setAirline(airline);
+                    ReserveService.setFlightID(id);
+                    ReserveService.setDate(date);
+                    ReserveService.setTotalPrice(totalPrice);
+                    ReserveService.setPricePerson(pricePerson);
+                    ReserveService.setFlightTime(flightTime);
+                    ReserveService.setOrigin(origin);
+                    ReserveService.setOriginCity(originCity);
+                    ReserveService.setDestination(destination);
+                    ReserveService.setDestinationCity(destinationCity);
+                    ReserveService.setDestinationDate(destinationDate);
                 };
 
             }])

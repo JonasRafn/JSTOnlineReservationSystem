@@ -20,7 +20,7 @@ public class FlightDTO {
 
     public FlightDTO() {
     }
-    
+
     public FlightDTO(String flightID, int numberOfSeats, Date date, float totalPrice, int traveltime, String origin, String destination) {
         this.flightID = flightID;
         this.numberOfSeats = numberOfSeats;
@@ -39,11 +39,6 @@ public class FlightDTO {
         this.flightID = flightID;
     }
 
-    public void formatFlightIDCode(String str) {
-        List<String> flightIDList = Arrays.asList(flightID.split("x"));
-        this.flightID = flightIDList.get(0);
-    }
-    
     public void calculatePricePerPerson() {
         this.pricePerson = totalPrice / numberOfSeats;
     }

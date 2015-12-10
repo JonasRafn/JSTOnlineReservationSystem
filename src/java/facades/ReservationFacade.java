@@ -101,7 +101,7 @@ public class ReservationFacade implements IReservationFacade {
             TypedQuery<AirlineApi> query = em.createNamedQuery("AirlineApi.findbyAirlineName", AirlineApi.class).setParameter("airlineName", airlineName);
             List<AirlineApi> list = query.getResultList();
             if (list.isEmpty()) {
-                throw new ServerException("Something went wrong. Please try again");
+                throw new ServerException("Could not book the requested tickets at: " + airlineName + "! Please try again later.");
             } else {
                 airlineApi = list.get(0);
             }
