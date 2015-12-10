@@ -19,17 +19,7 @@
                                 <input class="form-control" type="text" name="flightID" readonly="" value="{{ctrl.reservation.flightID}}">
                             </div>
                             <div class="col-xs-5">
-                                <select class="form-control" name="numberOfPassengers" ng-model="ctrl.reservation.numberOfSeats" required>
-                                    <option value="1">1 Passenger</option>
-                                    <option value="2">2 Passengers</option>
-                                    <option value="3">3 Passengers</option>
-                                    <option value="4">4 Passengers</option>
-                                    <option value="5">5 Passengers</option>
-                                    <option value="6">6 Passengers</option>
-                                    <option value="7">7 Passengers</option>
-                                    <option value="8">8 Passengers</option>
-                                    <option value="9">9 Passengers</option>
-                                </select>
+                                <input class="form-control" type="text" name="numberOfPassengers" readonly="" value="{{ctrl.reservation.numberOfSeats|passenger}}">
                             </div>
                         </div>
                         <div class="form-group">
@@ -52,13 +42,13 @@
                         </div>
                         <h4>Passengers</h4>
                         <span class="help-block">Input the first and last name of all passengers.</span>
-                        <div class="form-group" ng-repeat="i in ctrl.getNumberOfPassengers() track by $index" >
-                            <label class="col-md-2 control-label">Passenger {{$index + 1}}</label>
+                        <div class="form-group" ng-repeat="passenger in ctrl.reservation.passengers" >
+                            <label class="col-md-2 control-label">Passenger </label>
                             <div class="col-xs-5">
-                                <input type="text" name="passengerFirstName"  class="form-control" placeholder="First Name" ng-model="ctrl.reservation.passengers[$index].firstName" required>
+                                <input type="text" name="passengerFirstName"  class="form-control" placeholder="First Name" ng-model="passenger.firstName" required>
                             </div>
                             <div class="col-xs-5">
-                                <input type="text" name="passengerLastName"  class="form-control" placeholder="Last Name" ng-model="ctrl.reservation.passengers[$index].lastName" required>
+                                <input type="text" name="passengerLastName"  class="form-control" placeholder="Last Name" ng-model="passenger.lastName" required>
                             </div>
                         </div>
                         <button class="btn btn-primary pull-right" >Reservation</button>
