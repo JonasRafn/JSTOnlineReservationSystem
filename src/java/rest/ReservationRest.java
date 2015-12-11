@@ -10,6 +10,9 @@ import facades.ReservationFacade;
 import interfaces.IReservationFacade;
 import java.io.IOException;
 import java.util.List;
+import javax.annotation.security.RolesAllowed;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -23,10 +26,11 @@ import javax.ws.rs.core.Response.Status;
 import static utility.JsonConverter.toJson;
 
 @Path("reservation")
+@RolesAllowed("User")
 public class ReservationRest {
 
-    private IReservationFacade ctrl;
-    private Gson gson;
+    private final IReservationFacade ctrl;
+    private final Gson gson;
 
     public ReservationRest() {
         ctrl = new ReservationFacade();
@@ -38,6 +42,7 @@ public class ReservationRest {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getUsersReservations(@PathParam("username") String username) throws NoResultException, Exception {
         List<Reservation> list = ctrl.getReservations(username);
+        System.out.println(toJson(list));
         return Response.ok(toJson(list)).build();
     }
     

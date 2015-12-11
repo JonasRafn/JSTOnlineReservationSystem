@@ -27,19 +27,15 @@ angular.module('myApp.Reserve', ['ngRoute'])
 
                 self.reservation.passengers = [];
 
+                for (var i = 0; i < ReserveService.getNumberOfPassengers(); i++) {
+                    self.reservation.passengers.push({});
+                }
+
                 self.bookFlight = function () {
-                    console.log(JSON.stringify(self.reservation));
                     ReserveFactory.bookTickets(self.reservation);
                 };
 
-                self.getNumberOfPassengers = function () {
-                    return new Array(self.reservation.numberOfSeats);
-                };
 
-//                self.setNumberOfPassengers = function (nOP) {
-//                    console.log(nOP);
-//                    ReserveService.setNumberOfPassengers(nOP);
-//                };
             }])
         .factory('ReserveFactory', ['$http', '$rootScope', function ($http, $rootScope) {
                 var bookTickets = function (reservation) {
@@ -55,15 +51,13 @@ angular.module('myApp.Reserve', ['ngRoute'])
                     bookTickets: bookTickets
                 };
             }])
-        .filter('range', function () {
-            return function (input, total) {
-                total = parseInt(total);
-
-                for (var i = 0; i < total; i++) {
-                    input.push(i);
+        .filter('passenger', function () {
+            return function (input) {
+                if (input === 1) {
+                    return input + " Passenger";
+                } else {
+                    return input + " Passengers";
                 }
-
-                return input;
             };
         });
 

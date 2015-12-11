@@ -37,5 +37,5 @@ public interface IFlightFacade {
      * @throws ServerException internal server error
      */
     public List<AirlineDTO> getFlights(SearchRequest request)
-            throws NotFoundException, NoResultException, BadRequestException, ServerException, Exception;
+            throws NotFoundException, NoResultException, BadRequestException, ServerException;
 }
