@@ -115,6 +115,7 @@ angular.module('myApp.services', [])
                 this.setDestinationDate = function (date) {
                     destinationDate = date;
                 };
+                
             }]).service('AdminService', [function () {
 
         var ID;

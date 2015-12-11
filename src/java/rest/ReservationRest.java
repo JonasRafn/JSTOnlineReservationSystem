@@ -26,7 +26,7 @@ import javax.ws.rs.core.Response.Status;
 import static utility.JsonConverter.toJson;
 
 @Path("reservation")
-@RolesAllowed("User")
+@RolesAllowed({"User", "Admin"})
 public class ReservationRest {
 
     private final IReservationFacade ctrl;

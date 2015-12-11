@@ -23,7 +23,7 @@ public class DashboardFacade implements IDashboardFacade {
     }
 
     @Override
-    public HistoryDTO getSearchHistory() {
+    public HistoryDTO getSearchHistory() throws Exception {
         HistoryDTO history = new HistoryDTO();
         history.setNumberOfSearches(getTotalNumberOfSearches());
         history.setNumberOfAirlines(getTotalNumberOfAirlines());
