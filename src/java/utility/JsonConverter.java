@@ -16,7 +16,7 @@ public class JsonConverter {
     public static String toJson(List<Reservation> list) {
         List<ReservationDTO> dtoList = new ArrayList();
         for (Reservation r : list) {
-            ReservationDTO dto = new ReservationDTO(r.getAirline(), r.getFlightID(), r.getNumberOfSeats(), r.getDate(), r.getTotalPrice(), r.getPricePerson(), r.getFlightTime(), r.getOrigin(), r.getOriginCity(), r.getDestination(), r.getDestinationCity(), r.getDestinationDate(), r.getReserveeName(), r.getReserveePhone(), r.getReserveeEmail(), r.getPassengers());
+            ReservationDTO dto = new ReservationDTO(r.getId(), r.getAirline(), r.getFlightID(), r.getNumberOfSeats(), r.getDate(), r.getTotalPrice(), r.getPricePerson(), r.getFlightTime(), r.getOrigin(), r.getOriginCity(), r.getDestination(), r.getDestinationCity(), r.getDestinationDate(), r.getReserveeName(), r.getReserveePhone(), r.getReserveeEmail(), r.getPassengers(), r.getUser().getUserName());
             dtoList.add(dto);
         }
         return GSON.toJson(dtoList);

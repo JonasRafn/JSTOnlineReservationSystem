@@ -65,7 +65,7 @@ public class Reservation implements Serializable {
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date destinationDate;
 
-    @Column(name = "reserveeName")
+    @Column(name = "reservee_name")
     private String reserveeName;
 
     @Column(name = "reservee_phone")

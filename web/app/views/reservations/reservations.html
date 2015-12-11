@@ -2,26 +2,29 @@
     <h1>{{username}}'s reservations</h1>
     <br>
     <div ng-init="ctrl.getReservations(username)">
-        <table class="table" ng-repeat="reservation in ctrl.reservations" >
+        <div ng-repeat="reservation in ctrl.reservations">
+        <table class="table">
             <caption style="font-size: 20px">{{reservation.originCity}} ({{reservation.origin}}) <span class="glyphicon glyphicon-arrow-right"></span> {{reservation.destinationCity}} ({{reservation.destination}})</caption>
             <thead>
                 <tr>
+                    <th>Ticket-holder</th>
                     <th>Airline</th>
                     <th>Departure</th>
                     <th>Flight time</th>
                     <th>Arrival</th>
                     <th>Price</th>
-                    <th></th>
+                    <th>Passengers</th>
                 </tr>
             </thead>
             <tbody> 
                 <tr class="active">
+                    <td>Name: {{reservation.reserveeName}} <br> Email: {{reservation.reserveeEmail}} <br> Phone: {{reservation.reserveePhone}}</td>
                     <td>{{reservation.airline}} <br/> {{reservation.flightID}}</td>
                     <td>{{reservation.origin}} <br/> {{reservation.date| date: 'dd-MM-yyyy HH:mm'}} </td>
                     <td>{{reservation.flightTime| formatTimer | date:'H:mm'}}</td>
                     <td>{{reservation.destination}} <br/> {{reservation.destinationDate| date: 'dd-MM-yyyy HH:mm'}}</td>
                     <td><p style="font-size:12px">{{reservation.pricePerson| currency}} per person</p>  <p style="font-size:20px">{{reservation.totalPrice| currency}}</p></td>
-                    <td><button ng-click="hiddenDiv = !hiddenDiv" type="button" class="btn btn-info">Passengers   <span class="badge">{{reservation.numberOfSeats}}</span></button></td>
+                    <td><button ng-click="ctrl.popUp(reservation.reservationID)" type="button" class="btn btn-info">Passengers   <span class="badge">{{reservation.numberOfSeats}}</span></button></td>
                 </tr>
             </tbody>
             <tbody>
@@ -33,6 +36,7 @@
                 </tr>
             </tbody>
         </table>
+        </div>
     </div>
 </div>
 

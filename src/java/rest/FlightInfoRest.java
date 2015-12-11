@@ -39,7 +39,7 @@ public class FlightInfoRest {
     @Path("{from}/{date}/{persons}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getFlightsFrom(@PathParam("from") String from, @PathParam("date") String stringDate, @PathParam("persons") int persons)
-            throws NotFoundException, NoResultException, BadRequestException, ServerException {
+            throws NotFoundException, NoResultException, BadRequestException, ServerException, Exception {
         try {
             SearchRequest request = new SearchRequest(from, stringDate, persons);
             List<AirlineDTO> flightsFrom = ctrl.getFlights(request);
@@ -52,7 +52,7 @@ public class FlightInfoRest {
     @Path("{from}/{to}/{date}/{persons}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getFlightsFromTo(@PathParam("from") String from, @PathParam("to") String to, @PathParam("date") String stringDate, @PathParam("persons") int persons)
-            throws NotFoundException, NoResultException, BadRequestException, ServerException {
+            throws NotFoundException, NoResultException, BadRequestException, ServerException, Exception {
         try {
             SearchRequest request = new SearchRequest(from, to, stringDate, persons);
             List<AirlineDTO> flightsFrom = ctrl.getFlights(request);

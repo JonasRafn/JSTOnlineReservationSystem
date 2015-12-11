@@ -1,0 +1,17 @@
+<div ng-controller="AdminCtrl as ctrl">
+    <table class="table">
+             <caption style="font-size: 20px">Flight: {{ctrl.reservation.flightID}}</caption>
+        <thead>
+            <tr>
+                <th>Ticket holder</th>
+                <th>Passengers</th>
+            </tr>
+        </thead>
+        <tbody> 
+            <tr>
+                <td>Name: {{ctrl.reservation.reserveeName}} <br> Email: {{ctrl.reservation.reserveeEmail}} <br> Phone: {{ctrl.reservation.reserveePhone}}</td>
+                <td><p ng-repeat="passenger in ctrl.reservation.passengers">{{passenger.firstName}} {{passenger.lastName}}</p></td>
+            <tr>
+        </tbody>
+    </table>
+</div>

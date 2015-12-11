@@ -73,10 +73,6 @@ public class FlightFacade implements IFlightFacade {
      */
     @Override
     public List<AirlineDTO> getFlights(SearchRequest request) throws NotFoundException, NoResultException, BadRequestException, ServerException, Exception {
-        if (1 == 1) {
-            throw new NullPointerException();
-        }
-
         List<AirlineDTO> airlines = new ArrayList();
         List<Future<Response>> airlineList = new ArrayList();
         List<AirlineApi> airlineApiList = getAirlineApiList();

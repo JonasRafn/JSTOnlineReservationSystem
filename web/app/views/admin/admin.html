@@ -1,0 +1,35 @@
+<div ng-controller="AdminCtrl as ctrl">
+    <h1>Admin</h1>
+    <h3>{{ctrl.reservations.length}} reservations in total</h3><br>
+    <input type="search" ng-model="reservationsFilter" placeholder="Filter reservations">
+    <div ng-init="ctrl.getReservations('admin')">
+        <br>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th><a href="" ng-click="predicate = 'username'; reverse = !reverse">Username</a></th>
+                    <th><a href="" ng-click="predicate = 'date'; reverse = !reverse">Travel date</a></th>
+                    <th><a href="" ng-click="predicate = 'destinationCity'; reverse = !reverse">Destination</a></th>
+                    <th><a href="" ng-click="predicate = 'originCity'; reverse = !reverse">Origin</a></th>
+                    <th><a href="" ng-click="predicate = 'totalPrice'; reverse = !reverse">Total price</a></th>
+                    <th><a href="" ng-click="predicate = 'pricePerson'; reverse = !reverse">Price/person</a></th>
+                    <th><a href="" ng-click="predicate = 'number'; reverse = !reverse">Passengers</a></th>
+                    <th>Details</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <tbody> 
+                <tr ng-repeat="reservation in ctrl.reservations | filter: reservationsFilter | orderBy:predicate:reverse">
+                    <td>{{reservation.username}}</td>
+                    <td>{{reservation.date| date: 'dd-MM-yyyy HH:mm'}}</td>
+                    <td>{{reservation.destinationCity}} ({{reservation.destination}})</td>
+                    <td>{{reservation.originCity}} ({{reservation.origin}})</td>
+                    <td>{{reservation.totalPrice| currency}}</td>
+                    <td>{{reservation.pricePerson| currency}}</td>
+                    <td>{{reservation.numberOfSeats}}</td>
+                    <td><button ng-click="ctrl.popUp(reservation.reservationID)" type="button" class="btn btn-info">Details</button></td>
+                    <td><button ng-click="ctrl.deleteReservation(reservation)" type="button" class="btn btn-danger">Delete</button></td>
+            </tbody>
+        </table>
+    </div>
+</div>

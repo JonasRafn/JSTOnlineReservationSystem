@@ -11,14 +11,28 @@
         <link rel="shortcut icon" href="app/assets/pic/favicon_plane.jpg">
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!--bootstrap-->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
         <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+
+        <!--custom css-->
         <link rel="stylesheet" href="app/app.css">   
+
+        <!--angular-js-->
         <script src="app/bower_components/angular/angular.js"></script>
         <script src = "https://code.angularjs.org/1.0.3/i18n/angular-locale_eu.js"></script>
         <script src="app/bower_components/angular-route/angular-route.js"></script>
         <script src='app/bower_components/angular-animate/angular-animate.min.js'></script>
         <script src="app/bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+
+        <!--ng-dialog: https://github.com/likeastore/ngDialog#api-->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/ng-dialog/0.5.6/js/ngDialog.min.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ng-dialog/0.5.6/css/ngDialog.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ng-dialog/0.5.6/css/ngDialog-theme-default.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ng-dialog/0.5.6/css/ngDialog-theme-plain.min.css">
+
+        <!--custom components-->
         <script src="app/components/services.js"></script>
         <script src="app/app.js"></script>
         <script src="app/views/reserve/reserve.js"></script>
@@ -27,11 +41,11 @@
         <script src="app/views/create_user/create_user.js"></script>
         <script src="app/views/documentation/documentation.js"></script>
         <script src="app/views/reservations/reservations.js"></script>
+        <script src="app/views/admin/admin.js"></script>
         <script src="app/views/dashboard/dashboard.js"></script>
         <script src="app/components/authentication.js"></script>
     </head>
     <body ng-app="myApp">
-
         <div class="container"  >
             <nav class="navbar navbar-fixed-top navbar-default " role="navigation" ng-controller="AppLoginCtrl">
                 <div class="container">
@@ -48,7 +62,8 @@
                         <ul class="nav navbar-nav">
                             <li><a href="#/documentation">Documentation</a></li>
                             <li ng-show="isAdmin"><a href="#/dashboard">Dashboard</a></li>
-                            <li ng-show="isAuthenticated"><a href="#/reservations">Reservations</a></li>
+                            <li ng-show="isAdmin"><a href="#/admin">Reservation Registrations</a></li>
+                            <li ng-show="isUser"><a href="#/reservations">Reservations</a></li>
                         </ul>
                         <div>
                             <form class="navbar-form navbar-right" role="form" ng-show="!isAuthenticated" ng-submit="login()"  >
@@ -74,15 +89,11 @@
                     </div>
                 </div>
             </nav>
-
             <div class = "container" style="margin-top: 85px;">
                 <div style="text-align: center;" class="alert alert-danger" role="alert" ng-show="error">{{error}}</div>
                 <div class="alert alert-success" role="success" ng-show="success">{{success}}</div>
                 <div ng-view></div>
             </div>
         </div>
-
-
-
     </body>
 </html>

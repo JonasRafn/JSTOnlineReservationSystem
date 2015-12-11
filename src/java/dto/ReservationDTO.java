@@ -8,6 +8,7 @@ import utility.TimeConverter;
 
 public class ReservationDTO {
 
+    private long reservationID;
     private String airline;
     private String flightID;
     private int numberOfSeats;
@@ -24,9 +25,11 @@ public class ReservationDTO {
     private String reserveePhone;
     private String reserveeEmail;
     private List<PassengerDTO> passengers;
+    private String username;
 
-    public ReservationDTO(String airline, String flightID, int numberOfSeats, Date date, float totalPrice, float pricePerson, int flightTime, String origin, String originCity, String destination, String destinationCity, Date destinationDate, String reserveeName, String reserveePhone, String reserveeEmail, List<Passenger> passengers) {
+    public ReservationDTO(long reservationID, String airline, String flightID, int numberOfSeats, Date date, float totalPrice, float pricePerson, int flightTime, String origin, String originCity, String destination, String destinationCity, Date destinationDate, String reserveeName, String reserveePhone, String reserveeEmail, List<Passenger> passengers, String username) {
 
+        this.reservationID = reservationID;
         this.airline = airline;
         this.flightID = flightID;
         this.numberOfSeats = numberOfSeats;
@@ -43,6 +46,7 @@ public class ReservationDTO {
         this.reserveePhone = reserveePhone;
         this.reserveeEmail = reserveeEmail;
         this.passengers = convertPassengerDTO(passengers);
+        this.username = username;
     }
 
     private List<PassengerDTO> convertPassengerDTO(List<Passenger> passengerList) {
@@ -54,6 +58,14 @@ public class ReservationDTO {
         return dtoList;
     }
 
+    public long getReservationID() {
+        return reservationID;
+    }
+
+    public void setReservationID(long reservationID) {
+        this.reservationID = reservationID;
+    }
+    
     public String getAirline() {
         return airline;
     }
@@ -180,5 +192,13 @@ public class ReservationDTO {
 
     public void setPassengers(List<PassengerDTO> passengers) {
         this.passengers = passengers;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 }

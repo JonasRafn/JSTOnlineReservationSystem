@@ -12,6 +12,7 @@ import interfaces.IReservationFacade;
 import entity.Reservation;
 import entity.User;
 import exception.NoResultException;
+import exception.NotFoundException;
 import exception.ReservationException;
 import exception.ServerException;
 import java.io.IOException;
@@ -39,12 +40,12 @@ public class ReservationFacade implements IReservationFacade {
     }
 
     @Override
-    public List<Reservation> getReservations(String username) throws NoResultException {
+    public List<Reservation> getReservations(String username) throws NoResultException, Exception {
         EntityManager em = getEntityManager();
         List<Reservation> reservations = new ArrayList();
         try {
             TypedQuery<Reservation> query;
-            if (username.isEmpty()) {
+            if (username.equals("admin")) {
                 query = em.createNamedQuery("Reservation.findAll", Reservation.class);
             } else {
                 User user = new User();
@@ -54,7 +55,7 @@ public class ReservationFacade implements IReservationFacade {
             reservations = query.getResultList();
             if (reservations.isEmpty()) {
                 throw new NoResultException();
-            } 
+            }
         } finally {
             em.close();
         }
@@ -72,19 +73,19 @@ public class ReservationFacade implements IReservationFacade {
     @Override
     public void reserveTickets(Reservation res) throws IOException, ServerException, ReservationException {
         AirlineApi airlineApi = getAirlineApi(res.getAirline()); // get api-url from airline
-        
+
         Client client = ClientBuilder.newClient();
         WebTarget target = client.target(airlineApi.getUrl() + "/api/flightreservation");
-        
+
         ReservationRequestDTO dto = createRequestDTO(res);
         Response response = target.request(MediaType.APPLICATION_JSON).post(Entity.entity(gson.toJson(dto, ReservationRequestDTO.class), MediaType.APPLICATION_JSON), Response.class);
-        
+
         if (response.getStatus() != 200) { // not ok, so pass error message to frontend
             String re = response.readEntity(String.class);
             JsonObject jo = gson.fromJson(re, JsonObject.class);
             throw new ReservationException(jo.get("message").toString());
         } else {
-             saveReservation(res);
+            saveReservation(res);
         }
     }
 
@@ -120,14 +121,30 @@ public class ReservationFacade implements IReservationFacade {
         EntityManager em = emf.createEntityManager();
         User user = em.find(User.class, res.getUser().getUserName());
         res.setUser(user);
-        
-        for(Passenger p : res.getPassengers()){
+
+        for (Passenger p : res.getPassengers()) {
             p.setReservation(res);
         }
-        
+
         em.getTransaction().begin();
         em.persist(res);
         em.getTransaction().commit();
+    }
+
+    @Override
+    public void deleteReservation(long reservationID) throws NotFoundException, Exception {
+        EntityManager em = emf.createEntityManager();
+        try {
+            Reservation reservation = em.find(Reservation.class, reservationID);
+            if (reservation == null) {
+                throw new NotFoundException("Reservation not found in DB");
+            }
+            em.getTransaction().begin();
+            em.remove(reservation);
+            em.getTransaction().commit();
+        } finally {
+            em.close();
+        }
     }
 
     private ReservationRequestDTO createRequestDTO(Reservation res) {

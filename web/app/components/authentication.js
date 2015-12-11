@@ -45,7 +45,6 @@ angular.module('myApp.security', [])
                             var encodedProfile = data.token.split('.')[1];
                             var profile = JSON.parse(url_base64_decode(encodedProfile));
                             $rootScope.username = profile.username; //!!!
-                            console.log($rootScope.username);
                             var roles = profile.roles.split(",");
                             roles.forEach(function (role) {
                                 if (role === "Admin") {

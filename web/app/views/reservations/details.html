@@ -1,0 +1,14 @@
+<div ng-controller="AdminCtrl as ctrl">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Passengers</th>
+            </tr>
+        </thead>
+        <tbody> 
+            <tr>
+                <td><p ng-repeat="passenger in ctrl.reservation.passengers">{{passenger.firstName}} {{passenger.lastName}}</p></td>
+            <tr>
+        </tbody>
+    </table>
+</div>
