@@ -1,3 +1,8 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package rest_test;
 
 import static com.jayway.restassured.RestAssured.basePath;
@@ -9,25 +14,30 @@ import deploy.DeploymentConfiguration;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
+import static org.hamcrest.Matchers.equalTo;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import rest.ApplicationConfig;
 
+/**
+ *
+ * @author sebastiannielsen
+ */
 public class DashboardRestTest {
-
-    static Server server;
-
-    public DashboardRestTest() {
+    
+    static Server server; 
+    public DashboardRestTest(){
         DeploymentConfiguration.setTestModeOn();
-        baseURI = "http://localhost:9090";
+        baseURI = "http://localhost:9092";
         defaultParser = Parser.JSON;
         basePath = "/api/dashboard";
+        
     }
-
+    
     @BeforeClass
     public static void setUpClass() throws Exception {
-        server = new Server(9090);
+        server = new Server(9092);
         ServletHolder servletHolder = new ServletHolder(org.glassfish.jersey.servlet.ServletContainer.class);
         servletHolder.setInitParameter("javax.ws.rs.Application", ApplicationConfig.class.getName());
         ServletContextHandler contextHandler = new ServletContextHandler(ServletContextHandler.SESSIONS);
@@ -36,22 +46,20 @@ public class DashboardRestTest {
         server.setHandler(contextHandler);
         server.start();
     }
-
+    
     @AfterClass
     public static void tearDownClass() throws Exception {
         server.stop();
-        //waiting for all the server threads to terminate so we can exit gracefully
         server.join();
     }
-
-    /**
-     * Test get with successful json-response
-     */
+    
     @Test
     public void test200_ok() {
         when().
-                get("").
+                get("history").
                 then().
-                statusCode(200);
+                body("numberOfSearches", equalTo(4));
     }
+    
+    
 }

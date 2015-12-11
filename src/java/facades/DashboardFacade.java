@@ -5,7 +5,6 @@ import entity.Airport;
 import entity.Destination;
 import entity.PopMonth;
 import interfaces.IDashboardFacade;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
