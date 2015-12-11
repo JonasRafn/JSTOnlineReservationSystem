@@ -16,5 +16,10 @@ public class tester {
 
         EntityManagerFactory emf = Persistence.createEntityManagerFactory(DeploymentConfiguration.PU_NAME);
         EntityManager em = emf.createEntityManager();
+
+        DeploymentConfiguration.setTestModeOn();
+        emf = Persistence.createEntityManagerFactory(DeploymentConfiguration.PU_NAME);
+        em = emf.createEntityManager();
+        DeploymentConfiguration.setTestModeOff();
     }
 }

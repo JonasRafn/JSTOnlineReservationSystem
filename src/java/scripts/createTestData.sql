@@ -1,6 +1,4 @@
-insert into airline_api (group_name, members, url, airline_name) values ('angular_airline1', 'Test Airline for Sprint 1', 'http://angularairline-plaul.rhcloud.com/', 'AngularJS Airline-TestAirlineNo: 1');
-insert into airline_api (group_name, members, url, airline_name) values ('angular_airline2', 'Test Airline for Sprint 1', 'http://angularairline-plaul.rhcloud.com/', 'AngularJS Airline');
-insert into airline_api (group_name, members, url, airline_name) values ('angular_airline3', 'Test Airline for Sprint 1', 'http://angularairline-plaul.rhcloud.com/', 'AngularJS Airline');
+insert into airline_api (group_name, members, url, airline_name) values ('angular_airline', 'Test Airline for Sprint 1', 'http://angularairline-plaul.rhcloud.com/', 'AngularJS Airline');
 
 insert into airport (IATA_CODE, city, airport_name, country, time_zone) values ('CPH', 'Copenhagen', 'Copenhagen Airport', 'Denmark','Europe/Copenhagen');
 insert into airport (IATA_CODE, city, airport_name, country, time_zone) values ('STN', 'London', 'London Stansted Airport', 'England', 'Europe/London');
@@ -34,15 +32,17 @@ insert into userrole (ROLENAME) values ('Admin');
 insert into systemuser (USERNAME, PASSWORD) values ('admin', '1000:ac2f87c3602ee1588535e0e196e508bfd563dc544a6dadcd:0824eebf1a4de2cf3f435cdcea90ee408c97bf8c66bbb2f2');
 insert into systemuser (USERNAME, PASSWORD) values ('user', '1000:2f05b308ffea5460622f1d8eb5b8036d5f231caddbfb52e0:e6d0fcd188b6c3e26f989e020f34a1fd14c14690ff2ac17f');
 insert into systemuser (USERNAME, PASSWORD) values ('user_admin', '1000:39e4a415622f639246c52492920ccd76750b633029413d93:01a34ed109d037c662b11fa86ea2de486d4af8343b677755');
+insert into systemuser (USERNAME, PASSWORD) values ('test', 'test');
 
 insert into systemuser_userrole (userName, roleName) values ('admin', 'Admin');
 insert into systemuser_userrole (userName, roleName) values ('user_admin', 'Admin');
 insert into systemuser_userrole (userName, roleName) values ('user_admin', 'User');
 insert into systemuser_userrole (userName, roleName) values ('user', 'User');
+insert into systemuser_userrole (userName, roleName) values ('test', 'User');
 
 insert into reservation (reservation_id, date, destination, traveltime, origin, reservee_name, airline, destination_city, destination_date, flight_ID, number_of_seats, origin_city, price_person, total_price, user_id, reservee_email, reservee_phone) values ('1', '2016-02-25T11:30:00.000', 'BCN', 60, 'CPH', 'Hans Hansen', 'Test Airline 1', 'Barcelona', '2016-02-25T12:30:00.000', 'SK975', 3, 'Copenhagen', 500.0, 1500.0, 'user', 'hans@hansen.dk', '12345678');
 insert into reservation (reservation_id, date, destination, traveltime, origin, reservee_name, airline, destination_city, destination_date, flight_ID, number_of_seats, origin_city, price_person, total_price, user_id, reservee_email, reservee_phone) values ('2', '2016-03-30T09:00:00.000', 'CPH', 60, 'BCN', 'Hans Hansen', 'Test Airline 1', 'Copenhagen', '2016-03-30T10:00:00.000', 'SK975', 3, 'Barcelona', 299.0, 1500.0, 'user', 'hans@hansen.dk', '12345678');
-insert into reservation (reservation_id, date, destination, traveltime, origin, reservee_name, airline, destination_city, destination_date, flight_ID, number_of_seats, origin_city, price_person, total_price, user_id, reservee_email, reservee_phone) values ('3', '2016-05-14T06:00:00.000', 'CPH', 120, 'SXF', 'Hans Hansen', 'Test Airline 3', 'Berlin', '2016-03-30T10:00:00.000', 'SK800', 8, 'Copenhagen', 129.95, 1039.6, 'admin', 'test@testesen.dk', '87654321');
+insert into reservation (reservation_id, date, destination, traveltime, origin, reservee_name, airline, destination_city, destination_date, flight_ID, number_of_seats, origin_city, price_person, total_price, user_id, reservee_email, reservee_phone) values ('3', '2016-05-14T06:00:00.000', 'CPH', 120, 'SXF', 'Hans Hansen', 'Test Airline 3', 'Berlin', '2016-03-30T10:00:00.000', 'SK800', 8, 'Copenhagen', 129.95, 1039.6, 'test', 'test@testesen.dk', '87654321');
 
 insert into passenger (passenger_id, first_name, last_name, reservation_id) values (1, 'Hans', 'Hansen', 1);
 insert into passenger (passenger_id, first_name, last_name, reservation_id) values (2, 'Hansine', 'Hansen', 1);

@@ -24,7 +24,7 @@ public class DashboardFacadeTest {
     }
 
     @Test
-    public void testhistory() {
+    public void testhistory() throws Exception {
         EntityManagerFactory emf = EntityManagerFactoryProvider.getEntityManagerFactory();
         IDashboardFacade dashboardctrl = new DashboardFacade(emf);
         

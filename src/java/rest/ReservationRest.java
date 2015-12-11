@@ -26,7 +26,6 @@ import javax.ws.rs.core.Response.Status;
 import static utility.JsonConverter.toJson;
 
 @Path("reservation")
-@RolesAllowed({"User", "Admin"})
 public class ReservationRest {
 
     private final IReservationFacade ctrl;
@@ -38,6 +37,7 @@ public class ReservationRest {
     }
 
     @GET
+    @RolesAllowed({"User", "Admin"})
     @Path("{username}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getUsersReservations(@PathParam("username") String username) throws NoResultException, Exception {
@@ -47,6 +47,7 @@ public class ReservationRest {
     }
     
     @POST
+    @RolesAllowed({"User"})
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response reserveTickets(String reservation) throws IOException, ServerException, ReservationException {
@@ -56,6 +57,7 @@ public class ReservationRest {
     }
     
     @DELETE
+    @RolesAllowed("Admin")
     @Path("{reservationID}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
