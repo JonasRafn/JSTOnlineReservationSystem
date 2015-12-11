@@ -1,3 +1,25 @@
+/* Basic Styling for the page START */
+
+html, body {
+    height: 100%;
+}
+
+body {
+    font-family: 'Lato', sans-serif;
+}
+
+* {
+    padding: 0;
+    margin: 0;
+}
+
+.no-padding {
+    padding: 0;
+}
+
+/* Basic Styling for the page END */
+
+
  ol.list {
     list-style-type: none;
     margin: 0;
@@ -37,8 +59,9 @@ ol.list > li:before {
 }
 .left-inner-addon i {
     position: absolute;
-    padding: 10px 12px;
+    padding: 8px 12px;
     pointer-events: none;
+    left: 0px;
 }
 
 .right-inner-addon {
@@ -54,95 +77,404 @@ ol.list > li:before {
     pointer-events: none;
 }
 
-#search {
-    margin-top: 24px;
+
+
+/* CSS for Navigation START */
+
+nav {
+    position: fixed;
     
 }
 
-table {border: 1px solid gainsboro;}
+.navbar {
+   background-color: transparent;
+   background: transparent;
+   border-color: transparent;
+   height: 50px;
+}
 
-/*.panel->.panel-heading {
-  color: #ffffff;
-  background-color: #444444;
-  border-color: #444444;
-}*/
+.navbar div {
+    height: 50px;
+}
+
+#navbar{
+    height: 50px;
+}
+
+.logo-holder-mobile {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.logo-mobile {
+    height: 40px;
+}
+
+#nav-btn-holder {
+    padding-top: 10px;
+    list-style: none;
+}
+
+#nav-btn-holder li {
+    display: inline-block;
+}
+
+.button-main {
+    padding: 10px;
+    padding-top: 5px;
+    margin-right: 10px;
+    background: none;
+    border: none;
+
+    color: rgba(43, 45, 66, 1);
+    font-weight: 700;
+    font-size: 1.15em;
+    transition: .5s, ease;
+    outline: none;
+}
 
 
-.panel-search-header {
+.button-text-white {
+    color: rgba(237, 242, 244, 1) !important;
+    transition: .5s, ease;
+}
+
+.button-main:after {
+    content: '';
+    margin-top: 10px;
+    display: block;
+    height: 3px;
+    width: 0;
+    background: transparent;
+    transition: width .5s ease, background-color .5s ease;
+}
+.button-main:hover:after {
+    width: 100%;
+    background-color: rgba(239, 35, 60, 1);
+}
+
+.button-main:focus:after {
+    width: 100%;
+    background-color: rgba(239, 35, 60, 1);
+}
+
+
+
+.nav-background {
+    height: 50px;
+    background-color: #77aaff;
+    position: fixed;
+    width: 100%;
+    z-index: 10;
+
+    top: -75px;
+    transition: .5s ease;
+
+    -webkit-box-shadow: 0 5px 12px -6px black;
+    -moz-box-shadow: 0 5px 12px -6px black;
+    box-shadow: 0 5px 12px -6px black;
+}
+
+.inview {
+    top: 0 !important;
+    transition: .5s ease;
+}
+
+.nav-background-mobile {
+    height: 50px;
+    background-color: #77aaff;
+    position: fixed;
+    width: 100%;
+    z-index: 10;
+
+    top: 0px;
+
+    -webkit-box-shadow: 0 5px 12px -6px black;
+    -moz-box-shadow: 0 5px 12px -6px black;
+    box-shadow: 0 5px 12px -6px black;
+}
+
+
+
+#login-form-holder {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(119, 170, 255, 1);
+
+    transition: 0.5s ease;
+}
+
+
+.form-login {
+    border: none;
+    border-radius: 5px;
+    background-color: #edf2f4;
+    height: 30px;
+    padding: 5px;
+    min-width: 200px;
+}
+
+.login-text {
     color: #ffffff;
-    background-color: #fd5157;
-    border-color: #fd5157;
-    margin-right: 1px;
+    font-size: 1em;
+    margin-right: 30px;
 }
 
-.panel-search-body {
-    color: #ffffff;
-    background-color:  #ff3333;
-    border-color:  #ff3333;
-    margin-right: 1px;
+#login-close-holder {
+    position: fixed;
+    cursor: pointer;
+    top: 50px;
+    right: 50px;
 }
 
-.panel-airline-header {
-    color: #ffffff;
-    background-color: #71c55a;
-    border-color: #71c55a;
-    margin-left: 1px;
-}
+#login-form {
+    position: absolute;
+    top: 50%;
+    left: 50%;
 
-.panel-airline-body {
-    color: #ffffff;
-    background-color: #339933;
-    border-color: #339933;
-    margin-left: 1px;
-}
+    -webkit-transform: translateX(-50%) translateY(-50%);
+    transform: translateX(-50%) translateY(-50%);
 
-.panel-reservation-header {
-    color: #ffffff;
-    background-color: #5dc1e8;
-    border-color: #5dc1e8;
-    margin-right: 1px;
-}
-
-.panel-reservation-body {
-    color: #ffffff;
-    background-color: #0099cc;
-    border-color: #0099cc;
-    margin-right: 1px;
 }
 
 
-.panel-ticket-header {
-    color: #ffffff;
-    background-color: #fcbc55;
-    border-color: #fcbc55;
-    margin-right: 1px;
+
+#login-close-holder:hover #login-close {
+    fill: #ef233c;
+
+    transition: 0.5s ease;
 }
 
-.panel-ticket-body {
-    color: #ffffff;
-    background-color: #ff9900;
-    border-color: #ff9900;
-    margin-right: 1px;
+.login-btn {
+    border: none;
+    border-radius: 5px;
+    background-color: #fff;
+    color: #ef233c;
+    padding: 10px 20px;
+
+    margin-top: 20px;
 }
 
-.panel-popular-header {
-    color: #ffffff;
-    background-color: gainsboro;
-    border-color: gainsboro;
-    margin-right: 1px;
-    margin-top: 1px;
+.login-btn:hover {
+    background-color: #edf2f4;
+    color: #d90429;
 }
 
-.panel-popular-body {
-    color: #000000;
-    border: 1px solid gainsboro;
-    margin-right: 1px;
+.login-btn:focus {
+    background-color: #edf2f4;
+    color: #d90429;
+    border: none;
+}
+
+.login-add-text {
+    color: #fff;
+}
+
+.login-add-text a{
+    color: #ef233c;
+}
+
+.login-add-text a:focus{
+    color: #ef233c;
+}
+
+/* CSS for Navigation END */
+
+/* CSS for hero video and text START */
+
+#video-container {
+    position: relative;
+    height: 85%;
+    width: 100%;
+    overflow: hidden;
+}
+
+#video-background { 
+  position: absolute;
+  top: 50%; 
+  left: 50%;
+  -webkit-transform: translateX(-50%) translateY(-50%);
+  transform: translateX(-50%) translateY(-50%);
+  min-width: 100%; 
+  min-height: 100%; 
+  width: auto; 
+  overflow: hidden;
+}
+
+#hero-txt {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translateX(-50%) translateY(-50%);
+    transform: translateX(-50%) translateY(-50%);
+
+    color: #fff;
+    font-weight: 700;
+    text-align: center;
+}
+
+#hero-txt h1{
+    font-size: 6em;
+    font-weight: 900;
+    letter-spacing: 3px;
+    color: #fff;
+    text-shadow: 
+    1px 0px 1px #ccc, 0px 1px 1px #eee, 
+    2px 1px 1px #ccc, 1px 2px 1px #eee,
+    3px 2px 1px #ccc;
+}
+
+#hero-txt h2 {
+    margin-top: 0;
+    font-size: 2em;
 }
 
 
-.huge {
-    font-size: 45px;
+#search-box-one {
+    position: absolute;
+    bottom: 0;
+    height: 15%;
+    width: 100%;
+
+    background-color: rgba(255, 255, 255, 0.3);
 }
 
-#piechart {
+#search-box-one hr {
+    display: none;
 }
+
+.form-group {
+    margin: 0;
+}
+
+#search-box-one form {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 100%;
+}
+
+/* CSS for hero video and text END */
+
+/* CSS for search bar front page  START*/
+
+
+.search-btn {
+    width: 100%;
+    height: 30px;
+    position: relative;
+    color: #EDF2F4;
+    font-size: 1.2em;
+    background-color: #d90429;
+    border: none;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px; 
+}
+
+.search-btn:hover {
+    background-color: #EF233C;
+}
+
+.search-btn:focus {
+    background-color: #EF233C;
+}
+
+
+.form-element {
+    padding: 0;
+}
+
+.form-control {
+    height: 30px;
+    border-radius: 0px;
+    border: none;
+    border-right: 1px solid #8D99AE;
+}
+
+#form-element-first {
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+#search-btn-mobile {
+    border: none;
+    background-color: #ffffff;
+
+    color: #77aaff;
+    font-size: 1.5em;
+    font-weight: 700;
+    padding: 10px;
+    margin-top: 20px;
+    transition: 0.5s ease;
+}
+
+
+#search-btn-mobile:focus {
+    background-color: #edf2f4;
+    color: #77aaff;
+    transition: 0.5s ease;
+    border: none;
+}
+
+/* CSS for search bar front page END */
+
+
+
+/* CSS for tagline START*/
+
+.tagline {
+    background-color: #D90429;
+    padding-top: 25px;
+    padding-bottom: 25px;
+
+    color: #fff;
+    font-size: 1.25em;
+    font-weight: 400;
+    text-align: center;
+}
+
+#plane {
+    height: 50px;
+}
+
+/* CSS for tagline END */
+
+/* CSS for footer START */
+
+footer {
+    padding-top: 50px;
+    padding-bottom: 50px;
+    background-color: #2B2D42;
+    border-top: 5px solid #EF233C;
+}
+
+.copy-text {
+    margin-top: 25px;
+    color: #fff;
+    font-size: 1.25em;
+}
+
+.social-icon-holder { 
+    text-align: right;
+}
+
+.social-icons {
+    height: 40px;
+    margin: 5px;
+    margin-top: 0px;
+}
+
+
+.citation {
+    font-size: .85em;
+    font-weight: 400;
+    color: #2B2D42;
+    text-align: center;
+    background-color: #EDF2F4;
+
+}
+/* CSS for footer END */
+
+

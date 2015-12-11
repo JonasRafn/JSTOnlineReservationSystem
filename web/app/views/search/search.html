@@ -1,3 +1,4 @@
+
 <div ng-controller="SearchCtrl as ctrl">
     <form class="form col-sm-12" role="form" ng-init="ctrl.getAirports()" ng-submit="ctrl.search()">
         <div class="col-sm-3">
@@ -59,4 +60,4 @@
     <datalist id="airports">
         <option ng-repeat="airport in ctrl.airports" label="{{airport.IATACode}}" value="{{airport.city}} ({{airport.IATACode}}), {{airport.country}}">
     </datalist>
-</div>    
+</div>  

@@ -17,7 +17,7 @@
             <tbody> 
                 <tr class="active">
                     <td>{{airline.airline}} <br/> {{flight.flightID}}</td>
-                    <td>{{flight.origin}} {{flight.originCity}} <br/> {{flight.date| date: 'dd-MM-yyyy HH:mm'}} </td>
+                    <td>{{flight.origin}} {{flight.originCity}} <br/> {{flight.date| date: 'dd-MM-yyyy HH:mm'}} </td>
                     <td>{{flight.traveltime| formatTimer | date:'H:mm'}}</td>
                     <td>{{flight.destination}} {{flight.destinationCity}} <br/> {{flight.destinationDate| date: 'dd-MM-yyyy HH:mm'}}</td>
                     <td><p style="font-size:12px">{{flight.pricePerson| currency}} per person</p>  <p style="font-size:20px">{{flight.totalPrice| currency}}</p></td>
