@@ -11,8 +11,6 @@ import interfaces.IReservationFacade;
 import java.io.IOException;
 import java.util.List;
 import javax.annotation.security.RolesAllowed;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -50,7 +48,7 @@ public class ReservationRest {
     @RolesAllowed({"User"})
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response reserveTickets(String reservation) throws IOException, ServerException, ReservationException {
+    public Response reserveTickets(String reservation) throws IOException, ServerException, ReservationException, Exception {
         ctrl.reserveTickets(gson.fromJson(reservation, Reservation.class));
         String success = "{\"message\":\"Tickets succesfully reserved\"}";
         return Response.status(Status.OK).entity(success).build();
