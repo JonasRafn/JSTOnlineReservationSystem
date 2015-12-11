@@ -37,7 +37,7 @@ public class DashboardRest {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getHistory() {
+    public Response getHistory() throws Exception {
         HistoryDTO history = ctrl.getSearchHistory();
         return Response.ok(gson.toJson(history)).build();
         
