@@ -46,7 +46,7 @@ public class JWTAuthenticationFilter implements ContainerRequestFilter {
     if (isSecuredResource()) {
       String authorizationHeader = request.getHeaderString("Authorization");
       if (authorizationHeader == null) {
-         throw new NotAuthorizedException("No authorization header provided",Response.Status.UNAUTHORIZED);
+         throw new NotAuthorizedException("Oops... You are not authorized to perform this action",Response.Status.UNAUTHORIZED);
       }
       String token = request.getHeaderString("Authorization").substring("Bearer ".length());
       try {

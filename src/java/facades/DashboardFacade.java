@@ -34,43 +34,49 @@ public class DashboardFacade implements IDashboardFacade {
         return history;
     }
 
-    private long getTotalNumberOfSearches() {
+    private long getTotalNumberOfSearches() throws Exception {
         EntityManager em = getEntityManager();
         long numberOfSearches = 0;
         try {
             TypedQuery<Long> query = em.createQuery("SELECT COUNT(s) FROM SearchRequest s", Long.class);
             numberOfSearches = query.getSingleResult();
+            return numberOfSearches;
+        } catch (Exception e){
+            throw new Exception();
         } finally {
-            em.close();
+             em.close();
         }
-        return numberOfSearches;
     }
 
-    private long getTotalNumberOfAirlines() {
+    private long getTotalNumberOfAirlines() throws Exception {
         EntityManager em = getEntityManager();
         long numberOfAirlines = 0;
         try {
             TypedQuery<Long> query = em.createQuery("SELECT COUNT(a) FROM AirlineApi a", Long.class);
             numberOfAirlines = query.getSingleResult();
+            return numberOfAirlines;
+        } catch (Exception e){
+            throw new Exception();
         } finally {
             em.close();
         }
-        return numberOfAirlines;
     }
 
-    private long getTotalNumberOfReservations() {
+    private long getTotalNumberOfReservations() throws Exception {
         EntityManager em = getEntityManager();
         long numberOfReservations = 0;
         try {
             TypedQuery<Long> query = em.createQuery("SELECT COUNT(r) FROM Reservation r", Long.class);
             numberOfReservations = query.getSingleResult();
+            return numberOfReservations;
+        } catch (Exception e){
+            throw new Exception();
         } finally {
             em.close();
         }
-        return numberOfReservations;
     }
 
-    private double getAverageNumberOfTickets() {
+    private double getAverageNumberOfTickets() throws Exception {
         EntityManager em = getEntityManager();
         double averageNumberOfTickets = 0;
         try {
@@ -79,13 +85,15 @@ public class DashboardFacade implements IDashboardFacade {
             double totalNumberOfSearches = Double.parseDouble(result[0].toString());
             double totalNumberOfTickets = Double.parseDouble(result[1].toString());
             averageNumberOfTickets = totalNumberOfTickets / totalNumberOfSearches;
+            return averageNumberOfTickets;
+        } catch (Exception e){
+            throw new Exception();
         } finally {
             em.close();
         }
-        return averageNumberOfTickets;
     }
 
-    private List<Destination> getMostPopularDestinations() {
+    private List<Destination> getMostPopularDestinations() throws Exception {
         EntityManager em = getEntityManager();
         List<Destination> mostPopularDestinations = new ArrayList();
         try {
@@ -98,14 +106,15 @@ public class DashboardFacade implements IDashboardFacade {
                 des.setDestination(airportMap.get(des.getIataCode()).getCity());
                 mostPopularDestinations.add(des);
             }
-
+            return mostPopularDestinations;
+        } catch (Exception e){
+            throw new Exception();
         } finally {
             em.close();
         }
-        return mostPopularDestinations;
     }
 
-    private List<PopMonth> getMostPopularMonth() {
+    private List<PopMonth> getMostPopularMonth() throws Exception  {
         EntityManager em = getEntityManager();
         List<PopMonth> mostPopularMonths = new ArrayList();
         try {
@@ -168,11 +177,12 @@ public class DashboardFacade implements IDashboardFacade {
                         break;
                 }
             }
-
+            return mostPopularMonths;
+        } catch (Exception e){
+            throw new Exception();
         } finally {
             em.close();
         }
-        return mostPopularMonths;
     }
 
     private EntityManager getEntityManager() {
