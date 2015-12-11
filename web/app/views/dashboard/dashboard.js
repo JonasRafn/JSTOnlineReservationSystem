@@ -14,14 +14,21 @@ angular.module('myApp.Dashboard', ['ngRoute'])
                 self.history = {};
                 self.getHistory = function () {
                     HistoryFactory.getHistory()
-                            .success(function (response) {
-                                self.history = response;
-                            }).error(function(response){
-                                $rootScope.error = response.error.message;
-                            });
+                        //Success
+                        .then(function (response) {
+                            self.history = response.data;
+                        }
+                        
+                        //Error
+                        , function(response){
+                            if(response.status === 401 || response.status === 403){
+                                    $rootScope.error = response.data.error.message;
+                                } else {
+                                    $rootScope.error = response.data.message;
+                                } 
+                        });
                 };
-            }
-        ])
+        }])
         
         .factory('HistoryFactory', ['$http', function ($http) {
                 var getHistory = function () {
