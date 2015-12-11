@@ -8,6 +8,7 @@ import interfaces.IDashboardFacade;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import javax.persistence.NoResultException;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
@@ -23,77 +24,77 @@ public class DashboardFacade implements IDashboardFacade {
     }
 
     @Override
-    public HistoryDTO getSearchHistory() throws Exception {
+    public HistoryDTO getSearchHistory() {
         HistoryDTO history = new HistoryDTO();
-        history.setNumberOfSearches(getTotalNumberOfSearches());
-        history.setNumberOfAirlines(getTotalNumberOfAirlines());
-        history.setNumberOfReservations(getTotalNumberOfReservations());
-        history.setMostPopularDestinations(getMostPopularDestinations());
-        history.setMostPopularMonths(getMostPopularMonth());
-        history.setAverageNumberOfTickets(getAverageNumberOfTickets());
+            history.setNumberOfSearches(getTotalNumberOfSearches());
+            history.setNumberOfAirlines(getTotalNumberOfAirlines());
+            history.setNumberOfReservations(getTotalNumberOfReservations());
+            history.setAverageNumberOfTickets(getAverageNumberOfTickets());
+            history.setMostPopularDestinations(getMostPopularDestinations());
+            history.setMostPopularMonths(getMostPopularMonth());
         return history;
     }
 
-    private long getTotalNumberOfSearches() throws Exception {
+    private long getTotalNumberOfSearches() {
         EntityManager em = getEntityManager();
-        long numberOfSearches = 0;
+        long numberOfSearches;
         try {
             TypedQuery<Long> query = em.createQuery("SELECT COUNT(s) FROM SearchRequest s", Long.class);
             numberOfSearches = query.getSingleResult();
-            return numberOfSearches;
-        } catch (Exception e){
-            throw new Exception();
+        } catch (Exception e) {
+            numberOfSearches = 0;
         } finally {
-             em.close();
+            em.close();
         }
+        return numberOfSearches;
     }
 
-    private long getTotalNumberOfAirlines() throws Exception {
+    private long getTotalNumberOfAirlines() {
         EntityManager em = getEntityManager();
-        long numberOfAirlines = 0;
+        long numberOfAirlines;
         try {
             TypedQuery<Long> query = em.createQuery("SELECT COUNT(a) FROM AirlineApi a", Long.class);
             numberOfAirlines = query.getSingleResult();
-            return numberOfAirlines;
-        } catch (Exception e){
-            throw new Exception();
+        } catch (Exception e) {
+            numberOfAirlines = 0;
         } finally {
             em.close();
         }
+        return numberOfAirlines;
     }
 
-    private long getTotalNumberOfReservations() throws Exception {
+    private long getTotalNumberOfReservations() {
         EntityManager em = getEntityManager();
-        long numberOfReservations = 0;
+        long numberOfReservations;
         try {
             TypedQuery<Long> query = em.createQuery("SELECT COUNT(r) FROM Reservation r", Long.class);
             numberOfReservations = query.getSingleResult();
-            return numberOfReservations;
-        } catch (Exception e){
-            throw new Exception();
+        } catch (Exception e) {
+            numberOfReservations = 0;
         } finally {
             em.close();
         }
+        return numberOfReservations;
     }
 
-    private double getAverageNumberOfTickets() throws Exception {
+    private double getAverageNumberOfTickets() {
         EntityManager em = getEntityManager();
-        double averageNumberOfTickets = 0;
+        double averageNumberOfTickets;
         try {
             TypedQuery<Object[]> query = em.createQuery("SELECT COUNT(s.id), SUM(s.numberOfTickets) FROM SearchRequest s", Object[].class);
             Object[] result = query.getSingleResult();
             double totalNumberOfSearches = Double.parseDouble(result[0].toString());
             double totalNumberOfTickets = Double.parseDouble(result[1].toString());
             averageNumberOfTickets = totalNumberOfTickets / totalNumberOfSearches;
-            return averageNumberOfTickets;
-        } catch (Exception e){
-            throw new Exception();
+        } catch (Exception e) {
+            averageNumberOfTickets = 0;
         } finally {
             em.close();
         }
+        return averageNumberOfTickets;
     }
 
-    private List<Destination> getMostPopularDestinations() throws Exception {
+    private List<Destination> getMostPopularDestinations() {
         EntityManager em = getEntityManager();
         List<Destination> mostPopularDestinations = new ArrayList();
         try {
@@ -106,15 +107,15 @@ public class DashboardFacade implements IDashboardFacade {
                 des.setDestination(airportMap.get(des.getIataCode()).getCity());
                 mostPopularDestinations.add(des);
             }
-            return mostPopularDestinations;
-        } catch (Exception e){
-            throw new Exception();
+        } catch (Exception e) {
+
         } finally {
             em.close();
         }
+        return mostPopularDestinations;
     }
 
-    private List<PopMonth> getMostPopularMonth() throws Exception  {
+    private List<PopMonth> getMostPopularMonth() {
         EntityManager em = getEntityManager();
         List<PopMonth> mostPopularMonths = new ArrayList();
         try {
@@ -177,12 +178,12 @@ public class DashboardFacade implements IDashboardFacade {
                         break;
                 }
             }
-            return mostPopularMonths;
-        } catch (Exception e){
-            throw new Exception();
+        } catch (Exception e) {
+
         } finally {
             em.close();
         }
+        return mostPopularMonths;
     }
 
     private EntityManager getEntityManager() {

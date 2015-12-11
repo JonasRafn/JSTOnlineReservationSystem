@@ -23,7 +23,7 @@ import javax.ws.rs.core.UriInfo;
 import utility.EntityManagerFactoryProvider;
 
 @Path("dashboard")
-//@RolesAllowed("Admin")
+@RolesAllowed("Admin")
 public class DashboardRest {
 
     private IDashboardFacade ctrl;
