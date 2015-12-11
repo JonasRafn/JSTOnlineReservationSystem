@@ -90,7 +90,7 @@ public class ReservationFacadeTest {
     }
 
     @Test
-    public void getReservationsTest() throws NoResultException {
+    public void getReservationsTest() throws NoResultException, Exception {
         rf = new ReservationFacade();
 
         String username = "user";
