@@ -9,39 +9,23 @@ angular.module('myApp.Dashboard', ['ngRoute'])
                 });
             }])
 
-        .controller('DashboardCtrl', ['HistoryFactory','AirlineFactory', function (HistoryFactory, AirlineFactory) {
+        .controller('DashboardCtrl', ['$rootScope','HistoryFactory', function ($rootScope, HistoryFactory) {
                 var self = this;
-                self.airline = {};
-                self.addAirline = function(){
-                    AirlineFactory.addAirline(self.airline);
-                }
                 self.history = {};
                 self.getHistory = function () {
                     HistoryFactory.getHistory()
-                            .success(function (history) {
-                                self.history = history;
+                            .success(function (response) {
+                                self.history = response;
+                            }).error(function(response){
+                                $rootScope.error = response.error.message;
                             });
                 };
-
             }
         ])
         
-        .factory('AirlineFactory', ['$http', '$rootScope', function($http, $rootScope){
-               var addAirline = function(airline){
-                   $http.post("api/dashboard", airline).then(function (response) {
-                            $rootScope.success = "Airline succesfullly created!";
-                        }, function (response) {
-                            $rootScope.error = response.data.message;
-                        });
-               };
-               return {
-                    addAirline: addAirline
-                };
-        }])
-
         .factory('HistoryFactory', ['$http', function ($http) {
                 var getHistory = function () {
-                    var url = "api/dashboard";
+                    var url = "api/dashboard/history";
                     return $http.get(url);
                 };
 

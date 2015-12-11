@@ -27,7 +27,7 @@ angular.module('myApp.security', [])
             $scope.title = 'Flight Reservation';
             $rootScope.username = "";
             $scope.isAuthenticated = false;
-            $scope.isAdmin = false;
+            $rootScope.isAdmin = false;
             $scope.isUser = false;
             $scope.message = '';
             $scope.error = null;
@@ -48,7 +48,7 @@ angular.module('myApp.security', [])
                             var roles = profile.roles.split(",");
                             roles.forEach(function (role) {
                                 if (role === "Admin") {
-                                    $scope.isAdmin = true;
+                                    $rootScope.isAdmin = true;
                                 }
                                 if (role === "User") {
                                     $scope.isUser = true;
@@ -63,7 +63,7 @@ angular.module('myApp.security', [])
                             // Erase the token if the user fails to log in
                             delete $window.sessionStorage.token;
                             $scope.isAuthenticated = false;
-                            $scope.isAdmin = false;
+                            $rootScope.isAdmin = false;
                             $scope.isUser = false;
                             $rootScope.username = "";
                             $scope.error = data.error;
@@ -74,7 +74,7 @@ angular.module('myApp.security', [])
 
             $rootScope.logout = function () {
                 $scope.isAuthenticated = false;
-                $scope.isAdmin = false;
+                $rootScope.isAdmin = false;
                 $scope.isUser = false;
                 $rootScope.isUser = false;
                 delete $window.sessionStorage.token;
@@ -89,7 +89,7 @@ angular.module('myApp.security', [])
                     var encodedProfile = token.split('.')[1];
                     var profile = JSON.parse(url_base64_decode(encodedProfile));
                     $rootScope.username = profile.username;
-                    $scope.isAdmin = profile.role === "Admin";
+                    $rootScope.isAdmin = profile.role === "Admin";
                     $scope.isUser = !$scope.isAdmin;
                     $scope.error = null;
                     $scope.success = null;

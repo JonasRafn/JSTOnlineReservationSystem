@@ -1,129 +1,131 @@
-<div ng-controller="DashboardCtrl as ctrl">    
+<div ng-controller="DashboardCtrl as ctrl">
     <div class="page-header" ng-init="ctrl.getHistory()">
         <h1>Dashboard</h1>
     </div>
-    <div class="col-sm-3">
-        <div class="panel-heading panel-search-header">
-            <div class="row text-right">
-                <div class="col-xs-3">
-                    <div><i class="icon-search icon-4x"></i></div>
+    <div ng-show='isAdmin'>
+        <div class="col-sm-3">
+            <div class="panel-heading panel-search-header">
+                <div class="row text-right">
+                    <div class="col-xs-3">
+                        <div><i class="icon-search icon-4x"></i></div>
+                    </div>
+                    <div class="col-xs-9 text-right">
+                        <div class="huge">{{ctrl.history.numberOfSearches}}</div>
+                        <div>Search Request</div>
+                    </div>
                 </div>
-                <div class="col-xs-9 text-right">
-                    <div class="huge">{{ctrl.history.numberOfSearches}}</div>
-                    <div>Search Request</div>
-                </div>
+            </div>    
+            <div class="panel-body panel-search-body text-center">
+                <div>More Info <i class="icon-circle-arrow-right"></i></div>
             </div>
-        </div>    
-        <div class="panel-body panel-search-body text-center">
-            <div>More Info <i class="icon-circle-arrow-right"></i></div>
         </div>
-    </div>
-    
-    
-    <div class="col-sm-3">
-        <div class="panel-heading panel-reservation-header">
-            <div class="row text-right">
-                <div class="col-xs-3">
-                    <div><i class="icon-credit-card icon-4x"></i></div>
-                </div>
-                <div class="col-xs-9 text-right">
-                    <div class="huge">{{ctrl.history.numberOfReservations}}</div>
-                    <div>Reservation Registrations</div>
-                </div>
-            </div>
-        </div>    
-        <div class="panel-body panel-reservation-body text-center">
-            <div>More Info <i class="icon-circle-arrow-right"></i></div>
-        </div>
-    </div>
-    
-    
-    <div class="col-sm-3">
-        <div class="panel-heading panel-ticket-header">
-            <div class="row text-right">
-                <div class="col-xs-3">
-                    <div><i class="icon-ticket icon-4x"></i></div>
-                </div>
-                <div class="col-xs-9 text-right">
-                    <div class="huge">{{ctrl.history.averageNumberOfTickets  | number:2}}</div>
-                    <div>Average Ticket Request</div>
-                </div>
-            </div>
-        </div>    
-        <div class="panel-body panel-ticket-body text-center">
-            <div>More Info <i class="icon-circle-arrow-right"></i></div>
-        </div>
-    </div>
-    
-    <div class="col-sm-3">
-        <div class="panel-heading panel-airline-header">
-            <div class="row text-right">
-                <div class="col-xs-3">
-                    <div><i class="icon-plane icon-4x"></i></div>
-                </div>
-                
-                <div class="col-xs-9 text-right">
-                    <div class="huge">{{ctrl.history.numberOfAirlines}}</div>
-                    <div>Airline Registrations</div>
-                </div>
-            </div>
-        </div>    
-        <div class="panel-body panel-airline-body text-center">
-            <div>More Info <i class="icon-circle-arrow-right"></i></div>
-        </div>
-    </div>
 
-    <div class="col-sm-6" style="margin-top: 15px;">
-        <div class="panel-heading panel-popular-header">
-            <div class="row">
-                <div class="col-xs-12">
-                    <div><i class="icon-star icon-1x"></i> Most Popular Destinations</div>
+
+        <div class="col-sm-3">
+            <div class="panel-heading panel-reservation-header">
+                <div class="row text-right">
+                    <div class="col-xs-3">
+                        <div><i class="icon-credit-card icon-4x"></i></div>
+                    </div>
+                    <div class="col-xs-9 text-right">
+                        <div class="huge">{{ctrl.history.numberOfReservations}}</div>
+                        <div>Reservation Registrations</div>
+                    </div>
                 </div>
+            </div>    
+            <div class="panel-body panel-reservation-body text-center">
+                <div>More Info <i class="icon-circle-arrow-right"></i></div>
             </div>
-        </div>   
-        <div class="panel-body panel-popular-body text-center">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Destination</th>
-                        <th>IATA Code</th>
-                        <th>Amount of Search Request</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr ng-repeat="dest in ctrl.history.mostPopularDestinations">
-                        <td class="text-left">{{dest.destination}}</td>
-                        <td>{{dest.iataCode}}</td>
-                        <td>{{dest.numberOfSearches}}</td>
-                    </tr>
-                </tbody>
-            </table>
         </div>
-    </div>
-    
-    <div class="col-sm-6" style="margin-top: 15px;">
-        <div class="panel-heading panel-popular-header">
-            <div class="row">
-                <div class="col-xs-12">
-                    <div><i class="icon-star icon-1x"></i> Most Popular Months</div>
+
+
+        <div class="col-sm-3">
+            <div class="panel-heading panel-ticket-header">
+                <div class="row text-right">
+                    <div class="col-xs-3">
+                        <div><i class="icon-ticket icon-4x"></i></div>
+                    </div>
+                    <div class="col-xs-9 text-right">
+                        <div class="huge">{{ctrl.history.averageNumberOfTickets| number:2}}</div>
+                        <div>Average Ticket Request</div>
+                    </div>
                 </div>
+            </div>    
+            <div class="panel-body panel-ticket-body text-center">
+                <div>More Info <i class="icon-circle-arrow-right"></i></div>
             </div>
-        </div>   
-        <div class="panel-body panel-popular-body text-center">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Month</th>
-                        <th>Amount of Search Request</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr ng-repeat="month in ctrl.history.mostPopularMonths">
-                        <td class="text-left">{{month.month}}</td>
-                        <td>{{month.amountOfSearches}}</td>
-                    </tr>
-                </tbody>
-            </table>
+        </div>
+
+        <div class="col-sm-3">
+            <div class="panel-heading panel-airline-header">
+                <div class="row text-right">
+                    <div class="col-xs-3">
+                        <div><i class="icon-plane icon-4x"></i></div>
+                    </div>
+
+                    <div class="col-xs-9 text-right">
+                        <div class="huge">{{ctrl.history.numberOfAirlines}}</div>
+                        <div>Airline Registrations</div>
+                    </div>
+                </div>
+            </div>    
+            <div class="panel-body panel-airline-body text-center">
+                <div>More Info <i class="icon-circle-arrow-right"></i></div>
+            </div>
+        </div>
+
+        <div class="col-sm-6" style="margin-top: 15px;">
+            <div class="panel-heading panel-popular-header">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div><i class="icon-star icon-1x"></i> Most Popular Destinations</div>
+                    </div>
+                </div>
+            </div>   
+            <div class="panel-body panel-popular-body text-center">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Destination</th>
+                            <th>IATA Code</th>
+                            <th>Amount of Search Request</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="dest in ctrl.history.mostPopularDestinations">
+                            <td class="text-left">{{dest.destination}}</td>
+                            <td>{{dest.iataCode}}</td>
+                            <td>{{dest.numberOfSearches}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="col-sm-6" style="margin-top: 15px;">
+            <div class="panel-heading panel-popular-header">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div><i class="icon-star icon-1x"></i> Most Popular Months</div>
+                    </div>
+                </div>
+            </div>   
+            <div class="panel-body panel-popular-body text-center">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Month</th>
+                            <th>Amount of Search Request</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="month in ctrl.history.mostPopularMonths">
+                            <td class="text-left">{{month.month}}</td>
+                            <td>{{month.amountOfSearches}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>    

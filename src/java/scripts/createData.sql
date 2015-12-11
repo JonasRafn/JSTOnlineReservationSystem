@@ -51,3 +51,8 @@ insert into passenger (passenger_id, first_name, last_name, reservation_id) valu
 insert into passenger (passenger_id, first_name, last_name, reservation_id) values (4, 'Hans', 'Hansen', 2);
 insert into passenger (passenger_id, first_name, last_name, reservation_id) values (5, 'Hansine', 'Hansen', 2);
 insert into passenger (passenger_id, first_name, last_name, reservation_id) values (6, 'Hanslille', 'Hansen', 2);
+
+insert into SEARCHREQUEST (ID, DATE, DESTINATION, NUMBEROFTICKETS, ORIGIN) values (NULL, '2016-01-16T00:00:00.000Z', 'FCO', 2, 'CPH');
+insert into SEARCHREQUEST (ID, DATE, DESTINATION, NUMBEROFTICKETS, ORIGIN) values (NULL, '2016-01-16T00:00:00.000Z', 'FCO', 2, 'CPH');
+insert into SEARCHREQUEST (ID, DATE, DESTINATION, NUMBEROFTICKETS, ORIGIN) values (NULL, '2016-01-16T00:00:00.000Z', 'FCO', 2, 'CPH');
+insert into SEARCHREQUEST (ID, DATE, DESTINATION, NUMBEROFTICKETS, ORIGIN) values (NULL, '2016-01-16T00:00:00.000Z', 'FCO', 2, 'CPH');
