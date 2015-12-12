@@ -126,8 +126,6 @@ public class FlightFacade implements IFlightFacade {
         }
         executor.shutdown();
 
-        int testNo = 1; // testing purposes only
-
         // 'continue;' skips object in loop and go to next
         for (Future<Response> r : airlineList) {
             AirlineDTO airline = new AirlineDTO();
@@ -160,7 +158,7 @@ public class FlightFacade implements IFlightFacade {
                         System.out.println("##--Wrong Json syntax--##");
                         continue;
                     }
-                    airline = new AirlineDTO(gson.fromJson(jo.get("airline").toString(), String.class) + "-TestAirlineNo: " + testNo++); //save airline name
+                    airline = new AirlineDTO(gson.fromJson(jo.get("airline").toString(), String.class)); //save airline name
                     for (JsonElement element : jo.getAsJsonArray("flights")) { //save flights
                         JsonObject asJsonObject = element.getAsJsonObject();
                         FlightDTO dto = gson.fromJson(asJsonObject, FlightDTO.class);
