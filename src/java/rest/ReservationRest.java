@@ -40,7 +40,6 @@ public class ReservationRest {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getUsersReservations(@PathParam("username") String username) throws NoResultException, Exception {
         List<Reservation> list = ctrl.getReservations(username);
-        System.out.println(toJson(list));
         return Response.ok(toJson(list)).build();
     }
     

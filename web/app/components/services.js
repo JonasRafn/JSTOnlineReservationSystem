@@ -41,7 +41,6 @@ angular.module('myApp.services', [])
 
                 this.setNumberOfPassengers = function (nOP) {
                     numberOfPassengers = nOP;
-                    console.log("Service " + numberOfPassengers);
                 };
 
                 this.getDate = function () {

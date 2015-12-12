@@ -42,6 +42,7 @@ angular.module('myApp.Reserve', ['ngRoute'])
                     $http.post("api/reservation", reservation)
                             .then(function (response) {
                                 $rootScope.success = response.data.message;
+                                
                             }, function (response) {
                                 $rootScope.error = response.data.message;
                             });
