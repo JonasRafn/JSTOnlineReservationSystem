@@ -8,12 +8,14 @@ angular.module('myApp.Search', ['ngRoute'])
                 });
             }])
 
-        .controller('SearchCtrl', ['$rootScope', 'SearchFactory', 'AirportFactory', 'ReserveService', function ($rootScope, SearchFactory, AirportFactory, ReserveService) {
+        .controller('SearchCtrl', ['$rootScope', 'SearchFactory', 'AirportFactory', 'ReserveService', '$timeout', function ($rootScope, SearchFactory, AirportFactory, ReserveService, $timeout) {
                 var self = this;
 
                 self.airports = {};
 
                 self.isUser = false;
+
+                self.showSpinner = false;
 
                 //Method to fetch airports and used to populate the datalist in search.html
                 self.getAirports = function () {
@@ -41,6 +43,8 @@ angular.module('myApp.Search', ['ngRoute'])
                     if (self.searchRequest.numberOfTickets === undefined) {
                         $rootScope.error = "You must provide a number of tickets";
                     } else {
+                        self.ShowResults = false;
+                        self.showSpinner = true;
                         //Sets the number of passengers in ReserveService for later use
                         ReserveService.setNumberOfPassengers(self.searchRequest.numberOfTickets);
                         // This part handles the search request for all departures from origin
@@ -53,17 +57,26 @@ angular.module('myApp.Search', ['ngRoute'])
                                         var data = response.data;
                                         //Check for no response status 
                                         if (status === 204) {
-                                            self.ShowResults = false;
-                                            $rootScope.error = "Oops! No flights were found...\n We weren't able to find any flights matching your request. Please try again, perhaps with alternative dates or airports.";
+                                            $timeout(function () {
+                                                self.showSpinner = false;
+                                                self.ShowResults = false;
+                                                $rootScope.error = "Oops! No flights were found...\n We weren't able to find any flights matching your request. Please try again, perhaps with alternative dates or airports.";
+                                            }, 5000);
                                         } else {
-                                            self.ShowResults = true;
-                                            self.results = data;
+                                            $timeout(function () {
+                                                self.showSpinner = false;
+                                                self.ShowResults = true;
+                                                self.results = data;
+                                            }, 5000);
                                         }
                                     }
                                     //Error
                                     , function (response) {
-                                        self.ShowResults = false;
-                                        $rootScope.error = response.data.message;
+                                        $timeout(function () {
+                                            self.showSpinner = false;
+                                            self.ShowResults = false;
+                                            $rootScope.error = response.data.message;
+                                        }, 5000);
                                     });
                         }
                         // This part handles the search request for all departures from origin to destination
@@ -71,21 +84,31 @@ angular.module('myApp.Search', ['ngRoute'])
                             SearchFactory.getAllFlightsFromOriginToDestination(self.searchRequest)
                                     //Success
                                     .then(function (response) {
+                                        self.showSpinner = false;
                                         var status = response.status;
                                         var data = response.data;
                                         //Check for no response status 
                                         if (status === 204) {
-                                            self.ShowResults = false;
-                                            $rootScope.error = "Oops! No flights were found...\n We weren't able to find any flights matching your request. Please try again, perhaps with alternative dates or airports.";
+                                            $timeout(function () {
+                                                self.showSpinner = false;
+                                                self.ShowResults = false;
+                                                $rootScope.error = "Oops! No flights were found...\n We weren't able to find any flights matching your request. Please try again, perhaps with alternative dates or airports.";
+                                            }, 5000);
                                         } else {
-                                            self.ShowResults = true;
-                                            self.results = data;
+                                            $timeout(function () {
+                                                self.showSpinner = false;
+                                                self.ShowResults = true;
+                                                self.results = data;
+                                            }, 5000);
                                         }
                                     }
                                     //Error
                                     , function (response) {
-                                        self.ShowResults = false;
-                                        $rootScope.error = response.data.message;
+                                         $timeout(function () {
+                                            self.showSpinner = false;
+                                            self.ShowResults = false;
+                                            $rootScope.error = response.data.message;
+                                        }, 5000);
                                     });
                         }
                     }

@@ -54,6 +54,10 @@
         </div>
     </form>
     <hr/>
+    <div class="text-muted text-center" ng-show="ctrl.showSpinner">
+        <h3>Please wait, we're finding great fares for you... </h3>
+        <i class="fa fa-spinner fa-pulse fa-3x"></i>
+    </div>
     <results ng-show = "ctrl.ShowResults"></results>
 
     <datalist id="airports">
