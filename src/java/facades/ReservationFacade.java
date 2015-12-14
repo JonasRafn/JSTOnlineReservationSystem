@@ -66,12 +66,12 @@ public class ReservationFacade implements IReservationFacade {
      * Post a reservationRequest to a airline based on the groupName
      *
      * @param res
-     * @throws IOException
-     * @throws ServerException
-     * @throws exception.ReservationException
+     * @throws IOException when something unexpected happens during rest-call
+     * @throws ServerException when no airlineAPI's are returned from DB
+     * @throws exception.ReservationException when there are no tickets available
      */
     @Override
-    public void reserveTickets(Reservation res) throws IOException, ServerException, ReservationException {
+    public void reserveTickets(Reservation res) throws IOException, ServerException, ReservationException, Exception {
         AirlineApi airlineApi = getAirlineApi(res.getAirline()); // get api-url from airline
 
         Client client = ClientBuilder.newClient();
@@ -79,7 +79,6 @@ public class ReservationFacade implements IReservationFacade {
 
         ReservationRequestDTO dto = createRequestDTO(res);
         Response response = target.request(MediaType.APPLICATION_JSON).post(Entity.entity(gson.toJson(dto, ReservationRequestDTO.class), MediaType.APPLICATION_JSON), Response.class);
-
         if (response.getStatus() != 200) { // not ok, so pass error message to frontend
             String re = response.readEntity(String.class);
             JsonObject jo = gson.fromJson(re, JsonObject.class);
@@ -117,9 +116,12 @@ public class ReservationFacade implements IReservationFacade {
      *
      * @param res
      */
-    private void saveReservation(Reservation res) {
+    private void saveReservation(Reservation res) throws ServerException, Exception {
         EntityManager em = emf.createEntityManager();
         User user = em.find(User.class, res.getUser().getUserName());
+        if (user == null) {
+            throw new ServerException("User with username: " + res.getUser().getUserName() + " not found! Please try again later.");
+        }
         res.setUser(user);
 
         for (Passenger p : res.getPassengers()) {
@@ -147,7 +149,7 @@ public class ReservationFacade implements IReservationFacade {
         }
     }
 
-    private ReservationRequestDTO createRequestDTO(Reservation res) {
+    private ReservationRequestDTO createRequestDTO(Reservation res) throws Exception {
         ReservationRequestDTO dto = new ReservationRequestDTO(res.getFlightID(), res.getNumberOfSeats(), res.getReserveeName(), res.getReserveePhone(), res.getReserveeEmail());
         for (Passenger p : res.getPassengers()) {
             PassengerDTO pDto = new PassengerDTO(p.getFirstName(), p.getLastName());
@@ -156,7 +158,7 @@ public class ReservationFacade implements IReservationFacade {
         return dto;
     }
 
-    private EntityManager getEntityManager() {
+    private EntityManager getEntityManager() throws Exception {
         return emf.createEntityManager();
     }
 }

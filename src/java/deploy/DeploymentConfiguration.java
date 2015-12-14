@@ -27,4 +27,8 @@ public class DeploymentConfiguration implements ServletContextListener {
     public static void setTestModeOn() {
         PU_NAME = "pu_test";
     }
+    
+    public static void setTestModeOff() {
+        PU_NAME = "pu_dev";
+    }
 }

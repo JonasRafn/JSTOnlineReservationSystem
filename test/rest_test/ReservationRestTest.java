@@ -20,32 +20,27 @@ public class ReservationRestTest {
 
     static Server server;
 
-    static String request = "{\n"
-            + "    \"airline\": \"AngularJS Airline-TestAirlineNo: 1\",\n"
-            + "    \"flightID\": \"COL3256x100x2016-01-11T10:00:00.000Z\",\n"
-            + "    \"date\": \"2016-01-11T10:00:00.000Z\",\n"
-            + "    \"totalPrice\": 130,\n"
-            + "    \"pricePerson\": 65,\n"
-            + "    \"flightTime\": 90,\n"
-            + "    \"origin\": \"CPH\",\n"
-            + "    \"originCity\": \"Copenhagen\",\n"
-            + "    \"destination\": \"STN\",\n"
-            + "    \"destinationCity\": \"London\",\n"
-            + "    \"destinationDate\": \"2016-01-11T10:30:00.000Z\",\n"
-            + "    \"user\": {\n"
-            + "        \"userName\": \"user\"\n"
-            + "    },\n"
-            + "    \"passengers\": [\n"
-            + "        {\n"
-            + "            \"firstName\": \"Jonas\",\n"
-            + "            \"lastName\": \"Rafn\"\n"
-            + "        }\n"
-            + "    ],\n"
-            + "    \"numberOfSeats\": \"3\",\n"
-            + "    \"reserveeName\": \"Jonas Rafn\",\n"
-            + "    \"reserveePhone\": \"+4553555358\",\n"
-            + "    \"reserveeEmail\": \"jonaschrafn@gmail.com\"\n"
-            + "}";
+    static String request = "{\"airline\":\"AngularJS Airline\","
+            + "\"flightID\":\"COL2334x100x2016-01-16T16:00:00.000Z\","
+            + "\"numberOfSeats\":\"2\","
+            + "\"date\":\"2016-01-16T16:00:00.000Z\","
+            + "\"totalPrice\":240,"
+            + "\"pricePerson\":120,"
+            + "\"flightTime\":180,"
+            + "\"origin\":\"CPH\","
+            + "\"originCity\":\"Copenhagen\","
+            + "\"destination\":\"BCN\","
+            + "\"destinationCity\":\"Barcelona\","
+            + "\"destinationDate\":\"2016-01-16T19:00:00.000Z\","
+            + "\"user\":{\"userName\":\"user\"},"
+            + "\"passengers\":"
+            + "["
+            + "{\"firstName\":\"Lars\",\"lastName\":\"Krimi\"},"
+            + "{\"firstName\":\"Fyrst\",\"lastName\":\"Walter\"}"
+            + "],"
+            + "\"reserveeName\":\"Lars Krimi\","
+            + "\"reserveePhone\":\"12345678\","
+            + "\"reserveeEmail\":\"lars@krimi.dk\"}";
 
     public ReservationRestTest() {
         DeploymentConfiguration.setTestModeOn();
@@ -73,6 +68,9 @@ public class ReservationRestTest {
         server.join();
     }
 
+    /**
+     * Tests successful reservation of tickets
+     */
     @Test
     public void reserveTicketAuthorizedTest() {
         //First, make a login to get the token for the Authorization, saving the response body in String json
@@ -83,14 +81,32 @@ public class ReservationRestTest {
                 post("/login").
                 then().
                 statusCode(200).extract().asString();
-        given(). //ReservationRest @RolesAllowed("User")
+        given().
                 contentType("application/json").
                 header("Authorization", "Bearer " + from(json).get("token")).
                 when().
                 body(request).
                 post("/reservation").
                 then().
-                statusCode(200);
+                statusCode(200).
+                body("message", equalTo("Tickets succesfully reserved"));
+        json = given().
+                contentType("application/json").
+                body("{'username':'admin','password':'test'}").
+                when().
+                post("/login").
+                then().
+                statusCode(200).extract().asString();
+        given().
+                contentType("application/json").
+                header("Authorization", "Bearer " + from(json).get("token")).
+                when().
+                body(request).
+                delete("/reservation/4").
+                then().
+                statusCode(200).
+                body("message", equalTo("Reservation succesfully removed"));
+
     }
 
     @Test
@@ -116,14 +132,15 @@ public class ReservationRestTest {
                 post("/login").
                 then().
                 statusCode(200).extract().asString();
-        given(). //ReservationRest @RolesAllowed("User")
+        given().
                 contentType("application/json").
                 header("Authorization", "Bearer " + from(json).get("token")).
                 when().
                 get("/reservation/" + user).
                 then().
                 statusCode(200).
-                body("[0].flightID", equalTo("SK975"));
+                body("[0].flightID", equalTo("SK975")).
+                body("[0].reserveePhone", equalTo("12345678"));
     }
 
     @Test
@@ -140,6 +157,7 @@ public class ReservationRestTest {
 
     @Test
     public void getAllReservationsAuthorizedTest() {
+        String user = "admin";
         //First, make a login to get the token for the Authorization, saving the response body in String json
         String json = given().
                 contentType("application/json").
@@ -148,24 +166,16 @@ public class ReservationRestTest {
                 post("/login").
                 then().
                 statusCode(200).extract().asString();
-        given(). //ReservationRest @RolesAllowed("User")
+        given().
                 contentType("application/json").
                 header("Authorization", "Bearer " + from(json).get("token")).
                 when().
-                get("/reservation/all").
+                get("/reservation/" + user).
                 then().
                 statusCode(200).
-                body("[0].flightID", equalTo("SK975"));
-    }
-
-    @Test
-    public void getAllReservationsNotAuthorizedTest() {
-        //No login first, so the rest will return 401 Not Authorized
-        given().
-                contentType("application/json").
-                when().
-                get("/reservation/all").
-                then().
-                statusCode(401);
+                body("size()", equalTo(3)).
+                body("[0].flightID", equalTo("SK975")).
+                body("[1].flightID", equalTo("SK975")).
+                body("[2].flightID", equalTo("SK800"));
     }
 }

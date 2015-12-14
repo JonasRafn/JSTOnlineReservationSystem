@@ -1,6 +1,7 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -76,7 +77,7 @@ public class Reservation implements Serializable {
 
     @JoinColumn(name = "passenger_id")
     @OneToMany(mappedBy = "reservation", cascade = CascadeType.ALL)
-    private List<Passenger> passengers;
+    private List<Passenger> passengers = new ArrayList();
 
     @JoinColumn(name = "user_id")
     @OneToOne
@@ -192,6 +193,10 @@ public class Reservation implements Serializable {
 
     public void setPassengers(List<Passenger> passengers) {
         this.passengers = passengers;
+    }
+    
+    public void addPassenger(Passenger passenger) {
+        passengers.add(passenger);
     }
 
     public User getUser() {

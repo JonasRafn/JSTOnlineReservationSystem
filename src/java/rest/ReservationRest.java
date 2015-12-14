@@ -11,8 +11,6 @@ import interfaces.IReservationFacade;
 import java.io.IOException;
 import java.util.List;
 import javax.annotation.security.RolesAllowed;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -26,7 +24,6 @@ import javax.ws.rs.core.Response.Status;
 import static utility.JsonConverter.toJson;
 
 @Path("reservation")
-@RolesAllowed({"User", "Admin"})
 public class ReservationRest {
 
     private final IReservationFacade ctrl;
@@ -38,24 +35,26 @@ public class ReservationRest {
     }
 
     @GET
+    @RolesAllowed({"User", "Admin"})
     @Path("{username}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getUsersReservations(@PathParam("username") String username) throws NoResultException, Exception {
         List<Reservation> list = ctrl.getReservations(username);
-        System.out.println(toJson(list));
         return Response.ok(toJson(list)).build();
     }
     
     @POST
+    @RolesAllowed({"User"})
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response reserveTickets(String reservation) throws IOException, ServerException, ReservationException {
+    public Response reserveTickets(String reservation) throws IOException, ServerException, ReservationException, Exception {
         ctrl.reserveTickets(gson.fromJson(reservation, Reservation.class));
         String success = "{\"message\":\"Tickets succesfully reserved\"}";
         return Response.status(Status.OK).entity(success).build();
     }
     
     @DELETE
+    @RolesAllowed("Admin")
     @Path("{reservationID}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)

@@ -1,51 +1,53 @@
 {
     "$schema": "http://json-schema.org/draft-04/schema#",
-    "id": "/",
+    "id": "http://jsonschema.net",
     "type": "object",
     "properties": {
         "airline": {
-            "id": "airline",
+            "id": "http://jsonschema.net/airline",
             "type": "string"
         },
         "flights": {
-            "id": "flights",
+            "id": "http://jsonschema.net/flights",
             "type": "array",
             "items": {
-                "id": "0",
+                "id": "http://jsonschema.net/flights/0",
                 "type": "object",
                 "properties": {
                     "flightID": {
-                        "id": "flightID",
+                        "id": "http://jsonschema.net/flights/0/flightID",
                         "type": "string"
                     },
                     "numberOfSeats": {
-                        "id": "numberOfSeats",
+                        "id": "http://jsonschema.net/flights/0/numberOfSeats",
                         "type": "integer"
                     },
                     "date": {
-                        "id": "date",
+                        "id": "http://jsonschema.net/flights/0/date",
                         "type": "string"
                     },
                     "totalPrice": {
-                        "id": "totalPrice",
-                        "type": "integer"
+                        "id": "http://jsonschema.net/flights/0/totalPrice",
+                        "type": "number"
                     },
                     "traveltime": {
-                        "id": "traveltime",
+                        "id": "http://jsonschema.net/flights/0/traveltime",
                         "type": "integer"
                     },
                     "origin": {
-                        "id": "origin",
+                        "id": "http://jsonschema.net/flights/0/origin",
                         "type": "string"
                     },
                     "destination": {
-                        "id": "destination",
+                        "id": "http://jsonschema.net/flights/0/destination",
                         "type": "string"
                     }
-                }
+                },
+                "additionalProperties": false
             }
         }
     },
+    "additionalProperties": false,
     "required": [
         "airline",
         "flights"

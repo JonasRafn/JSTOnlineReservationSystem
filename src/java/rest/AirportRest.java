@@ -2,13 +2,11 @@ package rest;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import deploy.DeploymentConfiguration;
 import entity.Airport;
 import facades.AirportFacade;
 import interfaces.IAirportFacade;
 import java.util.List;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;

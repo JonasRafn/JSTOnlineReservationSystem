@@ -29,13 +29,18 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.TypedQuery;
 import exception.NotFoundException;
 import exception.ServerException;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ws.rs.core.Response;
+import org.everit.json.schema.ValidationException;
 import service.GetFlights;
 import utility.Airports;
+import utility.JsonValidator;
 
 /**
  * http://www.oracle.com/webfolder/technetwork/tutorials/obe/java/JAXRS2/jaxrs-clients.html
@@ -47,11 +52,13 @@ public class FlightFacade implements IFlightFacade {
     private final int TIMEOUT_DELAY = 10; //seconds
     private EntityManagerFactory emf;
     private Map<String, Airport> airports;
+    private JsonValidator jsonValidator;
 
     public FlightFacade(EntityManagerFactory emf) {
         this.emf = emf;
         airports = Airports.getAirports();
         gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").setPrettyPrinting().create();
+        jsonValidator = new JsonValidator();
     }
 
     /**
@@ -72,7 +79,7 @@ public class FlightFacade implements IFlightFacade {
      * @throws ServerException
      */
     @Override
-    public List<AirlineDTO> getFlights(SearchRequest request) throws NotFoundException, NoResultException, BadRequestException, ServerException, Exception {
+    public List<AirlineDTO> getFlights(SearchRequest request) throws NotFoundException, NoResultException, BadRequestException, ServerException {
         List<AirlineDTO> airlines = new ArrayList();
         List<Future<Response>> airlineList = new ArrayList();
         List<AirlineApi> airlineApiList = getAirlineApiList();
@@ -119,47 +126,53 @@ public class FlightFacade implements IFlightFacade {
         }
         executor.shutdown();
 
-        int testNo = 1; // testing purposes only
+        // 'continue;' skips object in loop and go to next
         for (Future<Response> r : airlineList) {
             AirlineDTO airline = new AirlineDTO();
+
+            Response response;
             try {
-                Response response = r.get(TIMEOUT_DELAY, TimeUnit.SECONDS);
-                int status = response.getStatus();
-                String re = response.readEntity(String.class);
-                switch (status) {
-                    //case 400: 1. No flights from BCN at the given date, 2. Flight is sold out, or not enough avilable tickets
-                    //case 404: 2. HTTP 404 Not Found
-                    //case 500: 3. Internal server error
-                    case 200: // OK
-                        JsonObject jo = gson.fromJson(re, JsonObject.class);
-                        airline = new AirlineDTO(gson.fromJson(jo.get("airline").toString(), String.class) + "-TestAirlineNo: " + testNo++); //save airline name
-                        for (JsonElement element : jo.getAsJsonArray("flights")) { //save flights
-                            JsonObject asJsonObject = element.getAsJsonObject();
-                            FlightDTO dto = gson.fromJson(asJsonObject, FlightDTO.class);
-                            dto.calculatePricePerPerson(); // calcaute price per person
-                            dto.setDestinationCity(airports.get(dto.getDestination()).getCity());
-                            dto.setOriginCity(airports.get(dto.getOrigin()).getCity());
-                            dto.setDestinationDate(calculateLocalTime(airports.get(dto.getOrigin()).getTimeZone(), airports.get(dto.getDestination()).getTimeZone(), dto.getTraveltime(), dto.getDate()));
-                            airline.addFlights(dto);
-                            dto.getTotalPrice();
-                        }
-                        airlines.add(airline);
-                        break;
-                    default:
-                        break;
-                }
-            } catch (InterruptedException ex) {
-                System.out.println("##--Thread interrupted--##");
-                //do nothing
-            } catch (ExecutionException ex) {
-                System.out.println("##--Execution interrupted--##");
-                //do nothing
-            } catch (TimeoutException ex) {
-                System.out.println("##--Call timeout--##");
-                //do nothing
-            } catch (JsonSyntaxException ex) {
-                System.out.println("##--Wrong Json syntax--##");
-                //just skip that airline
+                response = r.get(TIMEOUT_DELAY, TimeUnit.SECONDS);
+            } catch (InterruptedException | ExecutionException | TimeoutException ex) {
+                System.out.println("##--Something went wrong when processing api-call--##\n" + ex);
+                continue;
+            }
+            int status = response.getStatus();
+            String re = response.readEntity(String.class);
+            switch (status) {
+                case 200: // if OK
+                    try {
+                        jsonValidator.validateJson(re);
+                    } catch (ValidationException ex) {
+                        System.out.println(ex.getMessage());
+                        System.out.println(ex.getCausingExceptions());
+                        continue;
+                    } catch (IOException ex) {
+                        System.out.println("##--Possibly could not find jsonSchema--##");
+                        continue;
+                    }
+                    JsonObject jo;
+                    try {
+                        jo = gson.fromJson(re, JsonObject.class);
+                    } catch (JsonSyntaxException ex) {
+                        System.out.println("##--Wrong Json syntax--##");
+                        continue;
+                    }
+                    airline = new AirlineDTO(gson.fromJson(jo.get("airline").toString(), String.class)); //save airline name
+                    for (JsonElement element : jo.getAsJsonArray("flights")) { //save flights
+                        JsonObject asJsonObject = element.getAsJsonObject();
+                        FlightDTO dto = gson.fromJson(asJsonObject, FlightDTO.class);
+                        dto.calculatePricePerPerson(); // calcaute price per person
+                        dto.setDestinationCity(airports.get(dto.getDestination()).getCity());
+                        dto.setOriginCity(airports.get(dto.getOrigin()).getCity());
+                        dto.setDestinationDate(calculateLocalTime(airports.get(dto.getOrigin()).getTimeZone(), airports.get(dto.getDestination()).getTimeZone(), dto.getTraveltime(), dto.getDate()));
+                        airline.addFlights(dto);
+                        dto.getTotalPrice();
+                    }
+                    airlines.add(airline);
+                    break;
+                default:
+                    break;
             }
         }
         if (airlines.isEmpty()) {
