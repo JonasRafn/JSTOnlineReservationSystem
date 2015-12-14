@@ -20,14 +20,14 @@
                     <td>{{flight.traveltime| formatTimer | date:'H:mm'}}</td>
                     <td>{{flight.destination}} {{flight.destinationCity}} <br/> {{flight.destinationDate| date: 'dd-MM-yyyy HH:mm'}}</td>
                     <td><p style="font-size:12px">{{flight.pricePerson| currency}} per person</p>  <p style="font-size:20px">{{flight.totalPrice| currency}}</p></td>
-                    <td ng-if="ctrl.isUser">
+                    <td ng-if="isUser">
                         <a href="#/reserve" >
                             <button class="btn btn-primary" id="search" ng-click="ctrl.book(airline.airline, flight.flightID, ctrl.searchRequest.numberOfTickets,
                                                 flight.date, flight.totalPrice, flight.pricePerson, flight.traveltime, flight.origin, flight.originCity,
                                                 flight.destination, flight.destinationCity, flight.destinationDate)">Book</button>
                         </a>
                     </td>
-                    <td ng-if="!ctrl.isUser"><p>You must be logged in to book tickets for this flight.</p></td>
+                    <td ng-if="!isUser"><p>You must be logged in to book tickets for this flight.</p></td>
                 </tr>
             </tbody>
         </table>

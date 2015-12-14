@@ -13,7 +13,6 @@ angular.module('myApp.Search', ['ngRoute'])
 
                 self.airports = {};
 
-                self.isUser = false;
 
                 self.showSpinner = false;
 
@@ -35,10 +34,6 @@ angular.module('myApp.Search', ['ngRoute'])
 
                 // Method to handle the two different search request and fetch results
                 self.search = function () {
-
-                    if ($rootScope.isUser) {
-                        self.isUser = true;
-                    }
 
                     if (self.searchRequest.numberOfTickets === undefined) {
                         $rootScope.error = "You must provide a number of tickets";
