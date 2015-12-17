@@ -17,7 +17,7 @@ import utility.EntityManagerFactoryProvider;
 @Path("airports")
 public class AirportRest {
 
-    private IAirportFacade ctrl;
+    private final IAirportFacade ctrl;
     private Gson gson;
     private EntityManagerFactory emf;
 

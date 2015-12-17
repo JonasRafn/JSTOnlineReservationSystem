@@ -1,4 +1,4 @@
-package entity;
+package dto;
 
 import java.io.Serializable;
 import javax.persistence.Entity;
@@ -10,7 +10,7 @@ import javax.persistence.Id;
  * origin, destination, date, NoPassengers
  */
 @Entity
-public class SearchRequest implements Serializable {
+public class SearchRequestDTO implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -20,16 +20,16 @@ public class SearchRequest implements Serializable {
     private String date;
     private int numberOfTickets;
 
-    public SearchRequest() {
+    public SearchRequestDTO() {
     }
 
-    public SearchRequest(String origin, String date, int numberOfTickets) {
+    public SearchRequestDTO(String origin, String date, int numberOfTickets) {
         this.origin = origin;
         this.date = date;
         this.numberOfTickets = numberOfTickets;
     }
 
-    public SearchRequest(String origin, String destination, String date, int numberOfTickets) {
+    public SearchRequestDTO(String origin, String destination, String date, int numberOfTickets) {
         this.origin = origin;
         this.destination = destination;
         this.date = date;
