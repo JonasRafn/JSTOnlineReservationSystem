@@ -114,47 +114,50 @@ angular.module('myApp.services', [])
                 this.setDestinationDate = function (date) {
                     destinationDate = date;
                 };
-                
-            }]).service('AdminService', [function () {
 
-        var ID;
-        var reservations = [];
-        var reservation;
-
-        this.setID = function (id) {
-            ID = id;
-        };
-
-        this.getID = function () {
-            return ID;
-        };
-
-        this.getReservation = function () {
-            return reservation;
-        };
-
-        this.setReservation = function (ID) {
-            for (var i = 0; i < reservations.length; i++) {
-                if (reservations[i].reservationID === ID) {
-                    reservation = reservations[i];
-                }
-            }
-        };
+            }])
         
-        this.deleteReservation = function(ID) {
-            for (var i = 0; i <reservations.length; i++) {
-                if(reservations[i].reservationID === ID) {
-                    reservations.splice(i, 1);
-                }
-            }
-            return reservations;
-        };
+        .service('AdminService', [function () {
 
-        this.getReservations = function () {
-            return reservations;
-        };
+                var ID;
+                var reservations = [];
+                var reservation;
 
-        this.setReservations = function (res) {
-            reservations = res;
-        };
-    }]);
+                this.setID = function (id) {
+                    ID = id;
+                };
+
+                this.getID = function () {
+                    return ID;
+                };
+
+                this.getReservation = function () {
+                    return reservation;
+                };
+
+                this.setReservation = function (ID) {
+                    for (var i = 0; i < reservations.length; i++) {
+                        if (reservations[i].reservationID === ID) {
+                            reservation = reservations[i];
+                        }
+                    }
+                };
+
+                this.deleteReservation = function (ID) {
+                    for (var i = 0; i < reservations.length; i++) {
+                        if (reservations[i].reservationID === ID) {
+                            reservations.splice(i, 1);
+                        }
+                    }
+                    return reservations;
+                };
+
+                this.getReservations = function () {
+                    return reservations;
+                };
+
+                this.setReservations = function (res) {
+                    reservations = res;
+                };
+            }]);
+        

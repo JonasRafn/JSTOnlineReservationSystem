@@ -37,11 +37,14 @@ angular.module('myApp.Reserve', ['ngRoute'])
 
 
             }])
-        .factory('ReserveFactory', ['$http', '$rootScope', function ($http, $rootScope) {
+        .factory('ReserveFactory', ['$http', '$rootScope', '$location', '$timeout', function ($http, $rootScope, $location, $timeout) {
                 var bookTickets = function (reservation) {
                     $http.post("api/reservation", reservation)
                             .then(function (response) {
-                                $rootScope.success = response.data.message;
+                                $location.path("/reservations");
+                                $timeout(function () {
+                                    $rootScope.success = response.data.message;
+                                }, 3000);
                                 
                             }, function (response) {
                                 $rootScope.error = response.data.message;
