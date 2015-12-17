@@ -7,6 +7,7 @@ import exception.NoResultException;
 import java.util.Arrays;
 import javax.servlet.ServletContext;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
@@ -26,6 +27,6 @@ public class NoResultExceptionMapper implements ExceptionMapper<NoResultExceptio
             jo.addProperty("StackTrace", Arrays.toString(e.getStackTrace()));
         }
         jo.addProperty("message", e.getMessage());
-        return Response.status(Response.Status.NO_CONTENT).entity(jo.toString()).build();
+        return Response.status(Response.Status.NO_CONTENT).entity(jo.toString()).type(MediaType.APPLICATION_JSON).build();
     }
 }

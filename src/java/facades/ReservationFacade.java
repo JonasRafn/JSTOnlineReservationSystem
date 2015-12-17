@@ -12,8 +12,6 @@ import interfaces.IReservationFacade;
 import entity.Reservation;
 import entity.User;
 import exception.NoResultException;
-import exception.NotFoundException;
-import exception.ReservationException;
 import exception.ServerException;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -22,12 +20,14 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
+import javax.ws.rs.NotFoundException;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import static utility.ErrorCodes.getServerErrorMsg;
 
 public class ReservationFacade implements IReservationFacade {
 
@@ -66,12 +66,10 @@ public class ReservationFacade implements IReservationFacade {
      * Post a reservationRequest to a airline based on the groupName
      *
      * @param res
-     * @throws IOException when something unexpected happens during rest-call
      * @throws ServerException when no airlineAPI's are returned from DB
-     * @throws exception.ReservationException when there are no tickets available
      */
     @Override
-    public void reserveTickets(Reservation res) throws IOException, ServerException, ReservationException, Exception {
+    public void reserveTickets(Reservation res) throws ServerException {
         AirlineApi airlineApi = getAirlineApi(res.getAirline()); // get api-url from airline
 
         Client client = ClientBuilder.newClient();
@@ -82,7 +80,7 @@ public class ReservationFacade implements IReservationFacade {
         if (response.getStatus() != 200) { // not ok, so pass error message to frontend
             String re = response.readEntity(String.class);
             JsonObject jo = gson.fromJson(re, JsonObject.class);
-            throw new ReservationException(jo.get("message").toString());
+            throw new ServerException(getServerErrorMsg(jo.get("message").toString()));
         } else {
             saveReservation(res);
         }
@@ -116,7 +114,7 @@ public class ReservationFacade implements IReservationFacade {
      *
      * @param res
      */
-    private void saveReservation(Reservation res) throws ServerException, Exception {
+    private void saveReservation(Reservation res) throws ServerException {
         EntityManager em = emf.createEntityManager();
         User user = em.find(User.class, res.getUser().getUserName());
         if (user == null) {
@@ -139,7 +137,7 @@ public class ReservationFacade implements IReservationFacade {
         try {
             Reservation reservation = em.find(Reservation.class, reservationID);
             if (reservation == null) {
-                throw new NotFoundException("Reservation not found in DB");
+                throw new ServerException("Reservation not found in DB");
             }
             em.getTransaction().begin();
             em.remove(reservation);
@@ -149,7 +147,7 @@ public class ReservationFacade implements IReservationFacade {
         }
     }
 
-    private ReservationRequestDTO createRequestDTO(Reservation res) throws Exception {
+    private ReservationRequestDTO createRequestDTO(Reservation res) {
         ReservationRequestDTO dto = new ReservationRequestDTO(res.getFlightID(), res.getNumberOfSeats(), res.getReserveeName(), res.getReserveePhone(), res.getReserveeEmail());
         for (Passenger p : res.getPassengers()) {
             PassengerDTO pDto = new PassengerDTO(p.getFirstName(), p.getLastName());
