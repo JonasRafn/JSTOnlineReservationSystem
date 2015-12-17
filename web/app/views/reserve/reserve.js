@@ -41,11 +41,11 @@ angular.module('myApp.Reserve', ['ngRoute'])
                 var bookTickets = function (reservation) {
                     $http.post("api/reservation", reservation)
                             .then(function (response) {
-                                $location.path("/reservations");
+                                $rootScope.success = response.data.message;
                                 $timeout(function () {
-                                    $rootScope.success = response.data.message;
+                                    $location.path("/reservations");
                                 }, 3000);
-                                
+
                             }, function (response) {
                                 $rootScope.error = response.data.message;
                             });

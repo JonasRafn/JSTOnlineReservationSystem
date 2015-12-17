@@ -25,7 +25,7 @@ insert into airport (IATA_CODE, city, airport_name, country, time_zone) values (
 insert into airport (IATA_CODE, city, airport_name, country, time_zone) values ('CAI', 'Cairo', 'Cairo International','Egypt', 'Africa/Cairo');
 insert into airport (IATA_CODE, city, airport_name, country, time_zone) values ('MEX', 'Mexico City', 'Benito Juárez International Airport','Mexico', 'Mexico/BajaNorte');
 insert into airport (IATA_CODE, city, airport_name, country, time_zone) values ('BBU', 'Bucharest', 'Băneasa International Airport','Romania', 'Europe/Bucharest');
-insert into airport (IATA_CODE, city, airport_name, country, time_zone) values ('HEM', 'Helsinki', 'Helsinki Malmi Airport','Findland', 'Europe/Helsinki');
+insert into airport (IATA_CODE, city, airport_name, country, time_zone) values ('HEL', 'Helsinki', 'Helsinki Malmi Airport','Findland', 'Europe/Helsinki');
 insert into airport (IATA_CODE, city, airport_name, country, time_zone) values ('SIN', 'Singapore', 'Singapore Changi International Airport','Singapore', 'Asia/Singapore');
 
 insert into userrole (ROLENAME) values ('User');

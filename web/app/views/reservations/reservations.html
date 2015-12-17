@@ -18,13 +18,13 @@
             </thead>
             <tbody> 
                 <tr class="active">
-                    <td>Name: {{reservation.reserveeName}} <br> Email: {{reservation.reserveeEmail}} <br> Phone: {{reservation.reserveePhone}}</td>
-                    <td>{{reservation.airline}} <br/> {{reservation.flightID}}</td>
-                    <td>{{reservation.origin}} <br/> {{reservation.date| date: 'dd-MM-yyyy HH:mm'}} </td>
-                    <td>{{reservation.flightTime| formatTimer | date:'H:mm'}}</td>
-                    <td>{{reservation.destination}} <br/> {{reservation.destinationDate| date: 'dd-MM-yyyy HH:mm'}}</td>
-                    <td><p style="font-size:12px">{{reservation.pricePerson| currency}} per person</p>  <p style="font-size:20px">{{reservation.totalPrice| currency}}</p></td>
-                    <td><button ng-click="ctrl.popUp(reservation.reservationID)" type="button" class="btn btn-info">Passengers   <span class="badge">{{reservation.numberOfSeats}}</span></button></td>
+                    <td class="col-sm-2">Name: {{reservation.reserveeName}} <br> Email: {{reservation.reserveeEmail}} <br> Phone: {{reservation.reserveePhone}}</td>
+                    <td class="col-sm-2">{{reservation.airline}} <br/> {{reservation.flightID}}</td>
+                    <td class="col-sm-2">{{reservation.origin}} <br/> {{reservation.date| date: 'dd-MM-yyyy HH:mm'}} </td>
+                    <td class="col-sm-1">{{reservation.flightTime| formatTimer | date:'H:mm'}}</td>
+                    <td class="col-sm-2">{{reservation.destination}} <br/> {{reservation.destinationDate| date: 'dd-MM-yyyy HH:mm'}}</td>
+                    <td class="col-sm-2"><p style="font-size:12px">{{reservation.pricePerson| currency}} per person</p>  <p style="font-size:20px">{{reservation.totalPrice| currency}}</p></td>
+                    <td class="col-sm-1"><button ng-click="ctrl.popUp(reservation.reservationID)" type="button" class="btn btn-info">Passengers   <span class="badge">{{reservation.numberOfSeats}}</span></button></td>
                 </tr>
             </tbody>
             <tbody>
