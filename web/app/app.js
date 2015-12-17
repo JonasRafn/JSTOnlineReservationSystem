@@ -22,5 +22,20 @@ angular.module('myApp', [
             }])
         .config(function ($httpProvider) {
             $httpProvider.interceptors.push('authInterceptor');
-        });
+        })
+        .controller("HeroCtrl", function ($scope, $location) {
+            $scope.$on('$routeChangeStart', function (next, current) {
+                $scope.showHero = ($location.path() === "/search");
+            });
+        })
+        .controller('DatepickerCtrl', [function () {
+                var vm = this;
+
+                vm.valuationDate = new Date();
+                vm.valuationDatePickerIsOpen = false;
+
+                vm.valuationDatePickerOpen = function () {
+                    this.valuationDatePickerIsOpen = true;
+                };
+            }]);
 

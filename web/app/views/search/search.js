@@ -41,10 +41,13 @@ angular.module('myApp.Search', ['ngRoute'])
                         self.ShowResults = false;
                         self.hideFlights = true;
                         self.showSpinner = true;
+                        var request = {origin: "Copenhagen (CPH), Denmark", destination: "London (STN), England", departing: "2016-01-01T13:00:00.000Z", numberOfTickets: "3"};
                         //Sets the number of passengers in ReserveService for later use
                         ReserveService.setNumberOfPassengers(self.searchRequest.numberOfTickets);
                         // This part handles the search request for all departures from origin
                         if (self.searchRequest.destination === undefined || self.searchRequest.destination === "") {
+
+
                             SearchFactory.getAllFlightsFromOrigin(self.searchRequest)
 
                                     //Success
@@ -53,14 +56,14 @@ angular.module('myApp.Search', ['ngRoute'])
                                         var data = response.data;
                                         //Check for no response status 
                                         if (status === 204) {
-                                                self.ShowResults = false;
+                                            self.ShowResults = false;
                                             $timeout(function () {
                                                 self.showSpinner = false;
                                                 $rootScope.error = "Oops! No flights were found...\n We weren't able to find any flights matching your request. Please try again, perhaps with alternative dates or airports.";
                                             }, 3000);
                                         } else {
-                                                self.results = data;
-                                                self.ShowResults = true;
+                                            self.results = data;
+                                            self.ShowResults = true;
                                             $timeout(function () {
                                                 self.showSpinner = false;
                                                 self.hideFlights = false;
@@ -69,7 +72,7 @@ angular.module('myApp.Search', ['ngRoute'])
                                     }
                                     //Error
                                     , function (response) {
-                                            self.ShowResults = false;
+                                        self.ShowResults = false;
                                         $timeout(function () {
                                             self.showSpinner = false;
                                             $rootScope.error = response.data.message;
@@ -85,14 +88,15 @@ angular.module('myApp.Search', ['ngRoute'])
                                         var data = response.data;
                                         //Check for no response status 
                                         if (status === 204) {
-                                                self.ShowResults = false;
+                                            self.ShowResults = false;
                                             $timeout(function () {
                                                 self.showSpinner = false;
                                                 $rootScope.error = "Oops! No flights were found...\n We weren't able to find any flights matching your request. Please try again, perhaps with alternative dates or airports.";
                                             }, 3000);
                                         } else {
-                                                self.results = data;
-                                                self.ShowResults = true;
+                                            console.log(data);
+                                            self.results = data;
+                                            self.ShowResults = true;
                                             $timeout(function () {
                                                 self.showSpinner = false;
                                                 self.hideFlights = false;
@@ -101,7 +105,7 @@ angular.module('myApp.Search', ['ngRoute'])
                                     }
                                     //Error
                                     , function (response) {
-                                             self.ShowResults = false;
+                                        self.ShowResults = false;
                                         $timeout(function () {
                                             self.showSpinner = false;
                                             $rootScope.error = response.data.message;
@@ -157,6 +161,7 @@ angular.module('myApp.Search', ['ngRoute'])
                     var origin = parseIATACode(searchRequest.origin);
                     var destination = parseIATACode(searchRequest.destination);
                     var departing = dateTransform(searchRequest.departing);
+                    console.log(departing.toISOString());
                     var url = "api/flightinfo/" + origin + "/" + destination + "/" + departing.toISOString() + "/" + searchRequest.numberOfTickets;
                     return $http.get(url);
                 };

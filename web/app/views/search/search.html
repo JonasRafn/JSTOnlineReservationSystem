@@ -1,4 +1,4 @@
-<div ng-controller="SearchCtrl as ctrl">
+<!--<div ng-controller="SearchCtrl as ctrl">
     <form class="form col-sm-12" role="form" ng-init="ctrl.getAirports()" ng-submit="ctrl.search()">
         <div class="col-sm-3">
             <div class="form-group">
@@ -63,4 +63,171 @@
     <datalist id="airports">
         <option ng-repeat="airport in ctrl.airports" label="{{airport.IATACode}}" value="{{airport.city}} ({{airport.IATACode}}), {{airport.country}}">
     </datalist>
+</div>    -->
+<div ng-controller="SearchCtrl as ctrl">
+    <div id="search-box-container" class="hidden-xs">
+        <form class="form container-fluid text-center hidden-xs" role="form" ng-init="ctrl.getAirports()" ng-submit="ctrl.search()">
+            <div class="row">
+
+                <div class="col-sm-4 col-sm-offset-2 row">    
+                    <div  class="col-sm-6 form-element">
+                        <div class="form-group"> 
+                            <div class="left-inner-addon">
+                                <input type="text" id="form-element-first" ng-model="ctrl.searchRequest.origin" list="airports" class="form-control" placeholder="From" required/>
+                            </div>
+                        </div>    
+                    </div>    
+                    <div class="col-sm-6 form-element">
+                        <div class="form-group">
+                            <div class="left-inner-addon">
+                                <input type="text" ng-model="ctrl.searchRequest.destination" list="airports" class="form-control" placeholder="To"/>
+                            </div>
+                        </div>    
+                    </div>
+                </div>
+
+                <div class="col-sm-4 row">
+                    <div class="col-sm-4 form-element">
+                        <div class="form-group">
+                            <div class="left-inner-addon" ng-controller="DatepickerCtrl as vm">
+                                <input ng-model="ctrl.searchRequest.departing" class="form-control date"  uib-datepicker-popup is-open="vm.valuationDatePickerIsOpen"  ng-click="vm.valuationDatePickerOpen()"  placeholder="Date" required/>
+
+
+                            </div>
+                        </div>    
+                    </div>
+<!--                    <div class="col-sm-4 row">
+                        <div class="form-group">
+                            <label class="control-label">Departing:</label> 
+                            <div class="left-inner-addon">
+                                <i class="glyphicon glyphicon-calendar"></i>
+                                <input type="date" ng-model="ctrl.searchRequest.departing" class="form-control" required/>
+                            </div>
+                        </div>    
+                    </div>-->
+                    <div class="col-sm-4 form-element">
+                        <div class="form-group">
+                            <div class="left-inner-addon">
+                                <select class="form-control" ng-model="ctrl.searchRequest.numberOfTickets"  required>
+                                    <option value="" disabled selected hidden>Passenger</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                    <option value="8">8</option>
+                                </select>
+                            </div>
+                        </div>    
+                    </div>
+                    <div class="col-sm-4 form-element">
+                        <div class="form-group">
+                            <div>
+                                <button class="search-btn" id="search">Search</button>
+                            </div>
+                        </div>    
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+
+    <div id="search-button-container-mobile" class="hidden-sm hidden-md hidden-lg hidden text-center">
+        <button type="button" id="search-btn-mobile" class="hidden-lg hidden-md hidden-sm">Refine your Search</button>
+    </div>
+
+
+    <div class="search-form-mobile hidden-sm hidden-md hidden-lg hidden">
+        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="search-mobile-close-holder" x="0px" y="0px" width="50px" height="50px" viewBox="0 0 50 50" enable-background="new 0 0 50 50" xml:space="preserve">
+        <path fill="#FFFFFF" id="search-mobile-close" d="M28.371 25L49.302 4.069c0.931-0.931 0.931-2.44 0-3.371 -0.931-0.931-2.44-0.931-3.371 0L25 21.629 4.069 0.698c-0.931-0.931-2.44-0.931-3.371 0 -0.931 0.931-0.931 2.44 0 3.371L21.629 25 0.698 45.931c-0.931 0.931-0.931 2.44 0 3.371C1.164 49.767 1.774 50 2.384 50s1.22-0.233 1.685-0.698L25 28.371l20.931 20.931C46.396 49.767 47.006 50 47.616 50s1.22-0.233 1.685-0.698c0.931-0.931 0.931-2.44 0-3.371L28.371 25z"/>
+        </svg>
+
+        <form class="form container-fluid text-center" role="form" ng-init="ctrl.getAirports()" ng-submit="ctrl.search()">
+            <div class="row">
+                <div class="col-sm-4 col-sm-offset-2 row">    
+                    <div  class="col-sm-6 form-element-mobile">
+                        <div class="form-group-mobile"> 
+                            <div class="left-inner-addon">
+                                <input type="text" ng-model="ctrl.searchRequest.origin" list="airports" class="form-control" placeholder="From" required/>
+                            </div>
+                        </div>    
+                    </div>    
+                    <div class="col-sm-6 form-element-mobile">
+                        <div class="form-group">
+                            <div class="left-inner-addon">
+                                <input type="text" ng-model="ctrl.searchRequest.destination" list="airports" class="form-control" placeholder="To"/>
+                            </div>
+                        </div>    
+                    </div>
+                </div>
+
+                <div class="col-sm-4 row">
+                    <div class="col-sm-4 form-element-mobile">
+                        <div class="form-group">
+                            <div class="left-inner-addon" ng-controller="DatepickerCtrl as vm">
+                                <input ng-model="ctrl.searchRequest.departing" class="form-control date"  placeholder="Date" uib-datepicker-popup is-open="vm.valuationDatePickerIsOpen"  ng-click="vm.valuationDatePickerOpen()" required/>
+                            </div>
+                        </div>    
+                    </div>
+                    <div class="col-sm-4 form-element-mobile">
+                        <div class="form-group">
+                            <div class="left-inner-addon">
+                                <select class="form-control" ng-model="ctrl.searchRequest.numberOfTickets"  required>
+                                    <option value="" disabled selected hidden>Passenger</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                    <option value="8">8</option>
+                                </select>
+                            </div>
+                        </div>    
+                    </div>
+                    <div class="col-sm-4 form-element-mobile">
+                        <div class="form-group">
+                            <div>
+                                <button class="search-btn-mobile" id="search">Search</button>
+                            </div>
+                        </div>    
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <hr class="hidden"/>
+    <div class="results-wrapper hidden">
+        <results ng-show = "ctrl.ShowResults"></results>
+    </div>
+
+    <datalist id="airports">
+        <option ng-repeat="airport in ctrl.airports" label="{{airport.IATACode}}" value="{{airport.city}} ({{airport.IATACode}}), {{airport.country}}">
+    </datalist>
+
+    <script>
+                        $("#search-btn-mobile").click(function () {
+                            $(".search-form-mobile").removeClass("hidden");
+                        });
+                        $("#search-mobile-close-holder").click(function () {
+                            $(".search-form-mobile").addClass("hidden");
+                        });
+                        $("#search").click(function () {
+                            $("#navback-search").removeClass("hidden");
+                            $("#video-container").addClass("hidden");
+                            $("#search-box-container").css({
+                                position: "relative",
+                                height: "100px",
+                                marginTop: "50px",
+                                backgroundColor: "#2B2D42"
+                            });
+                            $("#search-button-container-mobile").removeClass("hidden");
+                            $(".results-wrapper").removeClass("hidden");
+                        });
+    </script>
 </div>    

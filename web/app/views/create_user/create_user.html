@@ -1,15 +1,25 @@
 <div class="row" ng-controller="CreateUserCtrl as ctrl">
-    <div class="col-md-6">
-        <form class="form-inline" role="form">
-            <div class="form-group">
-                <label class="sr-only" for="userName">Username</label>
-                <input type="text" class="form-control" id="userName" placeholder="Enter Username" ng-model="ctrl.user.userName" required>
+    <div class="create-user">
+        <form class="creat-user-form" role="form">
+            <div class="container-fluid user-wrapper">
+                <div id="create-user-head" class="user-form-group">
+                    Create An Account
+                </div>
+                <div class="user-form-group">
+                    <label class="sr-only" for="userName">Username</label>
+                    <input type="text" class="user-form-element" id="userName" placeholder="Enter Username" ng-model="ctrl.user.userName" required>
+                </div>
+                <div class="user-form-group">
+                    <label class="sr-only" for="password">Password</label>
+                    <input type="password" class="user-form-element" id="password" placeholder="Enter Password" ng-model="ctrl.user.password" required>
+                </div>
+                <div class="user-form-group">
+                    <button type="submit" id="creat-user" class="" ng-click="ctrl.createUser(ctrl.user)">Sign Up
+                    </button>
+                </div>
+
+
             </div>
-            <div class="form-group">
-                <label class="sr-only" for="password">Password</label>
-                <input type="password" class="form-control" id="password" placeholder="Enter Password" ng-model="ctrl.user.password" required>
-            </div>
-            <button type="submit" class="btn btn-primary" ng-click="ctrl.createUser(ctrl.user)">Create User</button>
         </form>
     </div>
 </div>

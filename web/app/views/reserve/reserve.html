@@ -1,58 +1,67 @@
-<h1>Reserve</h1>
-
+<div id="reserve-head">Reserve Tickets</div>
 <div id="Reservation" ng-controller="ReserveCtrl as ctrl">
-    <div class="row">
-        <div class="col-md-12 col-sm-6 col-xs-12">
+    <div class="reservation row">
+        <div class="col-sm-2"></div>
+        <div class="col-md-8">
             <div class="panel panel-default">
-                <div class="panel-heading clearfix">
-                    <i class="icon-calendar"></i>
-                    <h3 class="panel-title">Reservate tickets</h3>
-                </div>
-
                 <div class="panel-body">
-                    <form class="form-horizontal row-border"  ng-submit="ctrl.bookFlight()">
-                        <h4>Flight and Reservee info</h4>
+                    <form class="form-horizontal row-border"  >
+                        <h4 class="reserve-form-heading">FLIGHT AND RESERVEE INFO</h4>
+                        <div class="reserve-form-border"></div>
                         <span class="help-block">Information about the flight, reservee and number of passengers.</span>
                         <div class="form-group">
-                            <label class="col-md-2 control-label">Flight ID and          Number of Passengers</label>
-                            <div class="col-xs-5">
-                                <input class="form-control" type="text" name="flightID" readonly="" value="{{ctrl.reservation.flightID}}">
-                            </div>
-                            <div class="col-xs-5">
-                                <input class="form-control" type="text" name="numberOfPassengers" readonly="" value="{{ctrl.reservation.numberOfSeats|passenger}}">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-md-2 control-label">Reservee Name</label>
-                            <div class="col-md-10">
-                                <input type="text" name="reserveeName" class="form-control" placeholder="Full Name" ng-model="ctrl.reservation.reserveeName" required>
+                            <label class="control-label">Flight ID and          Number of Passengers</label>
+                            <div class="container-fluid">
+                                <div class="col-xs-6">
+                                    <input class="form-control" type="text" name="flightID" readonly="" value="{{ctrl.reservation.flightID}}">
+                                </div>
+                                <div class="col-xs-6">
+                                    <input class="form-control" type="text" name="numberOfPassengers" readonly="" value="{{ctrl.reservation.numberOfSeats|passenger}}">
+                                </div>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-md-2 control-label">Reservee Phone</label>
-                            <div class="col-md-10">
-                                <input class="form-control" type="tel" name="reserveePhone" placeholder="Phone Number" ng-model="ctrl.reservation.reserveePhone" required>
+                            <label class="control-label">Reservee Name</label>
+                            <div class="container-fluid">
+                                <div class="col-xs-12">
+                                    <input type="text" name="reserveeName" class="form-control" placeholder="Full Name" ng-model="ctrl.reservation.reserveeName" required>
+                                </div>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-md-2 control-label">Reservee Email</label>
-                            <div class="col-md-10">
-                                <input class="form-control" type="email" name="reserveeEmail" placeholder="Email Address" ng-model="ctrl.reservation.reserveeEmail" required>
+                            <label class="control-label">Reservee Phone</label>
+                            <div class="container-fluid">
+                                <div class="col-xs-12">
+                                    <input class="form-control" type="tel" name="reserveePhone" placeholder="Phone Number" ng-model="ctrl.reservation.reserveePhone" required>
+                                </div>
                             </div>
                         </div>
-                        <h4>Passengers</h4>
+                        <div class="form-group">
+                            <label class="control-label">Reservee Email</label>
+                            <div class="container-fluid">
+                                <div class="col-xs-12">
+                                    <input class="form-control" type="email" name="reserveeEmail" placeholder="Email Address" ng-model="ctrl.reservation.reserveeEmail" required>
+                                </div>
+                            </div>
+                        </div>
+                        <h4 id="reserve-passengers-heading" class="reserve-form-heading">PASSENGERS</h4>
+                        <div class="reserve-form-border"></div>
                         <span class="help-block">Input the first and last name of all passengers.</span>
                         <div class="form-group" ng-repeat="passenger in ctrl.reservation.passengers" >
-                            <label class="col-md-2 control-label">Passenger </label>
-                            <div class="col-xs-5">
-                                <input type="text" name="passengerFirstName"  class="form-control" placeholder="First Name" ng-model="passenger.firstName" required>
-                            </div>
-                            <div class="col-xs-5">
-                                <input type="text" name="passengerLastName"  class="form-control" placeholder="Last Name" ng-model="passenger.lastName" required>
+                            <label class="control-label">Passenger </label>
+                            <div class="container-fluid">
+                                <div class="col-xs-5">
+                                    <input type="text" name="passengerFirstName"  class="form-control" placeholder="First Name" ng-model="passenger.firstName" required>
+                                </div>
+                                <div class="col-xs-5">
+                                    <input type="text" name="passengerLastName"  class="form-control" placeholder="Last Name" ng-model="passenger.lastName" required>
+                                </div>
                             </div>
                         </div>
-                        <button class="btn btn-primary pull-right" >Make reservation</button>
                     </form>
+                    <div class="container-fluid">
+                        <a href="#/search"><button id="reserve" ng-click="ctrl.reserve()">Reserve</button></a>
+                    </div>
                 </div>
             </div>
         </div>

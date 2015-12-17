@@ -1,4 +1,4 @@
- ol.list {
+ol.list {
     list-style-type: none;
     margin: 0;
     margin-left: 3em;
@@ -145,4 +145,934 @@ table {border: 1px solid gainsboro;}
 }
 
 #piechart {
+}
+
+/* Basic Styling for the page START */
+
+html, body {
+    height: 100%;
+}
+
+body {
+    font-family: 'Lato', sans-serif;
+}
+
+* {
+    padding: 0;
+    margin: 0;
+}
+
+.no-padding {
+    padding: 0;
+}
+
+/* Basic Styling for the page END */
+
+
+ ol.list {
+    list-style-type: none;
+    margin: 0;
+    margin-left: 3em;
+    padding: 0;  
+    counter-reset: li-counter;
+}
+ol.list > li{
+    position: relative;
+    margin-bottom: 10px;
+    padding-left: 0.5em;
+    min-height: 1.5em;
+    border-left: 2px solid #CCCCCC;
+}
+
+ol.list > li:before {
+    position: absolute;
+    top: 0;
+    left: -1em;
+    width: 0.8em;
+     
+    font-size: 1.5em;
+    line-height: 1;
+    font-weight: bold;
+    text-align: right;
+    color: #464646;
+ 
+    content: counter(li-counter);
+    counter-increment: li-counter;
+}
+
+.left-inner-addon {
+    position: relative;
+}
+
+
+.right-inner-addon {
+    position: relative;
+}
+.right-inner-addon input {
+    padding-right: 30px;    
+}
+.right-inner-addon i {
+    position: absolute;
+    right: 0px;
+    padding: 10px 12px;
+    pointer-events: none;
+}
+
+
+
+/* CSS for Navigation START */
+
+nav {
+    position: fixed;
+    
+}
+
+.navbar {
+   background-color: transparent;
+   background: transparent;
+   border-color: transparent;
+   height: 50px;
+}
+
+.navbar div {
+    height: 50px;
+}
+
+#navbar{
+    height: 50px;
+}
+
+.logo-holder-mobile {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.logo-mobile {
+    height: 40px;
+}
+
+#nav-btn-holder {
+    padding-top: 10px;
+    list-style: none;
+}
+
+#nav-btn-holder li {
+    display: inline-block;
+}
+
+.button-main {
+    padding: 10px;
+    padding-top: 5px;
+    margin-right: 10px;
+    background: none;
+    border: none;
+
+    color: rgba(237, 242, 244, 1) !important;
+    font-weight: 700;
+    font-size: 1.15em;
+    outline: none;
+}
+
+
+.button-main:after {
+    content: '';
+    margin-top: 10px;
+    display: block;
+    height: 3px;
+    width: 0;
+    background: transparent;
+    transition: width .5s ease, background-color .5s ease;
+}
+.button-main:hover:after {
+    width: 100%;
+    background-color: rgba(239, 35, 60, 1);
+}
+
+.button-main:focus:after {
+    width: 100%;
+    background-color: rgba(239, 35, 60, 1);
+}
+
+#navback-other-views {
+    height: 50px;
+    background-color: #77aaff;
+    position: fixed;
+    width: 100%;
+    z-index: 10;
+
+    top: 0px;
+    transition: .5s ease;
+
+    -webkit-box-shadow: 0 5px 12px -6px black;
+    -moz-box-shadow: 0 5px 12px -6px black;
+    box-shadow: 0 5px 12px -6px black
+}
+
+#navback-search {
+    height: 50px;
+    background-color: #77aaff;
+    position: fixed;
+    width: 100%;
+    z-index: 10;
+
+    top: -0px;
+    transition: .5s ease;
+
+    -webkit-box-shadow: 0 5px 12px -6px black;
+    -moz-box-shadow: 0 5px 12px -6px black;
+    box-shadow: 0 5px 12px -6px black
+}
+
+
+.nav-background {
+    height: 50px;
+    background-color: #77aaff;
+    position: fixed;
+    width: 100%;
+    z-index: 10;
+
+    top: -75px;
+    transition: .5s ease;
+
+    -webkit-box-shadow: 0 5px 12px -6px black;
+    -moz-box-shadow: 0 5px 12px -6px black;
+    box-shadow: 0 5px 12px -6px black;
+}
+
+.allpages-nav-back {
+    top: 0;
+}
+
+.inview {
+    top: 0 !important;
+    transition: .5s ease;
+}
+
+.nav-background-mobile {
+    height: 50px;
+    background-color: #77aaff;
+    position: fixed;
+    width: 100%;
+    z-index: 10;
+
+    top: 0px;
+
+    -webkit-box-shadow: 0 5px 12px -6px black;
+    -moz-box-shadow: 0 5px 12px -6px black;
+    box-shadow: 0 5px 12px -6px black;
+}
+
+
+
+#login-form-holder {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(119, 170, 255, 1);
+
+    transition: 0.5s ease;
+}
+
+
+.form-login {
+    border: none;
+    border-radius: 5px;
+    background-color: #edf2f4;
+    height: 30px;
+    padding: 5px;
+    min-width: 200px;
+}
+
+.login-text {
+    color: #ffffff;
+    font-size: 1em;
+    margin-right: 30px;
+}
+
+#login-close-holder {
+    position: fixed;
+    cursor: pointer;
+    top: 50px;
+    right: 50px;
+}
+
+#login-form {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+
+    -webkit-transform: translateX(-50%) translateY(-50%);
+    transform: translateX(-50%) translateY(-50%);
+
+}
+
+
+
+#login-close-holder:hover #login-close {
+    fill: #ef233c;
+
+    transition: 0.5s ease;
+}
+
+.login-btn {
+    border: none;
+    border-radius: 5px;
+    background-color: #fff;
+    color: #ef233c;
+    padding: 10px 20px;
+
+    margin-top: 20px;
+}
+
+.login-btn:hover {
+    background-color: #edf2f4;
+    color: #d90429;
+}
+
+.login-btn:focus {
+    background-color: #edf2f4;
+    color: #d90429;
+    border: none;
+}
+
+.login-add-text {
+    color: #fff;
+}
+
+.login-add-text a{
+    color: #ef233c;
+}
+
+.login-add-text a:focus{
+    color: #ef233c;
+}
+
+#loggedin-text {
+    color: #fff;
+}
+
+/* CSS for Navigation END */
+
+/* CSS for hero video and text START */
+
+#video-container {
+    position: relative;
+    height: 70%;
+    width: 100%;
+    overflow: hidden;
+}
+
+#video-background { 
+  position: absolute;
+  top: 50%; 
+  left: 50%;
+  -webkit-transform: translateX(-50%) translateY(-50%);
+  transform: translateX(-50%) translateY(-50%);
+  min-width: 100%; 
+  min-height: 100%; 
+  width: auto; 
+  overflow: hidden;
+}
+
+#hero-txt {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translateX(-50%) translateY(-50%);
+    transform: translateX(-50%) translateY(-50%);
+
+    color: #fff;
+    font-weight: 700;
+    text-align: center;
+}
+
+#hero-txt h1{
+    font-size: 6em;
+    font-weight: 900;
+    letter-spacing: 3px;
+    color: #fff;
+    text-shadow: 
+    1px 0px 1px #ccc, 0px 1px 1px #eee, 
+    2px 1px 1px #ccc, 1px 2px 1px #eee,
+    3px 2px 1px #ccc;
+}
+
+#hero-txt h2 {
+    margin-top: 0;
+    font-size: 2em;
+}
+
+
+
+#search-box-container {
+    position: absolute;
+    background-color: rgba(255, 255, 255, 0.3);
+    bottom: 30%;
+    height: 15%;
+    width: 100%;
+}
+
+.form-group {
+    margin: 0;
+}
+
+#search-box-container form {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 100%;
+}
+
+#search-button-container-mobile {
+    padding-top: 50px;
+    padding-bottom: 50px;
+    position: relative;
+    margin-top: 50px;
+    background-color: #2B2D42;
+}
+
+/* CSS for hero video and text END */
+
+/* CSS for search bar front page  START*/
+
+
+.search-btn {
+    width: 100%;
+    height: 30px;
+    position: relative;
+    color: #EDF2F4;
+    font-size: 1.2em;
+    background-color: #d90429;
+    border: none;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px; 
+}
+
+.search-btn:hover {
+    background-color: #EF233C;
+}
+
+.search-btn:focus {
+    background-color: #EF233C;
+}
+
+
+.form-element {
+    padding: 0;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.form-control {
+    height: 30px;
+    border-radius: 0px;
+    border: none;
+    border-right: 1px solid #8D99AE;
+}
+
+#form-element-first {
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+#search-btn-mobile {
+    border: none;
+    background-color: #ffffff;
+
+    color: #77aaff;
+    font-size: 1.5em;
+    font-weight: 700;
+    padding: 10px;
+    margin-top: 20px;
+    transition: 0.5s ease;
+}
+
+
+#search-btn-mobile:focus {
+    background-color: #edf2f4;
+    color: #77aaff;
+    transition: 0.5s ease;
+    border: none;
+}
+
+
+
+.search-form-mobile form {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 100%;
+}
+
+
+/* CSS for search bar front page END */
+
+/* CSS for Search Form Mobile START */
+
+.search-form-mobile {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #77aaff;
+    z-index: 2000;
+}
+
+
+.search-btn-mobile {
+    width: 100%;
+    height: 30px;
+    position: relative;
+    color: #EDF2F4;
+    font-size: 1.2em;
+    background-color: #d90429;
+    border: none;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px; 
+}
+
+.search-btn-mobile:hover {
+    background-color: #EF233C;
+}
+
+.search-btn-mobile:focus {
+    background-color: #EF233C;
+}
+
+
+.search-btn-mobile {
+    width: 100%;
+    height: 30px;
+    position: relative;
+    color: #EDF2F4;
+    font-size: 1.2em;
+    background-color: #d90429;
+    border: none;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px; 
+}
+
+.search-btn-mobile:hover {
+    background-color: #EF233C;
+}
+
+.search-btn-mobile:focus {
+    background-color: #EF233C;
+}
+
+.form-element-mobile {
+    padding: 0;
+    padding-right: 50px;
+    padding-left: 50px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+}
+
+.form-control-mobile {
+    height: 30px;
+    border-radius: 0px;
+    border: none;
+    
+}
+
+#search-mobile-close-holder {
+    position: fixed;
+    cursor: pointer;
+    top: 50px;
+    right: 50px;
+}
+
+#search-mobile-close-holder:hover #search-mobile-close {
+    fill: #ef233c;
+
+    transition: 0.5s ease;
+}
+
+/* CSS for Search form Mobile END */
+
+/* CSS for tagline START*/
+
+.tagline {
+    background-color: #D90429;
+    padding-top: 25px;
+    padding-bottom: 25px;
+
+    color: #fff;
+    font-size: 1.25em;
+    font-weight: 400;
+    text-align: center;
+}
+
+#plane {
+    height: 50px;
+}
+
+/* CSS for tagline END */
+
+/* CSS for footer START */
+
+footer {
+    padding-top: 50px;
+    padding-bottom: 50px;
+    background-color: #2B2D42;
+    border-top: 5px solid #EF233C;
+}
+
+.copy-text {
+    margin-top: 25px;
+    color: #fff;
+    font-size: 1.25em;
+}
+
+.social-icon-holder { 
+    text-align: right;
+    margin-top: 50px;
+}
+
+.social-icons {
+    height: 40px;
+    margin: 5px;
+    margin-top: 0px;
+}
+
+
+.citation {
+    font-size: .85em;
+    font-weight: 400;
+    color: #2B2D42;
+    text-align: center;
+    background-color: #EDF2F4;
+
+}
+/* CSS for footer END */
+
+/* CSS for results  START*/
+
+.results-wrapper {
+    z-index: 2;
+    min-height: 500px;
+    background-color: #e5e5e5;
+}
+
+#no-results-wrapper {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+
+    -webkit-transform: translateX(-50%) translateY(-50%);
+    transform: translateX(-50%) translateY(-50%);
+}
+.no-results {
+    text-align: center;
+    font-size: 6em;
+    font-weight: 900;
+    letter-spacing: 3px;
+    color: #fff;
+    text-shadow: 
+    1px 0px 1px #ccc, 0px 1px 1px #eee, 
+    2px 1px 1px #ccc, 1px 2px 1px #eee,
+    3px 2px 1px #ccc;
+}
+
+.refine-search {
+    font-size: 1.5em;
+    color: #ffffff;
+    text-align: center;
+}
+/* CSS for results  END */
+
+
+
+/* CSS for creat-user START */
+
+.create-user{
+    
+    position: relative;
+    height: 80vh;
+    margin-top: 50px;
+
+
+    background: url(assets/pic/user.jpg) rgba(119, 170, 255, 1) no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+
+.create-user form {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+
+    padding: 50px;
+    
+    background-color: rgba(0, 0, 0, 0.3);
+    -webkit-transform: translateX(-50%) translateY(-50%);
+    transform: translateX(-50%) translateY(-50%);
+}
+
+.user-wrapper {
+    text-align: center;
+}
+
+.user-form-group {
+    text-align: center;
+    margin: 20px 50px;
+    
+}
+
+#create-user-head {
+    font-size: 1.5em;
+    color: #fff;
+    font-weight: 600;
+}
+
+.user-form-element{
+    border: 1px solid #2B2D42;
+    height: 40px;
+    border-radius: 10px;
+    padding-left: 10px;
+    min-width: 300px;
+    font-weight: 400;
+    font-size: 1.2em;
+}
+
+.user-form-element:focus {
+    outline: none;
+    border: 1px solid #77aaff;
+}
+
+#creat-user{
+    height: 40px;
+    border-radius: 10px;
+    min-width: 200px;
+    border: none;
+    color: #ffffff;
+    background-color: #77aaff;
+    font-weight: 400;
+    font-size: 1.2em;
+}
+/* CSS for creat-User END*/
+
+
+/* CSS for Reserve Page */
+
+#reserve-head {
+    margin-top: 50px;
+    text-align: center;
+    font-size: 3em;
+    font-weight: 400;
+    background-color: #EF233C;
+
+    color: #EDF2F4;
+}
+
+.panel-default {
+    border: none;
+    margin-top: 20px;
+
+    margin-right: 20px;
+    margin-left: 20px;
+    background-color: rgba(0, 0, 0, 0.6);
+}
+
+.reservation{
+    background: linear-gradient( rgba(220, 66, 37, 0.3), rgba(220, 66, 37, 0.3)), url(assets/pic/reservation.jpg) rgba(119, 170, 255, 1) no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+.reserve-form-heading {
+    color: #fff;
+    font-size: 1.5em;
+    font-weight: 600;
+}
+
+.reserve-form-border {
+    height: 1px;
+    background-color: #e6e6e6;
+}
+
+.help-block {
+    color: #e6e6e6;
+    font-size: 1em;
+}
+
+.control-label {
+    font-size: 1.2em;
+    color: #fff;
+    padding: 10px;
+    padding-left: 30px;
+}
+
+#reserve-passengers-heading {
+    margin-top: 20px;
+}
+
+#reserve {
+    margin-top: 30px;
+    margin-bottom: 30px;
+    height: 50px;
+    padding-left: 30px;
+    padding-right: 30px;
+
+    background-color: #f2f2f2;
+    border: none;
+
+    color: #ef233c;
+    font-size: 1.2em;
+    transition: 0.5s ease;
+
+}
+
+#reserve:hover {
+    background-color: #f2f2f2;
+    outline: none;
+
+    color: #77aaff;
+    transition: 0.5s ease;
+}
+
+#reserve:hover {
+    background-color: #e6e6e6;
+    color: #77aaff;
+    transition: 0.5s ease;
+}
+/* CSS for Reserve Page */
+
+/*CSS for Result Page Start */
+.flight-timings .row .col-xs-6 {
+    padding: 0;
+}
+
+.result-element {
+    position: relative;
+    margin-left: 50px;
+    margin-right: 50px;
+    background-color: #ffffff;
+    margin-bottom: 20px;
+    border-left: 7px solid #77aaff;
+
+    -webkit-box-shadow: 0 5px 12px -6px black;
+    -moz-box-shadow: 0 5px 12px -6px black;
+    box-shadow: 0 5px 12px -6px black;
+}
+
+.results-unit {
+    padding: 5px;
+    text-align: left;
+}
+
+.airline-head {
+    font-size: 1.8em;
+    font-weight: 600;
+    padding-bottom: 0px;
+}
+
+
+
+.airline-flight-no {
+    font-size: 1em;
+    color: #333333;
+    padding-top: 0px;
+}
+
+.location-head {
+    font-size: 0.9em;
+    font-weight: 700;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    text-align: center;
+    color: #ffffff;
+    background-color: #77aaff;
+}
+
+.timings-left{
+    border-right: 1px solid #ffffff;
+}
+
+.location {
+    font-size: 1.2em;
+    font-weight: 700;
+    text-align: center;
+}
+
+.time {
+    text-align: center;
+}
+
+
+
+.duration{
+    font-size: 1.2em;
+    font-weight: 700;
+    text-align: center;
+    margin-top: 10px;
+}
+
+.duration-head {
+    font-size: 0.7em;
+    font-weight: 400;
+}
+
+.price-total {
+    margin-top: 10px;
+    font-size: 1.2em;
+    font-weight: 700;
+    text-align: center;
+}
+
+.price-per-person {
+    font-size: 0.75em;
+    text-align: center;
+}
+
+.button-holder-result {
+    text-align: center;
+}
+
+.reserve-button-result-page {
+    margin-top: 15px;
+    font-size: 1.2em;
+    padding: 8px 10px;
+    font-weight: 700;
+    min-width: 100px;
+    border-radius: 5px;
+    border: none;
+    background-color: #77aaff;
+    color: #ffffff;
+    transition: 0.5s ease;
+}
+
+.reserve-button-result-page:hover{
+    background-color: #3366ff;
+    transition: 0.5s ease;
+
+}
+
+.reserve-button-result-page:focus {
+    outline: none;
+    border: none;
+}
+
+.results-border-bottom {
+    height: 1px;
+    background-color: #cccccc;
+}
+
+.results-padding-bottom {
+    height: 10px;
+}
+/*CSS for result page END */
+
+.dropdown-menu {
+
+    z-index: 10000 !important;
+
 }
