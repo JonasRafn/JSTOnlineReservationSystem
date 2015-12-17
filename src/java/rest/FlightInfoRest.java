@@ -2,9 +2,8 @@ package rest;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import deploy.DeploymentConfiguration;
 import dto.AirlineDTO;
-import entity.SearchRequest;
+import dto.SearchRequestDTO;
 import exception.BadRequestException;
 import exception.NoResultException;
 import exception.NotFoundException;
@@ -13,7 +12,6 @@ import facades.FlightFacade;
 import interfaces.IFlightFacade;
 import java.util.List;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -41,7 +39,7 @@ public class FlightInfoRest {
     public Response getFlightsFrom(@PathParam("from") String from, @PathParam("date") String stringDate, @PathParam("persons") int persons)
             throws NotFoundException, NoResultException, BadRequestException, ServerException, Exception {
         try {
-            SearchRequest request = new SearchRequest(from, stringDate, persons);
+            SearchRequestDTO request = new SearchRequestDTO(from, stringDate, persons);
             List<AirlineDTO> flightsFrom = ctrl.getFlights(request);
             return Response.ok(gson.toJson(flightsFrom)).build();
         } finally {
@@ -54,7 +52,7 @@ public class FlightInfoRest {
     public Response getFlightsFromTo(@PathParam("from") String from, @PathParam("to") String to, @PathParam("date") String stringDate, @PathParam("persons") int persons)
             throws NotFoundException, NoResultException, BadRequestException, ServerException, Exception {
         try {
-            SearchRequest request = new SearchRequest(from, to, stringDate, persons);
+            SearchRequestDTO request = new SearchRequestDTO(from, to, stringDate, persons);
             List<AirlineDTO> flightsFrom = ctrl.getFlights(request);
             return Response.ok(gson.toJson(flightsFrom)).build();
         } finally {

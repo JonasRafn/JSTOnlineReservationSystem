@@ -6,7 +6,7 @@ import java.util.List;
 public class AirlineDTO {
 
     private String airline;
-    private List<FlightDTO> flights;
+    private List<FlightDTO> flights = new ArrayList();
 
     public AirlineDTO() {
     }

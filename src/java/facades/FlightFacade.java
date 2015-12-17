@@ -9,7 +9,7 @@ import dto.AirlineDTO;
 import dto.FlightDTO;
 import entity.AirlineApi;
 import entity.Airport;
-import entity.SearchRequest;
+import dto.SearchRequestDTO;
 import exception.BadRequestException;
 import exception.NoResultException;
 import interfaces.IFlightFacade;
@@ -79,7 +79,7 @@ public class FlightFacade implements IFlightFacade {
      * @throws ServerException
      */
     @Override
-    public List<AirlineDTO> getFlights(SearchRequest request) throws NotFoundException, NoResultException, BadRequestException, ServerException {
+    public List<AirlineDTO> getFlights(SearchRequestDTO request) throws NotFoundException, NoResultException, BadRequestException, ServerException {
         List<AirlineDTO> airlines = new ArrayList();
         List<Future<Response>> airlineList = new ArrayList();
         List<AirlineApi> airlineApiList = getAirlineApiList();
@@ -219,7 +219,7 @@ public class FlightFacade implements IFlightFacade {
         return adjustedDate;
     }
 
-    private void saveSearchRequest(SearchRequest request) {
+    private void saveSearchRequest(SearchRequestDTO request) {
         EntityManager em = getEntityManager();
         try {
             em.getTransaction().begin();
