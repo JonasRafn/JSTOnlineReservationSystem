@@ -1,8 +1,6 @@
-<h1>Results</h1>
-<div>
     <!--<p ng-show="!ctrl.isUser">User</p>-->
-    <div class="table-responsive" ng-repeat="airline in ctrl.results">
-        <table class="table" ng-repeat="flight in airline.flights" >
+    <div ng-repeat="airline in ctrl.results">
+        <table class="table" ng-repeat="flight in airline.flights" ng-hide="ctrl.hideFlights">
             <thead>
                 <tr>
                     <th>Airline</th>
@@ -32,4 +30,3 @@
             </tbody>
         </table>
     </div> 
-</div>
