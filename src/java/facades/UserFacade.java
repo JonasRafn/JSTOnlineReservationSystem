@@ -3,11 +3,10 @@ package facades;
 import deploy.DeploymentConfiguration;
 import entity.Role;
 import entity.User;
-import exception.UserAlreadyExistException;
+import exception.ServerException;
 import interfaces.IUserFacade;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -15,6 +14,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import security.PasswordHash;
+import static utility.ErrorCodes.getUserAlreadyExistsMsg;
 
 public class UserFacade implements IUserFacade {
 
@@ -60,12 +60,12 @@ public class UserFacade implements IUserFacade {
     }
 
     @Override
-    public User createUser(User u) throws UserAlreadyExistException {
+    public User createUser(User u) throws ServerException {
         EntityManager em = emf.createEntityManager();
         User user = em.find(User.class, u.getUserName());
 
         if (user != null) {
-            throw new UserAlreadyExistException("User with user-name: " + u.getUserName() + " already exists");
+            throw new ServerException(getUserAlreadyExistsMsg(u.getUserName()));
         } else {
             User newUser = new User();
             newUser.setUserName(u.getUserName());

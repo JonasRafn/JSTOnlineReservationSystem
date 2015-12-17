@@ -1,8 +1,6 @@
 package dto;
 
-import java.util.Arrays;
 import java.util.Date;
-import java.util.List;
 
 public class FlightDTO {
 
@@ -29,6 +27,7 @@ public class FlightDTO {
         this.traveltime = traveltime;
         this.origin = origin;
         this.destination = destination;
+        this.pricePerson = 0f;
     }
 
     public String getFlightID() {
@@ -113,5 +112,13 @@ public class FlightDTO {
 
     public void setDestinationCity(String destinationCity) {
         this.destinationCity = destinationCity;
+    }
+
+    public float getPricePerson() {
+        return pricePerson;
+    }
+
+    public void setPricePerson(float pricePerson) {
+        this.pricePerson = pricePerson;
     }
 }

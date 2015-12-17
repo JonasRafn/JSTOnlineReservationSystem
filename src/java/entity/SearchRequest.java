@@ -1,31 +1,44 @@
-package dto;
+package entity;
 
-import exception.ServerException;
-import static utility.Validator.validateDate;
-import static utility.Validator.validateTickets;
+import java.io.Serializable;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
-public class SearchRequestDTO {
+@Entity
+public class SearchRequest implements Serializable {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
     
     private String origin;
     private String destination;
     private String date;
     private int numberOfTickets;
 
-    public SearchRequestDTO() {
+    public SearchRequest() {
     }
 
-    public SearchRequestDTO(String origin, String date, String numberOfTickets) throws ServerException {
+    public SearchRequest(String origin, String date, int numberOfTickets) {
         this.origin = origin;
-        this.destination = "";
-        this.date = validateDate(date);
-        this.numberOfTickets = validateTickets(numberOfTickets);
+        this.date = date;
+        this.numberOfTickets = numberOfTickets;
     }
 
-    public SearchRequestDTO(String origin, String destination, String date, String numberOfTickets) throws ServerException {
+    public SearchRequest(String origin, String destination, String date, int numberOfTickets) {
         this.origin = origin;
         this.destination = destination;
-        this.date = validateDate(date);
-        this.numberOfTickets = validateTickets(numberOfTickets);
+        this.date = date;
+        this.numberOfTickets = numberOfTickets;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getOrigin() {

@@ -2,20 +2,14 @@ package facades;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonSyntaxException;
 import dto.AirlineDTO;
 import dto.FlightDTO;
+import dto.SearchRequestDTO;
 import entity.AirlineApi;
 import entity.Airport;
-import dto.SearchRequestDTO;
-import exception.BadRequestException;
+import entity.SearchRequest;
 import exception.NoResultException;
 import interfaces.IFlightFacade;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -27,38 +21,27 @@ import java.util.concurrent.Future;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.TypedQuery;
-import exception.NotFoundException;
 import exception.ServerException;
-import java.io.IOException;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.ws.rs.core.Response;
-import org.everit.json.schema.ValidationException;
 import service.GetFlights;
 import utility.Airports;
-import utility.JsonValidator;
+import static utility.ErrorCodes.getServerErrorMsg;
+import utility.Validator;
 
-/**
- * http://www.oracle.com/webfolder/technetwork/tutorials/obe/java/JAXRS2/jaxrs-clients.html
- *
- */
 public class FlightFacade implements IFlightFacade {
 
     private Gson gson;
     private final int TIMEOUT_DELAY = 10; //seconds
     private EntityManagerFactory emf;
     private Map<String, Airport> airports;
-    private JsonValidator jsonValidator;
 
     public FlightFacade(EntityManagerFactory emf) {
         this.emf = emf;
         airports = Airports.getAirports();
         gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").setPrettyPrinting().create();
-        jsonValidator = new JsonValidator();
     }
 
     /**
@@ -73,44 +56,31 @@ public class FlightFacade implements IFlightFacade {
      *
      * @param request
      * @return list containing AirlineDTOs
-     * @throws NotFoundException
-     * @throws NoResultException
-     * @throws BadRequestException
-     * @throws ServerException
      */
     @Override
-    public List<AirlineDTO> getFlights(SearchRequestDTO request) throws NotFoundException, NoResultException, BadRequestException, ServerException {
+    public List<AirlineDTO> getFlights(SearchRequestDTO request) throws Exception {
         List<AirlineDTO> airlines = new ArrayList();
         List<Future<Response>> airlineList = new ArrayList();
         List<AirlineApi> airlineApiList = getAirlineApiList();
 
         String from = request.getOrigin();
-        String to;
-        if (request.getDestination() != null) {
+        String to = "";
+        if (!request.getDestination().isEmpty()) {
             to = request.getDestination();
-        } else {
-            to = "";
         }
         String stringDate = request.getDate();
         int numTickets = request.getNumberOfTickets();
-        saveSearchRequest(request);
+
+        saveSearchRequest(request); //historical data
 
         //validate airports
         if (airports.isEmpty()) {
-            throw new ServerException("Something went wrong. Please try again");
+            throw new ServerException(getServerErrorMsg("Could not load airports."));
         }
         if (!airports.containsKey(to) && !to.isEmpty()) {
-            throw new NotFoundException("Unknown destination airport: " + to);
+            throw new ServerException(getServerErrorMsg("Unknown destination airport: " + to));
         } else if (!airports.containsKey(from)) {
-            throw new NotFoundException("Unknown origin airport: " + from);
-        }
-
-        //validate date
-        DateFormat ISO8601Date = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-        try {
-            Date date = ISO8601Date.parse(stringDate);
-        } catch (ParseException ex) {
-            throw new BadRequestException("Invalid date");
+            throw new ServerException(getServerErrorMsg("Unknown origin airport: " + from));
         }
 
         //if not empty, we get flights with a [to] also
@@ -128,7 +98,7 @@ public class FlightFacade implements IFlightFacade {
 
         // 'continue;' skips object in loop and go to next
         for (Future<Response> r : airlineList) {
-            AirlineDTO airline = new AirlineDTO();
+            AirlineDTO airlineDTO = new AirlineDTO();
 
             Response response;
             try {
@@ -141,35 +111,21 @@ public class FlightFacade implements IFlightFacade {
             String re = response.readEntity(String.class);
             switch (status) {
                 case 200: // if OK
+                    //validate json
                     try {
-                        jsonValidator.validateJson(re);
-                    } catch (ValidationException ex) {
-                        System.out.println(ex.getMessage());
-                        System.out.println(ex.getCausingExceptions());
-                        continue;
-                    } catch (IOException ex) {
-                        System.out.println("##--Possibly could not find jsonSchema--##");
-                        continue;
-                    }
-                    JsonObject jo;
-                    try {
-                        jo = gson.fromJson(re, JsonObject.class);
-                    } catch (JsonSyntaxException ex) {
+                        airlineDTO = Validator.validateJson(re);
+                    } catch (ServerException ex) {
                         System.out.println("##--Wrong Json syntax--##");
                         continue;
                     }
-                    airline = new AirlineDTO(gson.fromJson(jo.get("airline").toString(), String.class)); //save airline name
-                    for (JsonElement element : jo.getAsJsonArray("flights")) { //save flights
-                        JsonObject asJsonObject = element.getAsJsonObject();
-                        FlightDTO dto = gson.fromJson(asJsonObject, FlightDTO.class);
-                        dto.calculatePricePerPerson(); // calcaute price per person
+                    //add the remaining properties to the airlineDTO
+                    for (FlightDTO dto : airlineDTO.getFlights()) {
+                        dto.calculatePricePerPerson(); // calculate price per person
                         dto.setDestinationCity(airports.get(dto.getDestination()).getCity());
                         dto.setOriginCity(airports.get(dto.getOrigin()).getCity());
                         dto.setDestinationDate(calculateLocalTime(airports.get(dto.getOrigin()).getTimeZone(), airports.get(dto.getDestination()).getTimeZone(), dto.getTraveltime(), dto.getDate()));
-                        airline.addFlights(dto);
-                        dto.getTotalPrice();
                     }
-                    airlines.add(airline);
+                    airlines.add(airlineDTO);
                     break;
                 default:
                     break;
@@ -187,14 +143,14 @@ public class FlightFacade implements IFlightFacade {
      * @return list containing AirlineApi objects
      * @throws ServerException if returned list is empty
      */
-    private List<AirlineApi> getAirlineApiList() throws ServerException {
+    private List<AirlineApi> getAirlineApiList() throws Exception {
         EntityManager em = getEntityManager();
         List<AirlineApi> airlineApiList = new ArrayList();
         try {
             TypedQuery<AirlineApi> query = em.createNamedQuery("AirlineApi.findAll", AirlineApi.class);
             airlineApiList = query.getResultList();
             if (airlineApiList.isEmpty()) {
-                throw new ServerException("Something went wrong. Please try again");
+                throw new ServerException(getServerErrorMsg("Could not load airlines"));
             }
         } finally {
             em.close();
@@ -219,8 +175,9 @@ public class FlightFacade implements IFlightFacade {
         return adjustedDate;
     }
 
-    private void saveSearchRequest(SearchRequestDTO request) {
+    private void saveSearchRequest(SearchRequestDTO dto) {
         EntityManager em = getEntityManager();
+        SearchRequest request = new SearchRequest(dto.getOrigin(), dto.getDestination(), dto.getDate(), dto.getNumberOfTickets());
         try {
             em.getTransaction().begin();
             em.persist(request);

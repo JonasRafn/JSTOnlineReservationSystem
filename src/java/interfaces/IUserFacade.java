@@ -1,7 +1,7 @@
 package interfaces;
 
 import entity.User;
-import exception.UserAlreadyExistException;
+import exception.ServerException;
 import java.util.List;
 
 public interface IUserFacade {
@@ -10,7 +10,7 @@ public interface IUserFacade {
 
     public List<String> authenticateUser(String userName, String password);
 
-    public User createUser(User u) throws UserAlreadyExistException;
+    public User createUser(User u) throws ServerException;
     
     public void deleteUserById(String id) throws Exception;
 }

@@ -23,7 +23,7 @@ public class AirlineDTO {
     public void addFlights(FlightDTO dto) {
         flights.add(dto);
     }
-
+    
     public String getAirline() {
         return airline;
     }
