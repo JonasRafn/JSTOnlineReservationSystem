@@ -7,7 +7,7 @@
     <context-param>
         <description>Should the application return the stacktrace as well</description>
         <param-name>debug</param-name>
-        <param-value>false</param-value>
+        <param-value>true</param-value>
     </context-param>
     <context-param>
         <description>If true,the test users "user", "admin" and "user_admin" is created all with password "test"</description>

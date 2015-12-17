@@ -1,7 +1,7 @@
 package interfaces;
 
 import dto.AirlineDTO;
-import entity.SearchRequest;
+import dto.SearchRequestDTO;
 import exception.BadRequestException;
 import exception.NoResultException;
 import exception.NotFoundException;
@@ -36,6 +36,6 @@ public interface IFlightFacade {
      * @throws BadRequestException invalid dates
      * @throws ServerException internal server error
      */
-    public List<AirlineDTO> getFlights(SearchRequest request)
+    public List<AirlineDTO> getFlights(SearchRequestDTO request)
             throws NotFoundException, NoResultException, BadRequestException, ServerException, Exception;
 }
