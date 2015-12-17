@@ -39,7 +39,14 @@
 
     <h4>9. dec 2015 - 11. dec 2015</h4>
     Der skete ikke så meget før fredag d. 11. da vores freelancer aflverede det der var lavet indtil første milestone, her blev vi glædeligt overrasket, det så rigtig godt ud og var bestemt den rigtige retning der blev arbejdet.
-
+    
+    <h4>12. dec 2015 - 16. dec 2015</h4>
+    Efter modtagelsen af den første milestone, har vi givet feedback til freelanceren, som efterfølgende har fortsat arbejdet. I den første aflevering var der problemer med at få adgang til en film, som skulle bruges som baggrund på forsiden. På baggrund af vores feedback har
+    freelanceren, sendt to links som vi kunne vælge imellem. D. 16 december hvor freelanceren skulle aflevere den anden milestone, skrev freelanceren at der var problemer og at han havde brug for en dag mere. Da der er deadline for vores projekt d. 18 December, blev dette
+    selvfølgelig presset, men vi gav ham en ekstra dag, og ville vende tilbage næste dag. Ren erfaringsmæssigt har det lært os, at vi skal tage højde for eventuelle problemer, og derfor ikke placere en sidste milestone, så tæt på vores egen deadline. 
+    
+    <h4>12. dec 2015 - 17. dec 2015</h4>
+    
     <br/>
 
     <h3 class="text-muted">Test Results</h3>
@@ -114,6 +121,79 @@
     <h4 class="text-muted">Get a resume of the search requests: </h4>
     <p>Start out by logging in to the system, using a admin account. </p>
     <p>Press the Dashboard menu in the top navigation bar.</p>
+    
+    <br><h4>Sprint 3</h4>
+    <h4 class="text-muted">Search for flights from a given airport and date: </h4>
+    <p>Start out by opening postman, input this URL:</p>
+    <p>http://jstairline-hardboilr.rhcloud.com/api/flightinfo/STN/2016-01-01T00:00:00.000Z/2</p>
+    <p>Press "Send" and see the valid response</p>
+    
+    <h4 class="text-muted">Search for flights from a given airport and date <b>Invalid "ticket" input</b>: </h4>
+    <p>Start out by opening postman, input this URL:</p>
+    <p>http://jstairline-hardboilr.rhcloud.com/api/flightinfo/STN/2016-01-01T00:00:00.000Z/asd</p>
+    <p>Press "Send" and see the Json error response</p>
+    
+    <h4 class="text-muted">Search for flights from a given airport to a given airport and date: </h4>
+    <p>Start out by opening postman, input this URL:</p>
+    <p>http://jstairline-hardboilr.rhcloud.com/api/flightinfo/CPH/STN/2016-01-01T00:00:00.000Z/2</p>
+    <p>Press "Send" and see the valid response</p>
+    
+    <h4 class="text-muted">Search for flights from a given airport to a given airport and date <b>Invalid "from" input</b>: </h4>
+    <p>Start out by opening postman, input this URL:</p>
+    <p>http://jstairline-hardboilr.rhcloud.com/api/flightinfo/asd/STN/2016-01-01T00:00:00.000Z/2</p>
+    <p>Press "Send" and see the Json error response</p>
+    
+    <h4 class="text-muted">Reserve tickets for a flight: </h4>
+    <p>Start out by opening postman, change the method to a POST Request and input this URL:</p>
+    <p>http://jstairline-hardboilr.rhcloud.com/api/flightreservation</p>
+    <p>Press Body, then raw and input these json:</p>
+    <p>{
+    "flightID": "JST1",
+    "numberOfSeats": 1,
+    "ReserveeName": "Lars Mimer",
+    "ReservePhone": "87654321",
+    "ReserveeEmail": "lars@mimer.dk",
+    "Passengers": 
+    [
+        {
+            "firstName": "Lars",
+            "lastName": "Mimer"
+        }
+    ]
+    }</p>
+    <p>Press "Send" and see the valid response</p>
+    
+    <h4 class="text-muted">Reserve tickets for a flight <b>invalid input</b>: </h4>
+    <p>Start out by opening postman, change the method to a POST Request and input this URL:</p>
+    <p>http://jstairline-hardboilr.rhcloud.com/api/flightreservation</p>
+    <p>Press Body, then raw and input these json:</p>
+    <p>{
+    "flightID": "JST1",
+    "numberOfSeats": 500,
+    "ReserveeName": "Lars Mimer",
+    "ReservePhone": "87654321",
+    "ReserveeEmail": "lars@mimer.dk",
+    "Passengers": 
+    [
+        {
+            "firstName": "Lars",
+            "lastName": "Mimer"
+        }
+    ]
+    }</p>
+    <p>Press "Send" and see the Json error response</p>
+    
+    <h4 class="text-muted">Book tickets for a flight, while not logged in and avoid to lose the search result when login:</h4>
+    <p>Search for a flight, use the origin and destination from earlier.</p>
+    <p>Notice the returned flights has text "You must be logged in to book tickets for this flight."</p>
+    <p>Login and notice that the text is replaced with at button to book the flight"</p>
+    
+    <h4 class="text-muted">Redirect to reservations</h4>
+    <p>Start out by logging in to the system, either with a existing user or a newly created user.</p>
+    <p>Search for a flight, use the locations from earlier acceptance test, for easier use.</p>
+    <p>Press the Book button on the flight you want to book.</p>
+    <p>Input the required information, about the passengers and press the reserve button.</p>
+    <p>Notice the redirection to reservations site</p>
     <br/>
 
     <h3 class="text-muted">Sprint Retrospective</h3>

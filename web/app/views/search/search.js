@@ -39,6 +39,7 @@ angular.module('myApp.Search', ['ngRoute'])
                         $rootScope.error = "You must provide a number of tickets";
                     } else {
                         self.ShowResults = false;
+                        self.hideFlights = true;
                         self.showSpinner = true;
                         //Sets the number of passengers in ReserveService for later use
                         ReserveService.setNumberOfPassengers(self.searchRequest.numberOfTickets);
@@ -52,26 +53,27 @@ angular.module('myApp.Search', ['ngRoute'])
                                         var data = response.data;
                                         //Check for no response status 
                                         if (status === 204) {
-                                            $timeout(function () {
-                                                self.showSpinner = false;
                                                 self.ShowResults = false;
-                                                $rootScope.error = "Oops! No flights were found...\n We weren't able to find any flights matching your request. Please try again, perhaps with alternative dates or airports.";
-                                            }, 5000);
-                                        } else {
                                             $timeout(function () {
                                                 self.showSpinner = false;
-                                                self.ShowResults = true;
+                                                $rootScope.error = "Oops! No flights were found...\n We weren't able to find any flights matching your request. Please try again, perhaps with alternative dates or airports.";
+                                            }, 3000);
+                                        } else {
                                                 self.results = data;
-                                            }, 5000);
+                                                self.ShowResults = true;
+                                            $timeout(function () {
+                                                self.showSpinner = false;
+                                                self.hideFlights = false;
+                                            }, 3000);
                                         }
                                     }
                                     //Error
                                     , function (response) {
+                                            self.ShowResults = false;
                                         $timeout(function () {
                                             self.showSpinner = false;
-                                            self.ShowResults = false;
                                             $rootScope.error = response.data.message;
-                                        }, 5000);
+                                        }, 3000);
                                     });
                         }
                         // This part handles the search request for all departures from origin to destination
@@ -79,31 +81,31 @@ angular.module('myApp.Search', ['ngRoute'])
                             SearchFactory.getAllFlightsFromOriginToDestination(self.searchRequest)
                                     //Success
                                     .then(function (response) {
-                                        self.showSpinner = false;
                                         var status = response.status;
                                         var data = response.data;
                                         //Check for no response status 
                                         if (status === 204) {
-                                            $timeout(function () {
-                                                self.showSpinner = false;
                                                 self.ShowResults = false;
-                                                $rootScope.error = "Oops! No flights were found...\n We weren't able to find any flights matching your request. Please try again, perhaps with alternative dates or airports.";
-                                            }, 5000);
-                                        } else {
                                             $timeout(function () {
                                                 self.showSpinner = false;
-                                                self.ShowResults = true;
+                                                $rootScope.error = "Oops! No flights were found...\n We weren't able to find any flights matching your request. Please try again, perhaps with alternative dates or airports.";
+                                            }, 3000);
+                                        } else {
                                                 self.results = data;
-                                            }, 5000);
+                                                self.ShowResults = true;
+                                            $timeout(function () {
+                                                self.showSpinner = false;
+                                                self.hideFlights = false;
+                                            }, 3000);
                                         }
                                     }
                                     //Error
                                     , function (response) {
-                                         $timeout(function () {
+                                             self.ShowResults = false;
+                                        $timeout(function () {
                                             self.showSpinner = false;
-                                            self.ShowResults = false;
                                             $rootScope.error = response.data.message;
-                                        }, 5000);
+                                        }, 3000);
                                     });
                         }
                     }
