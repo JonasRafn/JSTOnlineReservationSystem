@@ -3,9 +3,7 @@ package facadetest;
 import deploy.DeploymentConfiguration;
 import dto.AirlineDTO;
 import entity.SearchRequest;
-import exception.BadRequestException;
 import exception.NoResultException;
-import exception.NotFoundException;
 import facades.FlightFacade;
 import interfaces.IFlightFacade;
 import java.text.DateFormat;
@@ -56,14 +54,14 @@ public class FlightFacadeTest {
         assertTrue(airlines.get(0).getAirline().equals("AngularJS Airline-TestAirlineNo: 1"));
         assertEquals("COL2214", airlines.get(0).getFlights().get(0).getFlightID());
         assertTrue(airlines.get(0).getFlights().get(0).getNumberOfSeats() == 3);
-        assertEquals(date, airlines.get(0).getFlights().get(0).getDate());
+        assertEquals(date, airlines.get(0).getFlights().get(0).getStringDate());
         assertTrue(airlines.get(0).getFlights().get(0).getTotalPrice() == 225);
         assertTrue(airlines.get(0).getFlights().get(0).getTraveltime() == 60);
         assertTrue(airlines.get(0).getFlights().get(0).getOrigin().equals("CPH"));
         assertTrue(airlines.get(0).getFlights().get(0).getOriginCity().equals("Copenhagen"));
         assertTrue(airlines.get(0).getFlights().get(0).getDestination().equals("SXF"));
         assertTrue(airlines.get(0).getFlights().get(0).getDestinationCity().equals("Berlin"));
-        assertEquals(destDate, airlines.get(0).getFlights().get(0).getDestinationDate());
+        assertEquals(destDate, airlines.get(0).getFlights().get(0).getStringDestinationDate());
     }
 
     /**
@@ -90,15 +88,15 @@ public class FlightFacadeTest {
         assertEquals(1, airlines.size());
         assertEquals("COL2216", airlines.get(0).getFlights().get(1).getFlightID());
         assertTrue(airlines.get(0).getFlights().get(1).getNumberOfSeats() == 3);
-        assertEquals(date, airlines.get(0).getFlights().get(1).getDate());
-        assertTrue(airlines.get(0).getFlights().get(1).getDate().equals(date));
+        assertEquals(date, airlines.get(0).getFlights().get(1).getStringDate());
+        assertTrue(airlines.get(0).getFlights().get(1).getStringDate().equals(date));
         assertTrue(airlines.get(0).getFlights().get(1).getTotalPrice() == 210);
         assertTrue(airlines.get(0).getFlights().get(1).getTraveltime() == 60);
         assertTrue(airlines.get(0).getFlights().get(1).getOrigin().equals("CPH"));
         assertTrue(airlines.get(0).getFlights().get(1).getOriginCity().equals("Copenhagen"));
         assertTrue(airlines.get(0).getFlights().get(1).getDestination().equals("SXF"));
         assertTrue(airlines.get(0).getFlights().get(1).getDestinationCity().equals("Berlin"));
-        assertEquals(destDate, airlines.get(0).getFlights().get(1).getDestinationDate());
+        assertEquals(destDate, airlines.get(0).getFlights().get(1).getStringDestinationDate());
     }
 
     /**

@@ -1,6 +1,13 @@
 insert into airline_api (group_name, members, url, airline_name) values ('angular_airline1', 'Test Airline for Sprint 1', 'http://angularairline-plaul.rhcloud.com/', 'AngularJS Airline');
-insert into airline_api (group_name, members, url, airline_name) values ('ClassB-TimeTravel', 'Simon T, Christian H, Silas, Martin H', 'http://timetravel-tocvfan.rhcloud.com/', 'TimeTravel');
+insert into airline_api (group_name, members, url, airline_name) values ('ClassA-Group19', 'Ebbe, Andreas, Dennis', 'http://thebighornairline-ebski.rhcloud.com/GiantHornAirlineServer/', 'The Giant Horn Airline');
+insert into airline_api (group_name, members, url, airline_name) values ('ClassA-Group2', 'Jonas, Sebastian, Tobias', 'http://jstairline-hardboilr.rhcloud.com/', 'JST Airlines');
+insert into airline_api (group_name, members, url, airline_name) values ('ClassA-Group4', 'Emil, Rune, Nicolai', 'http://airline-nvbcphbusinesss.rhcloud.com/Travelr/', 'Travelr');
+insert into airline_api (group_name, members, url, airline_name) values ('ClassA-Group42', 'Nikolaj, Casper, Mathias', 'http://justfly.azurewebsites.net/MomondoProjekt/', 'Just Fly');
+insert into airline_api (group_name, members, url, airline_name) values ('ClassA-GroupMPJ', 'Marta, Pernille, Jeanette', 'http://semesterproject-martamiszczyk.rhcloud.com/semesterProject/', 'MPJ Air');
+insert into airline_api (group_name, members, url, airline_name) values ('ClassB-Group4', 'Florent, Daniel, Nicolai', 'http://airline-nharbo.rhcloud.com/airline/', 'MileHighClub Airlines');
+insert into airline_api (group_name, members, url, airline_name) values ('ClassB-Group5', 'Anders, Emil, Frederik', 'https://cph-topgunairways.rhcloud.com/SemesterAirline/', 'Topgun Airline');
 insert into airline_api (group_name, members, url, airline_name) values ('COS-Group2', 'Andreas, Jonas', 'http://wildfly-x.cloudapp.net/airline/', 'COSGrp2 Airline');
+insert into airline_api (group_name, members, url, airline_name) values ('COS-Group3 + Group4', 'Teo, Bo, Yoana, Aleks, Lukasz, Geor', 'http://sargardon-001-site1.atempurl.com/', 'Norwegian');
 
 insert into airport (IATA_CODE, city, airport_name, country, time_zone) values ('CPH', 'Copenhagen', 'Copenhagen Airport', 'Denmark','Europe/Copenhagen');
 insert into airport (IATA_CODE, city, airport_name, country, time_zone) values ('STN', 'London', 'London Stansted Airport', 'England', 'Europe/London');
@@ -25,7 +32,7 @@ insert into airport (IATA_CODE, city, airport_name, country, time_zone) values (
 insert into airport (IATA_CODE, city, airport_name, country, time_zone) values ('CAI', 'Cairo', 'Cairo International','Egypt', 'Africa/Cairo');
 insert into airport (IATA_CODE, city, airport_name, country, time_zone) values ('MEX', 'Mexico City', 'Benito Juárez International Airport','Mexico', 'Mexico/BajaNorte');
 insert into airport (IATA_CODE, city, airport_name, country, time_zone) values ('BBU', 'Bucharest', 'Băneasa International Airport','Romania', 'Europe/Bucharest');
-insert into airport (IATA_CODE, city, airport_name, country, time_zone) values ('HEL', 'Helsinki', 'Helsinki Malmi Airport','Findland', 'Europe/Helsinki');
+insert into airport (IATA_CODE, city, airport_name, country, time_zone) values ('HEL', 'Helsinki', 'Helsinki Malmi Airport','Finland', 'Europe/Helsinki');
 insert into airport (IATA_CODE, city, airport_name, country, time_zone) values ('SIN', 'Singapore', 'Singapore Changi International Airport','Singapore', 'Asia/Singapore');
 
 insert into userrole (ROLENAME) values ('User');

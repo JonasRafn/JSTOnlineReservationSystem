@@ -2,6 +2,8 @@ package utility;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
 import dto.AirlineDTO;
 import dto.FlightDTO;
@@ -18,15 +20,14 @@ import static utility.ErrorCodes.getInvalidDateErrorMsg;
 import static utility.ErrorCodes.getMalformedJsonMsg;
 
 public class Validator {
-    
-    private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
+
+    private static final Gson GSON = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").setPrettyPrinting().create();
 
     /**
      * Checks that stringDate complies with a ISO8601-date
      *
      * @param stringDate
-     * @return the stringDate
-     * to ISO8601-date
+     * @return the stringDate to ISO8601-date
      * @throws exception.ServerException
      */
     public static String validateDate(String stringDate) throws ServerException {
@@ -57,35 +58,35 @@ public class Validator {
             throw new ServerException(getIllegalInputErrorMsg("Number of tickets is not a number: " + numTickets));
         }
     }
-    
-    
-    
+
     public static AirlineDTO validateJson(String jsonString) throws ServerException {
         AirlineDTO airlineDTO = new AirlineDTO();
-        
+
         //try to parse json-string using AirlineDTO as template or throw exception
         try {
-         airlineDTO = gson.fromJson(jsonString, AirlineDTO.class);   
+            airlineDTO = GSON.fromJson(jsonString, AirlineDTO.class);
         } catch (JsonSyntaxException ex) {
             throw new ServerException(getMalformedJsonMsg("JsonSyntaxException when gson.fromJson"));
         }
-        
-        //check if airline-name is null and throw exception is this is the case
-        if(airlineDTO.getAirline() == null) {
-            throw new ServerException(getMalformedJsonMsg("Invalid airline attribute"));
+
+        //check if airline-name is null and throw exception if this is the case
+        try {
+            airlineDTO.getAirline();
+        } catch (NullPointerException ex) {
+            throw new ServerException(getMalformedJsonMsg("Invalid airline name"));
         }
-        
+
+        if (airlineDTO.getAirline() == null) {
+            throw new ServerException(getMalformedJsonMsg("Invalid airline name"));
+        }
+
         //check if any attributes on a flight is invalid and remove from list if invalid
         for (int i = 0; i < airlineDTO.getFlights().size(); i++) {
             FlightDTO dto = airlineDTO.getFlights().get(i);
-            if(dto.getDate() == null || dto.getNumberOfSeats() == 0 || dto.getTotalPrice() == 0f || dto.getFlightID() == null || dto.getTraveltime() == 0 || dto.getDestination() == null || dto.getOrigin() == null) {
-            airlineDTO.getFlights().remove(i);
+            if (dto.getStringDate() == null || dto.getFlightID() == null || dto.getDestination() == null || dto.getOrigin() == null
+                    || dto.getStringDate() == null || dto.getNumberOfSeats() == 0 || dto.getTotalPrice() == 0f || dto.getTraveltime() == 0) {
+                throw new ServerException(getMalformedJsonMsg("invalid flight-object in jsonresponse"));
             }
-        }
-        
-        //if all flights were removed then throw exception
-        if(airlineDTO.getFlights().isEmpty()) {
-            throw new ServerException(getMalformedJsonMsg("All flights returned as malformed json"));
         }
         return airlineDTO; //return valid airline with at least one valid flight
     }

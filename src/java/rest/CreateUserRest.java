@@ -35,7 +35,7 @@ public class CreateUserRest {
      */
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response createUser(String user) throws ServerException {
+    public Response createUser(String user) throws Exception {
         entity.User u = fromJsonUser(user);
         if (u.getUserName() == null | u.getUserName().equals("")) {
             String error = "{\"message\":\"You must input a username!\"}";

@@ -1,12 +1,15 @@
 package dto;
 
+import exception.ServerException;
 import java.util.Date;
+import static utility.TimeConverter.toDate;
+import static utility.TimeConverter.toStringDate;
 
 public class FlightDTO {
 
     private String flightID;
     private int numberOfSeats;
-    private Date date;
+    private String date;
     private float totalPrice;
     private float pricePerson;
     private int traveltime;
@@ -14,20 +17,30 @@ public class FlightDTO {
     private String originCity;
     private String destination;
     private String destinationCity;
-    private Date destinationDate;
+    private String destinationDate;
 
     public FlightDTO() {
     }
 
-    public FlightDTO(String flightID, int numberOfSeats, Date date, float totalPrice, int traveltime, String origin, String destination) {
-        this.flightID = flightID;
-        this.numberOfSeats = numberOfSeats;
+    public Date getDate() throws ServerException {
+        return toDate(date);
+    }
+
+    public Date getDestinationDate() throws ServerException {
+        return toDate(destinationDate);
+    }
+
+    public void setDate(String date) {
         this.date = date;
-        this.totalPrice = totalPrice;
-        this.traveltime = traveltime;
-        this.origin = origin;
-        this.destination = destination;
-        this.pricePerson = 0f;
+    }
+    
+    public String getStringDate() {
+        return date;
+    }
+
+    public void setDestinationDate(Date destinationDate) {
+        System.out.println("########DATE IS: " + destinationDate);
+        this.destinationDate = toStringDate(destinationDate);
     }
 
     public String getFlightID() {
@@ -39,7 +52,7 @@ public class FlightDTO {
     }
 
     public void calculatePricePerPerson() {
-        this.pricePerson = totalPrice / numberOfSeats;
+        this.pricePerson = totalPrice / (float) numberOfSeats;
     }
 
     public int getNumberOfSeats() {
@@ -48,14 +61,6 @@ public class FlightDTO {
 
     public void setNumberOfSeats(int numberOfSeats) {
         this.numberOfSeats = numberOfSeats;
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
     }
 
     public float getTotalPrice() {
@@ -90,12 +95,8 @@ public class FlightDTO {
         this.destination = destination;
     }
 
-    public Date getDestinationDate() {
+    public String getStringDestinationDate() {
         return destinationDate;
-    }
-
-    public void setDestinationDate(Date destinationDate) {
-        this.destinationDate = destinationDate;
     }
 
     public String getOriginCity() {
@@ -121,4 +122,5 @@ public class FlightDTO {
     public void setPricePerson(float pricePerson) {
         this.pricePerson = pricePerson;
     }
+
 }

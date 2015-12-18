@@ -6,6 +6,7 @@ import com.google.gson.JsonObject;
 import java.util.Arrays;
 import javax.servlet.ServletContext;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
@@ -26,6 +27,6 @@ public class AllExceptionMapper implements ExceptionMapper<Exception> {
         } else {
             jo.addProperty("message", "Oops... Internal Server Error: Something went wrong!");
         }
-        return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(jo.toString()).build();
+        return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(jo.toString()).type(MediaType.APPLICATION_JSON).build();
     }
 }

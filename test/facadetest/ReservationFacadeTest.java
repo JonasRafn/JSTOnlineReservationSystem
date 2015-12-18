@@ -5,7 +5,6 @@ import entity.Passenger;
 import entity.Reservation;
 import entity.User;
 import exception.NoResultException;
-import exception.ReservationException;
 import exception.ServerException;
 import facades.ReservationFacade;
 import interfaces.IReservationFacade;

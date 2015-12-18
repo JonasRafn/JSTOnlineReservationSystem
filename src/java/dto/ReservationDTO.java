@@ -33,7 +33,7 @@ public class ReservationDTO {
         this.airline = airline;
         this.flightID = flightID;
         this.numberOfSeats = numberOfSeats;
-        this.date = TimeConverter.convertDate(date);
+        this.date = TimeConverter.toStringDate(date);
         this.totalPrice = totalPrice;
         this.pricePerson = pricePerson;
         this.flightTime = flightTime;
@@ -41,7 +41,7 @@ public class ReservationDTO {
         this.originCity = originCity;
         this.destination = destination;
         this.destinationCity = destinationCity;
-        this.destinationDate = TimeConverter.convertDate(destinationDate);
+        this.destinationDate = TimeConverter.toStringDate(destinationDate);
         this.reserveeName = reserveeName;
         this.reserveePhone = reserveePhone;
         this.reserveeEmail = reserveeEmail;

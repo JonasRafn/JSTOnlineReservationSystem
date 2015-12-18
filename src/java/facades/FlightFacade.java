@@ -70,7 +70,7 @@ public class FlightFacade implements IFlightFacade {
         }
         String stringDate = request.getDate();
         int numTickets = request.getNumberOfTickets();
-
+        
         saveSearchRequest(request); //historical data
 
         //validate airports
@@ -111,8 +111,7 @@ public class FlightFacade implements IFlightFacade {
             String re = response.readEntity(String.class);
             switch (status) {
                 case 200: // if OK
-                    //validate json
-                    try {
+                    try { //validate json
                         airlineDTO = Validator.validateJson(re);
                     } catch (ServerException ex) {
                         System.out.println("##--Wrong Json syntax--##");
@@ -121,9 +120,14 @@ public class FlightFacade implements IFlightFacade {
                     //add the remaining properties to the airlineDTO
                     for (FlightDTO dto : airlineDTO.getFlights()) {
                         dto.calculatePricePerPerson(); // calculate price per person
-                        dto.setDestinationCity(airports.get(dto.getDestination()).getCity());
-                        dto.setOriginCity(airports.get(dto.getOrigin()).getCity());
-                        dto.setDestinationDate(calculateLocalTime(airports.get(dto.getOrigin()).getTimeZone(), airports.get(dto.getDestination()).getTimeZone(), dto.getTraveltime(), dto.getDate()));
+                        try {
+                            dto.setDestinationCity(airports.get(dto.getDestination()).getCity());
+                            dto.setOriginCity(airports.get(dto.getOrigin()).getCity());
+                            dto.setDestinationDate(calculateLocalTime(airports.get(dto.getOrigin()).getTimeZone(), airports.get(dto.getDestination()).getTimeZone(), dto.getTraveltime(), dto.getDate()));
+                        } catch (NullPointerException ex) { //unknown city
+                            System.out.println("##--Unknown destination/timezone##");
+                            continue;
+                        }
                     }
                     airlines.add(airlineDTO);
                     break;
@@ -172,6 +176,7 @@ public class FlightFacade implements IFlightFacade {
         TimeZone destinationTimeZone = TimeZone.getTimeZone(destinationTZ);
         int offset = destinationTimeZone.getRawOffset() - originTimeZone.getRawOffset() + (travelTime * 60000);
         Date adjustedDate = new Date(travelDate.getTime() + offset);
+        System.out.println("Adjusted date: " + adjustedDate.toString() + " from: " + originTZ + " to: " + destinationTZ + ", traveltime: " + travelTime + " and travelDate: " + travelDate.toString());
         return adjustedDate;
     }
 

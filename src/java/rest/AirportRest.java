@@ -24,7 +24,7 @@ public class AirportRest {
     }
 
     @GET
-    public Response getAirports() {
+    public Response getAirports() throws Exception {
         List<Airport> airports = ctrl.getAirports();
         return Response.ok(toJsonAirports(airports)).type(MediaType.APPLICATION_JSON).build();
     }
